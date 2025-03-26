@@ -70,6 +70,22 @@ $services->set(\Jp\ArcsDesigner\Application\Middleware\JsonErrorMiddleware::clas
 
 
 // Interfaces
+$services->alias(
+    \Jp\ArcsDesigner\Domain\Affinities\AffinityRepositoryInterface::class,
+    \Jp\ArcsDesigner\Infrastructure\DatabaseAffinityRepository::class
+);
+$services->alias(
+    \Jp\ArcsDesigner\Domain\CardComments\CardCommentRepositoryInterface::class,
+    \Jp\ArcsDesigner\Infrastructure\DatabaseCardCommentRepository::class
+);
+$services->alias(
+    \Jp\ArcsDesigner\Domain\CardIterations\CardIterationRepositoryInterface::class,
+    \Jp\ArcsDesigner\Infrastructure\DatabaseCardIterationRepository::class
+);
+$services->alias(
+    \Jp\ArcsDesigner\Domain\Cards\CardRepositoryInterface::class,
+    \Jp\ArcsDesigner\Infrastructure\DatabaseCardRepository::class
+);
 
 
 };
