@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Arcs TCG Card Designer</title>
+
+        <link href="/css/normalize.css" rel="stylesheet">
+        <link href="/css/main.css" rel="stylesheet">
+        {% block styles %}
+        {% endblock %}
+    </head>
+    <body>
+        <header>
+        </header>
+        <main>
+            {% block main %}
+            {% endblock %}
+        </main>
+        <footer>
+        </footer>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.prod.min.js"></script>
+        {% block scripts %}
+        {% endblock %}
+    </body>
+</html>

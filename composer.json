@@ -1,0 +1,34 @@
+{
+    "name": "jpirnat/arcs-designer",
+    "description": "Arcs TCG card design lifecycle tracker.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Jesse Pirnat",
+            "email": "jessepirnat@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Jp\\ArcsDesigner\\": "src/"
+        }
+    },
+    "require": {
+        "ext-mbstring": "*",
+        "ext-pdo_mysql": "*",
+        "ext-PDO": "*",
+        "jpirnat/middleware": "^4.0",
+        "laminas/laminas-diactoros": "^3.5",
+        "laminas/laminas-httphandlerrunner": "^2.11",
+        "nikic/fast-route": "^1.3",
+        "psr/http-server-middleware": "^1.0",
+        "symfony/config": "^7.2",
+        "symfony/dependency-injection": "^7.2",
+        "twig/twig": "^3.20"
+    },
+    "require-dev": {
+        "deployer/deployer": "^7.5",
+        "filp/whoops": "^2.18",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
