@@ -13,6 +13,36 @@ final readonly class IndexView
     ) {}
 
     /**
+     * Show a card page.
+     */
+    public function card(): ResponseInterface
+    {
+        $content = $this->renderer->render(
+            'html/card.twig',
+            [
+                'title' => 'Cards',
+            ],
+        );
+
+        return new HtmlResponse($content);
+    }
+
+    /**
+     * Show the /cards page.
+     */
+    public function cards(): ResponseInterface
+    {
+        $content = $this->renderer->render(
+            'html/cards.twig',
+            [
+                'title' => 'Cards',
+            ],
+        );
+
+        return new HtmlResponse($content);
+    }
+
+    /**
      * Show the error page.
      */
     public function error(): ResponseInterface

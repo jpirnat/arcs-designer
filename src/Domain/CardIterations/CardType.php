@@ -10,10 +10,10 @@ use function in_array;
 
 final class CardType
 {
-    public const string CREATURE = 'creature';
-    public const string SPELL = 'spell';
-    public const string ITEM = 'item';
     public const string AREA = 'area';
+    public const string CREATURE = 'creature';
+    public const string ITEM = 'item';
+    public const string SPELL = 'spell';
 
     private(set) readonly string $value;
 
@@ -23,10 +23,10 @@ final class CardType
     public function __construct(string $value)
     {
         if (!in_array($value, [
-            self::CREATURE,
-            self::SPELL,
-            self::ITEM,
             self::AREA,
+            self::CREATURE,
+            self::ITEM,
+            self::SPELL,
         ], true)) {
             throw new InvalidCardTypeException("Invalid card type: $value.");
         }
@@ -36,10 +36,10 @@ final class CardType
 
     public string $name {
         get => match ($this->value) {
-            self::CREATURE => 'Creature',
-            self::SPELL => 'Spell',
-            self::ITEM => 'Item',
             self::AREA => 'Area',
+            self::CREATURE => 'Creature',
+            self::ITEM => 'Item',
+            self::SPELL => 'Spell',
         };
     }
 
@@ -49,10 +49,10 @@ final class CardType
     public static function getAll(): array
     {
         return [
-            new self(self::CREATURE),
-            new self(self::SPELL),
-            new self(self::ITEM),
             new self(self::AREA),
+            new self(self::CREATURE),
+            new self(self::ITEM),
+            new self(self::SPELL),
         ];
     }
 }

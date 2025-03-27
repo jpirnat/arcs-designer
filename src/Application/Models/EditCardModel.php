@@ -44,22 +44,51 @@ final class EditCardModel
     ): void {
         $this->errorMessage = '';
 
+        $affinityId = $affinityId !== ''
+            ? new AffinityId((int) $affinityId)
+            : null;
+        $cost = $cost !== ''
+            ? (int) $cost
+            : null;
+        $enflowable = $enflowable !== ''
+            ? (bool) $enflowable
+            : null;
         try {
-            $affinityId = $affinityId !== ''
-                ? new AffinityId((int) $affinityId)
+            $speedModifier = $speedModifier !== ''
+                ? new SpeedModifier($speedModifier)
                 : null;
-            $cost = (int) $cost;
-            $enflowable = (bool) $enflowable;
-            $speedModifier = new SpeedModifier($speedModifier);
-            $zoneModifier = new ZoneModifier($zoneModifier);
-            $startingLife = (int) $startingLife;
-            $burden = (int) $burden;
-            $cardType = new CardType($cardType);
-            $attack = (int) $attack;
-            $defense = (int) $defense;
-        } catch (InvalidSpeedModifierException|InvalidZoneModifierException|InvalidCardTypeException $e) {
+        } catch (InvalidSpeedModifierException $e) {
             $this->errorMessage = $e->getMessage();
+            return;
         }
+        try {
+            $zoneModifier = $zoneModifier !== ''
+                ? new ZoneModifier($zoneModifier)
+                : null;
+        } catch (InvalidZoneModifierException $e) {
+            $this->errorMessage = $e->getMessage();
+            return;
+        }
+        $startingLife = $startingLife !== ''
+            ? (int) $startingLife
+            : null;
+        $burden = $burden !== ''
+            ? (int) $burden
+            : null;
+        try {
+            $cardType = $cardType !== ''
+                ? new CardType($cardType)
+                : null;
+        } catch (InvalidCardTypeException $e) {
+            $this->errorMessage = $e->getMessage();
+            return;
+        }
+        $attack = $attack !== ''
+            ? (int) $attack
+            : null;
+        $defense = $defense !== ''
+            ? (int) $defense
+            : null;
 
         $card = new Card(
             new CardId(),
@@ -104,24 +133,52 @@ final class EditCardModel
     ): void {
         $this->errorMessage = '';
 
+        $iterationId = new CardIterationId((int) $iterationId);
+        $affinityId = $affinityId !== ''
+            ? new AffinityId((int) $affinityId)
+            : null;
+        $cost = $cost !== ''
+            ? (int) $cost
+            : null;
+        $enflowable = $enflowable !== ''
+            ? (bool) $enflowable
+            : null;
         try {
-            $iterationId = new CardIterationId((int) $iterationId);
-            $affinityId = $affinityId !== ''
-                ? new AffinityId((int) $affinityId)
+            $speedModifier = $speedModifier !== ''
+                ? new SpeedModifier($speedModifier)
                 : null;
-            $cost = (int) $cost;
-            $enflowable = (bool) $enflowable;
-            $speedModifier = new SpeedModifier($speedModifier);
-            $zoneModifier = new ZoneModifier($zoneModifier);
-            $startingLife = (int) $startingLife;
-            $burden = (int) $burden;
-            $cardType = new CardType($cardType);
-            $attack = (int) $attack;
-            $defense = (int) $defense;
-        } catch (InvalidSpeedModifierException|InvalidZoneModifierException|InvalidCardTypeException $e) {
+        } catch (InvalidSpeedModifierException $e) {
             $this->errorMessage = $e->getMessage();
             return;
         }
+        try {
+            $zoneModifier = $zoneModifier !== ''
+                ? new ZoneModifier($zoneModifier)
+                : null;
+        } catch (InvalidZoneModifierException $e) {
+            $this->errorMessage = $e->getMessage();
+            return;
+        }
+        $startingLife = $startingLife !== ''
+            ? (int) $startingLife
+            : null;
+        $burden = $burden !== ''
+            ? (int) $burden
+            : null;
+        try {
+            $cardType = $cardType !== ''
+                ? new CardType($cardType)
+                : null;
+        } catch (InvalidCardTypeException $e) {
+            $this->errorMessage = $e->getMessage();
+            return;
+        }
+        $attack = $attack !== ''
+            ? (int) $attack
+            : null;
+        $defense = $defense !== ''
+            ? (int) $defense
+            : null;
 
         try {
             $old = $this->iterationRepository->getById($iterationId);

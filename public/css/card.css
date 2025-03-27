@@ -1,0 +1,40 @@
+.card-editor {
+    width: 300px;
+}
+
+.card-editor__line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.card-editor__line--cost-life,
+.card-editor__line--attack-defense {
+    justify-content: space-between;
+}
+
+.card-editor__column {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-editor__name {
+    flex: 1;
+}
+
+.card-editor__affinity {
+    width: 100px;
+}
+
+.card-editor__rules-text {
+    flex: 1;
+    height: 200px;
+}
+
+.card-editor__life,
+.card-editor__burden,
+.card-editor__cost,
+.card-editor__attack,
+.card-editor__defense {
+    width: 50px;
+}

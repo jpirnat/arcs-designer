@@ -30,9 +30,9 @@ final class CardIteration
 
     public ?AffinityId $affinityId;
 
-    public int $cost {
+    public ?int $cost {
         set {
-            if ($value < 0) {
+            if ($value !== null && $value < 0) {
                 throw new InvalidCostException('Card cost cannot be negative.');
             }
 
@@ -40,23 +40,23 @@ final class CardIteration
         }
     }
 
-    public bool $enflowable;
+    public ?bool $enflowable;
+    public ?SpeedModifier $speedModifier;
+    public ?ZoneModifier $zoneModifier;
 
-    public SpeedModifier $speedModifier;
-
-    public ZoneModifier $zoneModifier;
-    public int $startingLife {
+    public ?int $startingLife {
         set {
-            if ($value <= 0) {
+            if ($value !== null && $value <= 0) {
                 throw new InvalidStartingLifeException('Starting life must be greater than 0.');
             }
 
             $this->startingLife = $value;
         }
     }
-    public int $burden {
+
+    public ?int $burden {
         set {
-            if ($value < 0) {
+            if ($value !== null && $value < 0) {
                 throw new InvalidBurdenException('Burden cannot be negative.');
             }
 
@@ -64,7 +64,7 @@ final class CardIteration
         }
     }
 
-    public CardType $cardType;
+    public ?CardType $cardType;
 
     public string $rulesText {
         set {
@@ -78,8 +78,8 @@ final class CardIteration
         }
     }
 
-    public int $attack;
-    public int $defense;
+    public ?int $attack;
+    public ?int $defense;
 
     private const int MAX_LENGTH_NAME = 32;
     private const int MAX_LENGTH_RULES_TEXT = 1024;
@@ -89,16 +89,16 @@ final class CardIteration
         CardId $cardId,
         string $name,
         ?AffinityId $affinityId,
-        int $cost,
-        bool $enflowable,
-        SpeedModifier $speedModifier,
-        ZoneModifier $zoneModifier,
-        int $startingLife,
-        int $burden,
-        CardType $cardType,
+        ?int $cost,
+        ?bool $enflowable,
+        ?SpeedModifier $speedModifier,
+        ?ZoneModifier $zoneModifier,
+        ?int $startingLife,
+        ?int $burden,
+        ?CardType $cardType,
         string $rulesText,
-        int $attack,
-        int $defense,
+        ?int $attack,
+        ?int $defense,
     ) {
         $this->id = $id;
         $this->cardId = $cardId;
@@ -122,11 +122,11 @@ final class CardIteration
             && $this->affinityId?->value === $other->affinityId?->value
             && $this->cost === $other->cost
             && $this->enflowable === $other->enflowable
-            && $this->speedModifier->value === $other->speedModifier->value
-            && $this->zoneModifier->value === $other->zoneModifier->value
+            && $this->speedModifier?->value === $other->speedModifier?->value
+            && $this->zoneModifier?->value === $other->zoneModifier?->value
             && $this->startingLife === $other->startingLife
             && $this->burden === $other->burden
-            && $this->cardType->value === $other->cardType->value
+            && $this->cardType?->value === $other->cardType?->value
             && $this->rulesText === $other->rulesText
             && $this->attack === $other->attack
             && $this->defense === $other->defense

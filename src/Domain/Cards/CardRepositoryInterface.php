@@ -10,5 +10,10 @@ interface CardRepositoryInterface
      */
     public function getById(CardId $cardId): Card;
 
+    /**
+     * @return Card[] Indexed by id.
+     */
+    public function getAll(): array;
+
     public function save(Card $card): void;
 }

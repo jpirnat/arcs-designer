@@ -55,4 +55,43 @@ final readonly class DatabaseAffinityRepository implements AffinityRepositoryInt
             $blue,
         );
     }
+
+    /**
+     * @return Affinity[] Indexed by id.
+     */
+    public function getAll(): array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT
+                `id`,
+                `name`,
+                `purple`,
+                `red`,
+                `orange`,
+                `yellow`,
+                `green`,
+                `blue`
+            FROM `affinities`'
+        );
+        $stmt->execute();
+
+        $affinities = [];
+
+        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $affinity = new Affinity(
+                new AffinityId($result['id']),
+                $result['name'],
+                (bool) $result['purple'],
+                (bool) $result['red'],
+                (bool) $result['orange'],
+                (bool) $result['yellow'],
+                (bool) $result['green'],
+                (bool) $result['blue'],
+            );
+
+            $affinities[$result['id']] = $affinity;
+        }
+
+        return $affinities;
+    }
 }

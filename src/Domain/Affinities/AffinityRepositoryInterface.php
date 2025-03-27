@@ -13,4 +13,9 @@ interface AffinityRepositoryInterface
         bool $green,
         bool $blue,
     ): Affinity;
+
+    /**
+     * @return Affinity[] Indexed by id.
+     */
+    public function getAll(): array;
 }

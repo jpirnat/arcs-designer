@@ -39,6 +39,33 @@ final readonly class DatabaseCardRepository implements CardRepositoryInterface
         );
     }
 
+    /**
+     * @return Card[] Indexed by id.
+     */
+    public function getAll(): array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT
+                `id`,
+                `name`
+            FROM `cards`'
+        );
+        $stmt->execute();
+
+        $cards = [];
+
+        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $card = new Card(
+                new CardId($result['id']),
+                $result['name'],
+            );
+
+            $cards[$result['id']] = $card;
+        }
+
+        return $cards;
+    }
+
     public function save(Card $card): void
     {
         if ($card->id->isNew) {

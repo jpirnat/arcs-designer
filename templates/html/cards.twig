@@ -1,0 +1,20 @@
+{% extends "html/base.twig" %}
+
+{% block main %}
+{% verbatim %}
+<div id="app" v-cloak>
+    <a href="/cards/1">Add new card</a>
+    <ul>
+        <li v-for="c in cards" :key="c.id">
+            <a :href="'/cards/' + c.id">
+                {{ c.name }}
+            </a>
+        </li>
+    </ul>
+</div>
+{% endverbatim %}
+{% endblock %}
+
+{% block scripts %}
+    <script type="module" src="/js/cards.js"></script>
+{% endblock %}

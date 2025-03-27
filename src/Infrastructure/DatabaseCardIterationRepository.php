@@ -62,12 +62,20 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 ? new AffinityId($result['affinity_id'])
                 : null,
             $result['cost'],
-            (bool) $result['enflowable'],
-            new SpeedModifier($result['speed_modifier']),
-            new ZoneModifier($result['zone_modifier']),
+            $result['enflowable'] !== null
+                ? (bool) $result['enflowable']
+                : null,
+            $result['speed_modifier'] !== null
+                ? new SpeedModifier($result['speed_modifier'])
+                : null,
+            $result['zone_modifier'] !== null
+                ? new ZoneModifier($result['zone_modifier'])
+                : null,
             $result['starting_life'],
             $result['burden'],
-            new CardType($result['card_type']),
+            $result['card_type'] !== null
+                ? new CardType($result['card_type'])
+                : null,
             $result['rules_text'],
             $result['attack'],
             $result['defense'],
@@ -119,11 +127,11 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
         $stmt->bindValue(':affinity_id', $iteration->affinityId?->value, PDO::PARAM_INT);
         $stmt->bindValue(':cost', $iteration->cost, PDO::PARAM_INT);
         $stmt->bindValue(':enflowable', $iteration->enflowable, PDO::PARAM_BOOL);
-        $stmt->bindValue(':speed_modifier', $iteration->speedModifier->value);
-        $stmt->bindValue(':zone_modifier', $iteration->zoneModifier->value);
+        $stmt->bindValue(':speed_modifier', $iteration->speedModifier?->value);
+        $stmt->bindValue(':zone_modifier', $iteration->zoneModifier?->value);
         $stmt->bindValue(':starting_life', $iteration->startingLife, PDO::PARAM_INT);
         $stmt->bindValue(':burden', $iteration->burden, PDO::PARAM_INT);
-        $stmt->bindValue(':card_type', $iteration->cardType->value);
+        $stmt->bindValue(':card_type', $iteration->cardType?->value);
         $stmt->bindValue(':rules_text', $iteration->rulesText);
         $stmt->bindValue(':attack', $iteration->attack, PDO::PARAM_INT);
         $stmt->bindValue(':defense', $iteration->defense, PDO::PARAM_INT);
