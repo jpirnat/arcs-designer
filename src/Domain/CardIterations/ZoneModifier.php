@@ -10,7 +10,7 @@ use function in_array;
 
 final class ZoneModifier
 {
-    public const string HAND = '';
+    public const string HAND = 'hand';
     public const string LEADER = 'leader';
 
     private(set) readonly string $value;

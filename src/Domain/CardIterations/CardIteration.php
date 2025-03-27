@@ -81,9 +81,16 @@ final class CardIteration
     public ?int $attack;
     public ?int $defense;
 
-    private const int MAX_LENGTH_NAME = 32;
-    private const int MAX_LENGTH_RULES_TEXT = 1024;
+    public const int MAX_LENGTH_NAME = 32;
+    public const int MAX_LENGTH_RULES_TEXT = 1024;
 
+    /**
+     * @throws InvalidNameException if $name is invalid.
+     * @throws InvalidCostException if $cost is invalid.
+     * @throws InvalidStartingLifeException if $startingLife is invalid.
+     * @throws InvalidBurdenException if $burden is invalid.
+     * @throws InvalidRulesTextException if $rulesText is invalid.
+     */
     public function __construct(
         CardIterationId $id,
         CardId $cardId,

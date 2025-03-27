@@ -9,29 +9,29 @@
 <div id="app" v-cloak>
     <div class="card-editor">
         <div class="card-editor__line">
-            <input type="text" class="card-editor__name" v-model="card.name" placeholder="Card Name">
+            <input type="number" min="0" step="1" class="card-editor__cost"
+                v-model="card.cost" placeholder="Cost"
+            >
+
+            <input type="text" class="card-editor__name" v-model="card.name"
+                :maxlength="maxLengths.name" placeholder="Card Name"
+            >
+
+            <input type="number" min="1" step="1" class="card-editor__life" v-if="showLifeBurden"
+                v-model="card.startingLife" placeholder="Life"
+            >
         </div>
 
-        <div class="card-editor__line card-editor__line--cost-life">
-            <div class="card-editor__column">
-                <input type="number" min="0" step="1" class="card-editor__cost"
-                    v-model="card.cost" placeholder="Cost"
-                >
-                <select class="card-editor__cost" v-model="card.enflowable">
-                    <option :value="null">???</option>
-                    <option :value="true">Enflowable</option>
-                    <option :value="false">Not Enflowable</option>
-                </select>
-            </div>
+        <div class="card-editor__line card-editor__line--enflowable-burden">
+            <select class="card-editor__cost" v-model="card.enflowable">
+                <option :value="null">???</option>
+                <option :value="1">Enflowable</option>
+                <option :value="0">Not Enflowable</option>
+            </select>
 
-            <div class="card-editor__column" v-if="showLifeBurden">
-                <input type="number" min="1" step="1" class="card-editor__life"
-                    v-model="card.startingLife" placeholder="Life"
-                >
-                <input type="number" min="0" step="1" class="card-editor__burden"
-                    v-model="card.burden" placeholder="Burden"
-                >
-            </div>
+            <input type="number" min="0" step="1" class="card-editor__burden" v-if="showLifeBurden"
+                v-model="card.burden" placeholder="Burden"
+            >
         </div>
 
         <div class="card-editor__line">
@@ -67,7 +67,9 @@
         </div>
 
         <div class="card-editor__line">
-            <textarea class="card-editor__rules-text" v-model="card.rulesText"></textarea>
+            <textarea class="card-editor__rules-text" v-model="card.rulesText"
+                :maxlength="maxLengths.rulesText"
+            ></textarea>
         </div>
 
         <div class="card-editor__line card-editor__line--attack-defense" v-if="showAttackDefense">
@@ -77,6 +79,10 @@
             <input type="number" step="1" class="card-editor__defense"
                 v-model="card.defense" placeholder="Def"
             >
+        </div>
+
+        <div class="card-editor__line card-editor__line--save">
+            <button type="button" class="card-editor__save" @click="save">Save</button>
         </div>
     </div>
 </div>

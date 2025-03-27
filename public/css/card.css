@@ -1,21 +1,24 @@
 .card-editor {
-    width: 300px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .card-editor__line {
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 4px;
 }
 
-.card-editor__line--cost-life,
+.card-editor__line--enflowable-burden,
 .card-editor__line--attack-defense {
     justify-content: space-between;
 }
 
-.card-editor__column {
-    display: flex;
-    flex-direction: column;
+.card-editor__line--save {
+    justify-content: center;
 }
 
 .card-editor__name {
@@ -37,4 +40,9 @@
 .card-editor__attack,
 .card-editor__defense {
     width: 50px;
+}
+
+.card-editor__save {
+    padding: 2px 8px;
+    cursor: pointer;
 }

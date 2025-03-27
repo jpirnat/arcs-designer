@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `card_iterations` (
     `enflowable` BOOL NULL,
     `speed_modifier` VARCHAR(4) NULL,
     `zone_modifier` VARCHAR(6) NULL,
-    `life` INT UNSIGNED NULL,
+    `starting_life` INT UNSIGNED NULL,
     `burden` INT UNSIGNED NULL,
     `card_type` VARCHAR(8) NULL,
     `rules_text` TEXT NOT NULL,
@@ -140,6 +140,26 @@ CREATE TABLE IF NOT EXISTS `card_iterations` (
         ON DELETE RESTRICT
         ON UPDATE CASCADE,
     FOREIGN KEY `affinity_id` (`affinity_id`) REFERENCES `affinities` (`id`)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS `current_iterations` (
+    `card_id` INT UNSIGNED NOT NULL,
+    `iteration_id` INT UNSIGNED NOT NULL,
+
+    `created_at` TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (`card_id`, `iteration_id`),
+    FOREIGN KEY `card_id` (`card_id`) REFERENCES `cards` (`id`)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+    FOREIGN KEY `iteration_id` (`iteration_id`) REFERENCES `card_iterations` (`id`)
         ON DELETE RESTRICT
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;

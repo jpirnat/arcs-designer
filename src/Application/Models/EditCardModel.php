@@ -9,8 +9,13 @@ use Jp\ArcsDesigner\Domain\CardIterations\CardIterationId;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIterationNotFoundException;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIterationRepositoryInterface;
 use Jp\ArcsDesigner\Domain\CardIterations\CardType;
+use Jp\ArcsDesigner\Domain\CardIterations\InvalidBurdenException;
 use Jp\ArcsDesigner\Domain\CardIterations\InvalidCardTypeException;
+use Jp\ArcsDesigner\Domain\CardIterations\InvalidCostException;
+use Jp\ArcsDesigner\Domain\CardIterations\InvalidNameException;
+use Jp\ArcsDesigner\Domain\CardIterations\InvalidRulesTextException;
 use Jp\ArcsDesigner\Domain\CardIterations\InvalidSpeedModifierException;
+use Jp\ArcsDesigner\Domain\CardIterations\InvalidStartingLifeException;
 use Jp\ArcsDesigner\Domain\CardIterations\InvalidZoneModifierException;
 use Jp\ArcsDesigner\Domain\CardIterations\SpeedModifier;
 use Jp\ArcsDesigner\Domain\CardIterations\ZoneModifier;
@@ -90,28 +95,46 @@ final class EditCardModel
             ? (int) $defense
             : null;
 
-        $card = new Card(
-            new CardId(),
-            $name,
-        );
+        try {
+            $card = new Card(
+                new CardId(),
+                $name,
+            );
+        } catch (InvalidNameException $e) {
+            $this->errorMessage = $e->getMessage();
+            return;
+        }
+
         $this->cardRepository->save($card);
 
-        $iteration = new CardIteration(
-            new CardIterationId(),
-            $card->id,
-            $name,
-            $affinityId,
-            $cost,
-            $enflowable,
-            $speedModifier,
-            $zoneModifier,
-            $startingLife,
-            $burden,
-            $cardType,
-            $rulesText,
-            $attack,
-            $defense,
-        );
+        try {
+            $iteration = new CardIteration(
+                new CardIterationId(),
+                $card->id,
+                $name,
+                $affinityId,
+                $cost,
+                $enflowable,
+                $speedModifier,
+                $zoneModifier,
+                $startingLife,
+                $burden,
+                $cardType,
+                $rulesText,
+                $attack,
+                $defense,
+            );
+        } catch (
+            InvalidNameException
+            | InvalidCostException
+            | InvalidStartingLifeException
+            | InvalidBurdenException
+            | InvalidRulesTextException $e
+        ) {
+            $this->errorMessage = $e->getMessage();
+            return;
+        }
+
         $this->iterationRepository->save($iteration);
     }
 
@@ -186,22 +209,34 @@ final class EditCardModel
             return;
         }
 
-        $new = new CardIteration(
-            new CardIterationId(),
-            $old->cardId,
-            $name,
-            $affinityId,
-            $cost,
-            $enflowable,
-            $speedModifier,
-            $zoneModifier,
-            $startingLife,
-            $burden,
-            $cardType,
-            $rulesText,
-            $attack,
-            $defense,
-        );
+        try {
+            $new = new CardIteration(
+                new CardIterationId(),
+                $old->cardId,
+                $name,
+                $affinityId,
+                $cost,
+                $enflowable,
+                $speedModifier,
+                $zoneModifier,
+                $startingLife,
+                $burden,
+                $cardType,
+                $rulesText,
+                $attack,
+                $defense,
+            );
+        } catch (
+            InvalidNameException
+            | InvalidCostException
+            | InvalidStartingLifeException
+            | InvalidBurdenException
+            | InvalidRulesTextException $e
+        ) {
+            $this->errorMessage = $e->getMessage();
+            return;
+        }
+
 
         if ($new->equals($old)) {
             // Nothing changed.

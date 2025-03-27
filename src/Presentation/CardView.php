@@ -16,10 +16,12 @@ final readonly class CardView
     public function getData(): ResponseInterface
     {
         return new JsonResponse(['data' => [
+            'card' => $this->model->card,
             'affinities' => $this->model->affinities,
             'speedModifiers' => $this->model->speedModifiers,
             'zoneModifiers' => $this->model->zoneModifiers,
             'cardTypes' => $this->model->cardTypes,
+            'maxLengths' => $this->model->maxLengths,
         ]]);
     }
 }

@@ -20,6 +20,7 @@ final class CardsModel
         $cards = $this->cardRepository->getAll();
         foreach ($cards as $card) {
             $this->cards[] = [
+                'id' => $card->id->value,
                 'name' => $card->name,
             ];
         }
