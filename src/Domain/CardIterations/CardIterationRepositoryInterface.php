@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Jp\ArcsDesigner\Domain\CardIterations;
 
+use Jp\ArcsDesigner\Domain\Cards\CardId;
+
 interface CardIterationRepositoryInterface
 {
     /**
@@ -11,4 +13,6 @@ interface CardIterationRepositoryInterface
     public function getById(CardIterationId $iterationId): CardIteration;
 
     public function save(CardIteration $iteration): void;
+
+    public function setCurrent(CardId $cardId, CardIterationId $iterationId): void;
 }

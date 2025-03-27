@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Jp\ArcsDesigner\Application\Models;
 
+use DateTimeImmutable;
 use Jp\ArcsDesigner\Domain\Affinities\AffinityId;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIteration;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIterationId;
@@ -123,6 +124,7 @@ final class EditCardModel
                 $rulesText,
                 $attack,
                 $defense,
+                new DateTimeImmutable(),
             );
         } catch (
             InvalidNameException
@@ -225,6 +227,7 @@ final class EditCardModel
                 $rulesText,
                 $attack,
                 $defense,
+                new DateTimeImmutable(),
             );
         } catch (
             InvalidNameException

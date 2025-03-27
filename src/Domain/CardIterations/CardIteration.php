@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Jp\ArcsDesigner\Domain\CardIterations;
 
+use DateTimeImmutable;
 use Jp\ArcsDesigner\Domain\Affinities\AffinityId;
 use Jp\ArcsDesigner\Domain\Cards\CardId;
 use function mb_strlen;
@@ -80,6 +81,7 @@ final class CardIteration
 
     public ?int $attack;
     public ?int $defense;
+    private(set) readonly DateTimeImmutable $createdAt;
 
     public const int MAX_LENGTH_NAME = 32;
     public const int MAX_LENGTH_RULES_TEXT = 1024;
@@ -90,6 +92,7 @@ final class CardIteration
      * @throws InvalidStartingLifeException if $startingLife is invalid.
      * @throws InvalidBurdenException if $burden is invalid.
      * @throws InvalidRulesTextException if $rulesText is invalid.
+     * @noinspection PhpDocRedundantThrowsInspection
      */
     public function __construct(
         CardIterationId $id,
@@ -106,6 +109,7 @@ final class CardIteration
         string $rulesText,
         ?int $attack,
         ?int $defense,
+        DateTimeImmutable $createdAt,
     ) {
         $this->id = $id;
         $this->cardId = $cardId;
@@ -121,6 +125,7 @@ final class CardIteration
         $this->rulesText = $rulesText;
         $this->attack = $attack;
         $this->defense = $defense;
+        $this->createdAt = $createdAt;
     }
 
     public function equals(self $other): bool

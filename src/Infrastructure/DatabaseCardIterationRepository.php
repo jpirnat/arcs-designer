@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Jp\ArcsDesigner\Infrastructure;
 
+use DateTimeImmutable;
 use Jp\ArcsDesigner\Domain\Affinities\AffinityId;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIteration;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIterationId;
@@ -40,7 +41,8 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
 	            `card_type`,
 	            `rules_text`,
 	            `attack`,
-	            `defense`
+	            `defense`,
+	            `created_at`
             FROM `card_iterations`
             WHERE `id` = :iteration_id
             LIMIT 1'
@@ -79,6 +81,7 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
             $result['rules_text'],
             $result['attack'],
             $result['defense'],
+            new DateTimeImmutable($result['created_at']),
         );
     }
 
@@ -141,5 +144,60 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
         $iteration->id->set(
             (int) $this->db->lastInsertId()
         );
+
+        $this->setCurrent(
+            $iteration->cardId,
+            $iteration->id,
+        );
+    }
+
+    public function setCurrent(CardId $cardId, CardIterationId $iterationId): void
+    {
+        if ($this->existsCurrent($cardId)) {
+            $this->createCurrent($cardId, $iterationId);
+        } else {
+            $this->updateCurrent($cardId, $iterationId);
+        }
+    }
+
+    private function existsCurrent(CardId $cardId): bool
+    {
+        $stmt = $this->db->prepare(
+            'SELECT
+	            1
+	        FROM `current_iterations`
+	        WHERE `card_id` = :card_id'
+        );
+        $stmt->bindValue(':card_id', $cardId->value, PDO::PARAM_INT);
+        $stmt->execute();
+        return (bool) $stmt->fetchColumn();
+    }
+
+    private function createCurrent(CardId $cardId, CardIterationId $iterationId): void
+    {
+        $stmt = $this->db->prepare(
+        'INSERT INTO `current_iterations` (
+                `card_id`,
+                `iteration_id`
+            ) VALUES (
+                :card_id,
+                :iteration_id
+            )'
+        );
+        $stmt->bindValue(':card_id', $cardId->value, PDO::PARAM_INT);
+        $stmt->bindValue(':iteration_id', $iterationId->value, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    private function updateCurrent(CardId $cardId, CardIterationId $iterationId): void
+    {
+        $stmt = $this->db->prepare(
+            'UPDATE `current_iterations` SET
+                `iteration_id` = :iteration_id
+            WHERE `card_id` = :card_id'
+        );
+        $stmt->bindValue(':iteration_id', $iterationId->value, PDO::PARAM_INT);
+        $stmt->bindValue(':card_id', $cardId->value, PDO::PARAM_INT);
+        $stmt->execute();
     }
 }
