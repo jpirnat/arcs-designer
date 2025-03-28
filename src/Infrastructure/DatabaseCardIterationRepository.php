@@ -85,6 +85,73 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
         );
     }
 
+    /**
+     * @return CardIteration[] Indexed by id. Ordered by created at.
+     * @noinspection PhpDocMissingThrowsInspection
+     */
+    public function getByCard(CardId $cardId): array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT
+	            `id`,
+	            `name`,
+	            `affinity_id`,
+	            `cost`,
+	            `enflowable`,
+	            `speed_modifier`,
+	            `zone_modifier`,
+	            `starting_life`,
+	            `burden`,
+	            `card_type`,
+	            `rules_text`,
+	            `attack`,
+	            `defense`,
+	            `created_at`
+            FROM `card_iterations`
+            WHERE `card_id` = :card_id
+            ORDER BY `created_at` DESC'
+        );
+        $stmt->bindValue(':card_id', $cardId->value, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $iterations = [];
+
+        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            /** @noinspection PhpUnhandledExceptionInspection */
+            $iteration = new CardIteration(
+                new CardIterationId($result['id']),
+                $cardId,
+                $result['name'],
+                $result['affinity_id'] !== null
+                    ? new AffinityId($result['affinity_id'])
+                    : null,
+                $result['cost'],
+                $result['enflowable'] !== null
+                    ? (bool) $result['enflowable']
+                    : null,
+                $result['speed_modifier'] !== null
+                    ? new SpeedModifier($result['speed_modifier'])
+                    : null,
+                $result['zone_modifier'] !== null
+                    ? new ZoneModifier($result['zone_modifier'])
+                    : null,
+                $result['starting_life'],
+                $result['burden'],
+                $result['card_type'] !== null
+                    ? new CardType($result['card_type'])
+                    : null,
+                $result['rules_text'],
+                $result['attack'],
+                $result['defense'],
+                new DateTimeImmutable($result['created_at']),
+            );
+
+            $iterations[$result['id']] = $iteration;
+        }
+
+        return $iterations;
+    }
+
     public function save(CardIteration $iteration): void
     {
         if ($iteration->id->isNew) {
@@ -153,7 +220,7 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
 
     public function setCurrent(CardId $cardId, CardIterationId $iterationId): void
     {
-        if ($this->existsCurrent($cardId)) {
+        if (!$this->existsCurrent($cardId)) {
             $this->createCurrent($cardId, $iterationId);
         } else {
             $this->updateCurrent($cardId, $iterationId);
@@ -199,5 +266,24 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
         $stmt->bindValue(':iteration_id', $iterationId->value, PDO::PARAM_INT);
         $stmt->bindValue(':card_id', $cardId->value, PDO::PARAM_INT);
         $stmt->execute();
+    }
+
+    public function getCurrent(CardId $cardId): CardIteration
+    {
+        $stmt = $this->db->prepare(
+            'SELECT
+	            `iteration_id`
+	        FROM `current_iterations`
+	        WHERE `card_id` = :card_id
+	        LIMIT 1'
+        );
+        $stmt->bindValue(':card_id', $cardId->value, PDO::PARAM_INT);
+        $stmt->execute();
+        $iterationId = $stmt->fetchColumn();
+
+        $iterationId = new CardIterationId($iterationId);
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return $this->getById($iterationId);
     }
 }

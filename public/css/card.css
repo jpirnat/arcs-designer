@@ -1,15 +1,35 @@
+
+
+.iteration-reel__iteration:first-of-type {
+    border-top: 1px solid black;
+}
+.iteration-reel__iteration {
+    padding: 1rem;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.iteration-reel__iteration--current {
+    background: #ccc;
+    cursor: default;
+}
+
+.iteration-reel__iteration:not(.iteration-reel__iteration--current):hover {
+    background: #ddd;
+    cursor: pointer;
+}
+
 .card-editor {
     width: 400px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 0.25rem;
 }
 
 .card-editor__line {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 4px;
+    gap: 0.25rem;
 }
 
 .card-editor__line--enflowable-burden,
@@ -32,6 +52,7 @@
 .card-editor__rules-text {
     flex: 1;
     height: 200px;
+    padding: 0.25rem;
 }
 
 .card-editor__life,

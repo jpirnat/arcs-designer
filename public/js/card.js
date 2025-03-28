@@ -3,6 +3,7 @@ const { createApp } = Vue;
 const app = createApp({
     data() {
         return {
+            iterations: [],
             card: {},
             affinities: [],
             speedModifiers: [],
@@ -39,6 +40,7 @@ const app = createApp({
 
         const data = response.data;
 
+        this.iterations = data.iterations;
         this.card = data.card;
         this.affinities = data.affinities;
         this.speedModifiers = data.speedModifiers;
@@ -58,6 +60,7 @@ const app = createApp({
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    iterationId: this.card.iterationId,
                     name: this.card.name,
                     affinityId: this.card.affinityId,
                     cost: this.card.cost,

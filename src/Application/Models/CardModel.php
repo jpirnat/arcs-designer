@@ -5,12 +5,15 @@ namespace Jp\ArcsDesigner\Application\Models;
 
 use Jp\ArcsDesigner\Domain\Affinities\AffinityRepositoryInterface;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIteration;
+use Jp\ArcsDesigner\Domain\CardIterations\CardIterationRepositoryInterface;
 use Jp\ArcsDesigner\Domain\CardIterations\CardType;
 use Jp\ArcsDesigner\Domain\CardIterations\SpeedModifier;
 use Jp\ArcsDesigner\Domain\CardIterations\ZoneModifier;
+use Jp\ArcsDesigner\Domain\Cards\CardId;
 
 final class CardModel
 {
+    private(set) array $iterations = [];
     private(set) array $card = [];
     private(set) array $affinities = [];
     private(set) array $speedModifiers = [];
@@ -19,11 +22,13 @@ final class CardModel
     private(set) array $maxLengths = [];
 
     public function __construct(
+        private readonly CardIterationRepositoryInterface $iterationRepository,
         private readonly AffinityRepositoryInterface $affinityRepository,
     ) {}
 
     public function setAddData(): void
     {
+        $this->iterations = [];
         $this->affinities = [];
         $this->speedModifiers = [];
         $this->zoneModifiers = [];
@@ -31,6 +36,7 @@ final class CardModel
         $this->maxLengths = [];
 
         $this->card = [
+            'iterationId' => null,
             'name' => '',
             'affinityId' => null,
             'cost' => null,
@@ -50,12 +56,40 @@ final class CardModel
 
     public function setEditData(string $cardId): void
     {
+        $this->iterations = [];
         $this->card = [];
         $this->affinities = [];
         $this->speedModifiers = [];
         $this->zoneModifiers = [];
         $this->cardTypes = [];
         $this->maxLengths = [];
+
+        $cardId = new CardId((int) $cardId);
+        $iterations = $this->iterationRepository->getByCard($cardId);
+        foreach ($iterations as $iteration) {
+            $this->iterations[] = [
+                'id' => $iteration->id->value,
+                'createdAt' => $iteration->createdAt->format('M j, Y g:ia'),
+            ];
+        }
+
+        $iteration = $this->iterationRepository->getCurrent($cardId);
+
+        $this->card = [
+            'iterationId' => $iteration->id->value,
+            'name' => $iteration->name,
+            'affinityId' => $iteration->affinityId?->value,
+            'cost' => $iteration->cost,
+            'enflowable' => $iteration->enflowable,
+            'speedModifier' => $iteration->speedModifier?->value,
+            'zoneModifier' => $iteration->zoneModifier?->value,
+            'startingLife' => $iteration->startingLife,
+            'burden' => $iteration->burden,
+            'cardType' => $iteration->cardType?->value,
+            'rulesText' => $iteration->rulesText,
+            'attack' => $iteration->attack,
+            'defense' => $iteration->defense,
+        ];
 
         $this->setCommonData();
     }

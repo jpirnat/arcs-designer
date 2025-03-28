@@ -7,84 +7,97 @@
 {% block main %}
 {% verbatim %}
 <div id="app" v-cloak>
-    <a href="/cards">&laquo; Cards</a>
-
-    <div class="card-editor">
-        <div class="card-editor__line">
-            <input type="number" min="0" step="1" class="card-editor__cost"
-                v-model="card.cost" placeholder="Cost"
+    <div style="display: flex; flex-direction: row; gap: 1rem;">
+        <div class="iteration-reel">
+            <div v-for="i in iterations" :key="i.id"
+                :class="{
+                    'iteration-reel__iteration': true,
+                    'iteration-reel__iteration--current': i.id === card.iterationId
+                }"
             >
-
-            <input type="text" class="card-editor__name" v-model="card.name"
-                :maxlength="maxLengths.name" placeholder="Card Name"
-            >
-
-            <input type="number" min="1" step="1" class="card-editor__life" v-if="showLifeBurden"
-                v-model="card.startingLife" placeholder="Life"
-            >
+                {{ i.createdAt }}
+            </div>
         </div>
 
-        <div class="card-editor__line card-editor__line--enflowable-burden">
-            <select class="card-editor__cost" v-model="card.enflowable">
-                <option :value="null">???</option>
-                <option :value="1">Enflowable</option>
-                <option :value="0">Not Enflowable</option>
-            </select>
+        <div class="card-editor">
+            <div class="card-editor__line">
+                <input type="number" min="0" step="1" class="card-editor__cost"
+                    v-model="card.cost" placeholder="Cost"
+                >
 
-            <input type="number" min="0" step="1" class="card-editor__burden" v-if="showLifeBurden"
-                v-model="card.burden" placeholder="Burden"
-            >
-        </div>
+                <input type="text" class="card-editor__name" v-model="card.name"
+                    :maxlength="maxLengths.name" placeholder="Card Name"
+                >
 
-        <div class="card-editor__line">
-            <select v-model="card.affinityId">
-                <option :value="null">[Affinity TBD]</option>
-                <option v-for="a in affinities" :key="a.id" :value="a.id">
-                    {{ a.name }}
-                </option>
-            </select>
-        </div>
+                <input type="number" min="1" step="1" class="card-editor__life" v-if="showLifeBurden"
+                    v-model="card.startingLife" placeholder="Life"
+                >
+            </div>
 
-        <div class="card-editor__line">
-            <select v-model="card.speedModifier">
-                <option :value="null">???</option>
-                <option v-for="m in speedModifiers" :key="m.value" :value="m.value">
-                    {{ m.name }}
-                </option>
-            </select>
+            <div class="card-editor__line card-editor__line--enflowable-burden">
+                <select class="card-editor__cost" v-model="card.enflowable">
+                    <option :value="null">???</option>
+                    <option :value="1">Enflowable</option>
+                    <option :value="0">Not Enflowable</option>
+                </select>
 
-            <select v-model="card.zoneModifier">
-                <option :value="null">???</option>
-                <option v-for="m in zoneModifiers" :key="m.value" :value="m.value">
-                    {{ m.name }}
-                </option>
-            </select>
+                <input type="number" min="0" step="1" class="card-editor__burden" v-if="showLifeBurden"
+                    v-model="card.burden" placeholder="Burden"
+                >
+            </div>
 
-            <select v-model="card.cardType">
-                <option :value="null">???</option>
-                <option v-for="t in cardTypes" :key="t.value" :value="t.value">
-                    {{ t.name }}
-                </option>
-            </select>
-        </div>
+            <div class="card-editor__line">
+                <select v-model="card.affinityId">
+                    <option :value="null">[Affinity TBD]</option>
+                    <option v-for="a in affinities" :key="a.id" :value="a.id">
+                        {{ a.name }}
+                    </option>
+                </select>
+            </div>
 
-        <div class="card-editor__line">
-            <textarea class="card-editor__rules-text" v-model="card.rulesText"
-                :maxlength="maxLengths.rulesText"
-            ></textarea>
-        </div>
+            <div class="card-editor__line">
+                <select v-model="card.speedModifier">
+                    <option :value="null">???</option>
+                    <option v-for="m in speedModifiers" :key="m.value" :value="m.value">
+                        {{ m.name }}
+                    </option>
+                </select>
 
-        <div class="card-editor__line card-editor__line--attack-defense" v-if="showAttackDefense">
-            <input type="number" step="1" class="card-editor__attack"
-                v-model="card.attack" placeholder="Atk"
-            >
-            <input type="number" step="1" class="card-editor__defense"
-                v-model="card.defense" placeholder="Def"
-            >
-        </div>
+                <select v-model="card.zoneModifier">
+                    <option :value="null">???</option>
+                    <option v-for="m in zoneModifiers" :key="m.value" :value="m.value">
+                        {{ m.name }}
+                    </option>
+                </select>
 
-        <div class="card-editor__line card-editor__line--save">
-            <button type="button" class="card-editor__save" @click="save">Save</button>
+                <select v-model="card.cardType">
+                    <option :value="null">???</option>
+                    <option v-for="t in cardTypes" :key="t.value" :value="t.value">
+                        {{ t.name }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="card-editor__line">
+                <textarea class="card-editor__rules-text" v-model="card.rulesText"
+                    :maxlength="maxLengths.rulesText"
+                ></textarea>
+            </div>
+
+            <div class="card-editor__line card-editor__line--attack-defense" v-if="showAttackDefense">
+                <input type="number" step="1" class="card-editor__attack"
+                    v-model="card.attack" placeholder="Atk"
+                >
+                <input type="number" step="1" class="card-editor__defense"
+                    v-model="card.defense" placeholder="Def"
+                >
+            </div>
+
+            <div class="card-editor__line card-editor__line--save">
+                <button type="button" class="card-editor__save" @click="save"
+                    :disabled="loading"
+                >Save</button>
+            </div>
         </div>
     </div>
 </div>

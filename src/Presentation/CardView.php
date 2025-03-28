@@ -16,6 +16,7 @@ final readonly class CardView
     public function getData(): ResponseInterface
     {
         return new JsonResponse(['data' => [
+            'iterations' => $this->model->iterations,
             'card' => $this->model->card,
             'affinities' => $this->model->affinities,
             'speedModifiers' => $this->model->speedModifiers,
