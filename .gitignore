@@ -1,3 +1,4 @@
+/config/.env
 /config/cache/
 /templates/cache/
 /vendor/
