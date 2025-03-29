@@ -1,4 +1,13 @@
+:root {
+    --color-green: #b7e1cd;
+    --color-red: #f4c7c3;
+}
 
+.card-page {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
 
 .iteration-reel__iteration:first-of-type {
     border-top: 1px solid black;
@@ -7,19 +16,31 @@
     padding: 1rem;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
+    cursor: pointer;
 }
 .iteration-reel__iteration--current {
-    background: #ccc;
+    background: var(--color-green);
+}
+.iteration-reel__iteration--comparing {
+    background: var(--color-red);
     cursor: default;
 }
-
-.iteration-reel__iteration:not(.iteration-reel__iteration--current):hover {
+.iteration-reel__iteration:not(.iteration-reel__iteration--current):not(.iteration-reel__iteration--comparing):hover {
     background: #ddd;
-    cursor: pointer;
+}
+
+.card-editor__iteration {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.card-editor__iteration-title {
+    text-align: center;
 }
 
 .card-editor {
-    width: 400px;
+    width: 25rem;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
@@ -30,6 +51,7 @@
     flex-direction: row;
     align-items: center;
     gap: 0.25rem;
+    min-height: 1.5rem;
 }
 
 .card-editor__line--enflowable-burden,
@@ -37,33 +59,34 @@
     justify-content: space-between;
 }
 
-.card-editor__line--save {
-    justify-content: center;
-}
-
 .card-editor__name {
     flex: 1;
 }
 
-.card-editor__affinity {
-    width: 100px;
-}
-
-.card-editor__rules-text {
-    flex: 1;
-    height: 200px;
-    padding: 0.25rem;
-}
-
-.card-editor__life,
+.card-editor__starting-life,
 .card-editor__burden,
 .card-editor__cost,
 .card-editor__attack,
 .card-editor__defense {
-    width: 50px;
+    width: 3.5rem;
 }
 
-.card-editor__save {
-    padding: 2px 8px;
+.card-editor__rules-text {
+    flex: 1;
+    height: 12rem;
+    padding: 0.25rem;
+}
+
+.card-editor__changed {
+    background: var(--color-red);
+}
+
+.card-editor__actions {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.card-editor__button {
+    padding: 0.125rem 0.5rem;
     cursor: pointer;
 }

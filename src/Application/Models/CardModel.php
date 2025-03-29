@@ -14,7 +14,8 @@ use Jp\ArcsDesigner\Domain\Cards\CardId;
 final class CardModel
 {
     private(set) array $iterations = [];
-    private(set) array $card = [];
+    private(set) array $current = [];
+    private(set) ?array $comparing = null;
     private(set) array $affinities = [];
     private(set) array $speedModifiers = [];
     private(set) array $zoneModifiers = [];
@@ -29,13 +30,14 @@ final class CardModel
     public function setAddData(): void
     {
         $this->iterations = [];
+        $this->comparing = null;
         $this->affinities = [];
         $this->speedModifiers = [];
         $this->zoneModifiers = [];
         $this->cardTypes = [];
         $this->maxLengths = [];
 
-        $this->card = [
+        $this->current = [
             'iterationId' => null,
             'name' => '',
             'affinityId' => null,
@@ -57,7 +59,8 @@ final class CardModel
     public function setEditData(string $cardId): void
     {
         $this->iterations = [];
-        $this->card = [];
+        $this->current = [];
+        $this->comparing = null;
         $this->affinities = [];
         $this->speedModifiers = [];
         $this->zoneModifiers = [];
@@ -65,17 +68,25 @@ final class CardModel
         $this->maxLengths = [];
 
         $cardId = new CardId((int) $cardId);
+        $iteration = $this->iterationRepository->getCurrent($cardId);
+        $this->current = $this->getIterationData($iteration);
+
         $iterations = $this->iterationRepository->getByCard($cardId);
         foreach ($iterations as $iteration) {
-            $this->iterations[] = [
-                'id' => $iteration->id->value,
-                'createdAt' => $iteration->createdAt->format('M j, Y g:ia'),
-            ];
+            $this->iterations[] = $this->getIterationData($iteration);
+
+            // Compare to the most recent iteration that isn't the current iteration.
+            if (!$this->comparing && $iteration->id->value !== $this->current['iterationId']) {
+                $this->comparing = $this->getIterationData($iteration);
+            }
         }
 
-        $iteration = $this->iterationRepository->getCurrent($cardId);
+        $this->setCommonData();
+    }
 
-        $this->card = [
+    private function getIterationData(CardIteration $iteration): array
+    {
+        return [
             'iterationId' => $iteration->id->value,
             'name' => $iteration->name,
             'affinityId' => $iteration->affinityId?->value,
@@ -89,9 +100,8 @@ final class CardModel
             'rulesText' => $iteration->rulesText,
             'attack' => $iteration->attack,
             'defense' => $iteration->defense,
+            'createdAt' => $iteration->createdAt->format('M j, Y g:ia'),
         ];
-
-        $this->setCommonData();
     }
 
     private function setCommonData(): void

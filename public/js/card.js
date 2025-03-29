@@ -3,25 +3,18 @@ const { createApp } = Vue;
 const app = createApp({
     data() {
         return {
+            loading: true,
+            loaded: false,
+
             iterations: [],
-            card: {},
+            current: {},
+            comparing: null,
             affinities: [],
             speedModifiers: [],
             zoneModifiers: [],
             cardTypes: [],
             maxLengths: {},
-
-            loading: true,
-            loaded: false,
         };
-    },
-    computed: {
-        showLifeBurden() {
-            return this.card.zoneModifier === 'leader';
-        },
-        showAttackDefense() {
-            return this.card.cardType === 'creature';
-        },
     },
     async created() {
         const url = new URL(window.location);
@@ -41,7 +34,8 @@ const app = createApp({
         const data = response.data;
 
         this.iterations = data.iterations;
-        this.card = data.card;
+        this.current = data.current;
+        this.comparing = data.comparing;
         this.affinities = data.affinities;
         this.speedModifiers = data.speedModifiers;
         this.zoneModifiers = data.zoneModifiers;
@@ -49,6 +43,22 @@ const app = createApp({
         this.maxLengths = data.maxLengths;
     },
     methods: {
+        compare(iteration) {
+            if (iteration.iterationId === this.current.iterationId) {
+                this.comparing = null;
+                return;
+            }
+
+            this.comparing = iteration;
+        },
+
+        showLifeBurden(iteration) {
+            return iteration.zoneModifier === 'leader';
+        },
+        showAttackDefense(iteration) {
+            return iteration.cardType === 'creature';
+        },
+
         async save() {
             const url = new URL(window.location);
 
@@ -60,19 +70,19 @@ const app = createApp({
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    iterationId: this.card.iterationId,
-                    name: this.card.name,
-                    affinityId: this.card.affinityId,
-                    cost: this.card.cost,
-                    enflowable: this.card.enflowable,
-                    speedModifier: this.card.speedModifier,
-                    zoneModifier: this.card.zoneModifier,
-                    startingLife: this.showLifeBurden ? this.card.startingLife : '',
-                    burden: this.showLifeBurden ? this.card.burden : '',
-                    cardType: this.card.cardType,
-                    rulesText: this.card.rulesText,
-                    attack: this.showAttackDefense ? this.card.attack : '',
-                    defense: this.showAttackDefense ? this.card.defense : '',
+                    iterationId: this.current.iterationId,
+                    name: this.current.name,
+                    affinityId: this.current.affinityId,
+                    cost: this.current.cost,
+                    enflowable: this.current.enflowable,
+                    speedModifier: this.current.speedModifier,
+                    zoneModifier: this.current.zoneModifier,
+                    startingLife: this.showLifeBurden ? this.current.startingLife : '',
+                    burden: this.showLifeBurden ? this.current.burden : '',
+                    cardType: this.current.cardType,
+                    rulesText: this.current.rulesText,
+                    attack: this.showAttackDefense ? this.current.attack : '',
+                    defense: this.showAttackDefense ? this.current.defense : '',
                 }),
             })
             .then(response => response.json());
@@ -86,6 +96,14 @@ const app = createApp({
                     text: error.message,
                 });
             }
+        },
+
+        copyComparingIntoCurrent() {
+            this.current = this.comparing;
+            this.comparing = null;
+        },
+
+        setComparingAsCurrent() {
         },
     },
 });

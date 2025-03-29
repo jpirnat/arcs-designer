@@ -17,7 +17,8 @@ final readonly class CardView
     {
         return new JsonResponse(['data' => [
             'iterations' => $this->model->iterations,
-            'card' => $this->model->card,
+            'current' => $this->model->current,
+            'comparing' => $this->model->comparing,
             'affinities' => $this->model->affinities,
             'speedModifiers' => $this->model->speedModifiers,
             'zoneModifiers' => $this->model->zoneModifiers,
