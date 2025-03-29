@@ -14,6 +14,8 @@ const app = createApp({
             zoneModifiers: [],
             cardTypes: [],
             maxLengths: {},
+
+            original: {},
         };
     },
     async created() {
@@ -41,6 +43,22 @@ const app = createApp({
         this.zoneModifiers = data.zoneModifiers;
         this.cardTypes = data.cardTypes;
         this.maxLengths = data.maxLengths;
+
+        this.original = {
+            iterationId: data.current.iterationId,
+            name: data.current.name,
+            affinityId: data.current.affinityId,
+            cost: data.current.cost,
+            enflowable: data.current.enflowable,
+            speedModifier: data.current.speedModifier,
+            zoneModifier: data.current.zoneModifier,
+            startingLife: data.current.startingLife,
+            burden: data.current.burden,
+            cardType: data.current.cardType,
+            rulesText: data.current.rulesText,
+            attack: data.current.attack,
+            defense: data.current.defense,
+        };
     },
     methods: {
         compare(iteration) {
@@ -95,11 +113,43 @@ const app = createApp({
                     icon: 'error',
                     text: error.message,
                 });
+                return;
+            }
+
+            if (response.data) {
+                window.location.assign('/cards');
             }
         },
 
+        resetChanges() {
+            this.current.name = this.original.name;
+            this.current.affinityId = this.original.affinityId;
+            this.current.cost = this.original.cost;
+            this.current.enflowable = this.original.enflowable;
+            this.current.speedModifier = this.original.speedModifier;
+            this.current.zoneModifier = this.original.zoneModifier;
+            this.current.startingLife = this.original.startingLife;
+            this.current.burden = this.original.burden;
+            this.current.cardType = this.original.cardType;
+            this.current.rulesText = this.original.rulesText;
+            this.current.attack = this.original.attack;
+            this.current.defense = this.original.defense;
+        },
+
         copyComparingIntoCurrent() {
-            this.current = this.comparing;
+            this.current.name = this.comparing.name;
+            this.current.affinityId = this.comparing.affinityId;
+            this.current.cost = this.comparing.cost;
+            this.current.enflowable = this.comparing.enflowable;
+            this.current.speedModifier = this.comparing.speedModifier;
+            this.current.zoneModifier = this.comparing.zoneModifier;
+            this.current.startingLife = this.comparing.startingLife;
+            this.current.burden = this.comparing.burden;
+            this.current.cardType = this.comparing.cardType;
+            this.current.rulesText = this.comparing.rulesText;
+            this.current.attack = this.comparing.attack;
+            this.current.defense = this.comparing.defense;
+
             this.comparing = null;
         },
 

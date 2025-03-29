@@ -9,6 +9,7 @@
 <div id="app" v-cloak>
     <div class="card-page">
         <div class="iteration-reel">
+            <a class="iteration-reel__iteration" href="/cards">&laquo; Back To All</a>
             <div v-for="i in iterations" :key="i.iterationId"
                 :class="{
                     'iteration-reel__iteration': true,
@@ -103,6 +104,10 @@
                 <button type="button" class="card-editor__button" @click="save"
                     :disabled="loading"
                 >Save</button>
+
+                <button type="button" class="card-editor__button" @click="resetChanges"
+                    :disabled="loading"
+                >Reset Changes</button>
             </div>
         </div>
 

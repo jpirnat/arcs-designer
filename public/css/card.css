@@ -9,14 +9,19 @@
     gap: 1rem;
 }
 
-.iteration-reel__iteration:first-of-type {
+.iteration-reel__iteration:first-child {
     border-top: 1px solid black;
 }
 .iteration-reel__iteration {
+    display: block;
     padding: 1rem;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
     cursor: pointer;
+}
+a.iteration-reel__iteration {
+    color: inherit;
+    text-decoration: inherit;
 }
 .iteration-reel__iteration--current {
     background: var(--color-green);
