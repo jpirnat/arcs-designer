@@ -23,7 +23,7 @@
         </div>
 
         <div class="card-editor__iteration">
-            <div class="card-editor__iteration-title">Current Version</div>
+            <div class="card-editor__title card-editor__title--current">Current Version</div>
 
             <div class="card-editor">
                 <div class="card-editor__line">
@@ -41,19 +41,32 @@
                 </div>
 
                 <div class="card-editor__line card-editor__line--enflowable-burden">
-                    <select class="card-editor__cost" v-model="current.enflowable">
+                    <select v-model="current.enflowable"
+                        :class="{
+                            'card-editor__changed': current.enflowable !== original.enflowable,
+                        }"
+                    >
                         <option :value="null">???</option>
-                        <option :value="1">Enflowable</option>
-                        <option :value="0">Not Enflowable</option>
+                        <option :value="true">Enflowable</option>
+                        <option :value="false">Not Enflowable</option>
                     </select>
 
-                    <input type="number" min="0" step="1" class="card-editor__burden" v-if="showLifeBurden(current)"
-                        v-model="current.burden" placeholder="Burden"
+                    <input type="number" min="0" step="1" placeholder="Burden" class="card-editor__burden"
+                        v-if="showLifeBurden(current)"
+                        v-model="current.burden"
+                        :class="{
+                            'card-editor__burden': true,
+                            'card-editor__changed': current.burden !== original.burden,
+                        }"
                     >
                 </div>
 
                 <div class="card-editor__line">
-                    <select v-model="current.affinityId">
+                    <select v-model="current.affinityId"
+                        :class="{
+                            'card-editor__changed': current.affinityId !== original.affinityId,
+                        }"
+                    >
                         <option :value="null">[Affinity TBD]</option>
                         <option v-for="a in affinities" :key="a.id" :value="a.id">
                             {{ a.name }}
@@ -62,21 +75,33 @@
                 </div>
 
                 <div class="card-editor__line">
-                    <select v-model="current.speedModifier">
+                    <select v-model="current.speedModifier"
+                        :class="{
+                            'card-editor__changed': current.speedModifier !== original.speedModifier,
+                        }"
+                    >
                         <option :value="null">???</option>
                         <option v-for="m in speedModifiers" :key="m.value" :value="m.value">
                             {{ m.name }}
                         </option>
                     </select>
 
-                    <select v-model="current.zoneModifier">
+                    <select v-model="current.zoneModifier"
+                        :class="{
+                            'card-editor__changed': current.zoneModifier !== original.zoneModifier,
+                        }"
+                    >
                         <option :value="null">???</option>
                         <option v-for="m in zoneModifiers" :key="m.value" :value="m.value">
                             {{ m.name }}
                         </option>
                     </select>
 
-                    <select v-model="current.cardType">
+                    <select v-model="current.cardType"
+                        :class="{
+                            'card-editor__changed': current.cardType !== original.cardType,
+                        }"
+                    >
                         <option :value="null">???</option>
                         <option v-for="t in cardTypes" :key="t.value" :value="t.value">
                             {{ t.name }}
@@ -85,17 +110,29 @@
                 </div>
 
                 <div class="card-editor__line">
-                    <textarea class="card-editor__rules-text" v-model="current.rulesText"
-                        :maxlength="maxLengths.rulesText"
+                    <textarea :maxlength="maxLengths.rulesText"
+                        :class="{
+                            'card-editor__rules-text': true,
+                            'card-editor__changed': current.rulesText !== original.rulesText,
+                        }"
+                        v-model="current.rulesText"
                     ></textarea>
                 </div>
 
                 <div class="card-editor__line card-editor__line--attack-defense" v-if="showAttackDefense(current)">
-                    <input type="number" step="1" class="card-editor__attack"
-                        v-model="current.attack" placeholder="Atk"
+                    <input type="number" step="1" placeholder="Atk"
+                        :class="{
+                            'card-editor__attack': true,
+                            'card-editor__changed': current.attack !== original.attack,
+                        }"
+                        v-model="current.attack"
                     >
-                    <input type="number" step="1" class="card-editor__defense"
-                        v-model="current.defense" placeholder="Def"
+                    <input type="number" step="1" placeholder="Def"
+                        :class="{
+                            'card-editor__defense': true,
+                            'card-editor__changed': current.defense !== original.defense,
+                        }"
+                        v-model="current.defense"
                     >
                 </div>
             </div>
@@ -112,7 +149,7 @@
         </div>
 
         <div class="card-editor__iteration" v-if="comparing !== null">
-            <div class="card-editor__iteration-title">Previous Version</div>
+            <div class="card-editor__title card-editor__title--previous">Previous Version</div>
 
             <div class="card-editor">
                 <div class="card-editor__line">
@@ -145,13 +182,12 @@
                 <div class="card-editor__line card-editor__line--enflowable-burden">
                     <select v-model="comparing.enflowable" disabled
                         :class="{
-                            'card-editor__cost': true,
                             'card-editor__changed': current.enflowable !== comparing.enflowable,
                         }"
                     >
                         <option :value="null">???</option>
-                        <option :value="1">Enflowable</option>
-                        <option :value="0">Not Enflowable</option>
+                        <option :value="true">Enflowable</option>
+                        <option :value="false">Not Enflowable</option>
                     </select>
 
                     <input type="number" min="0" step="1" placeholder="Burden" disabled

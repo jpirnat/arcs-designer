@@ -1,6 +1,7 @@
 :root {
     --color-green: #b7e1cd;
-    --color-red: #f4c7c3;
+    --color-red: #f4cccc;
+    --color-blue: #c9daf8;
 }
 
 .card-page {
@@ -40,8 +41,14 @@ a.iteration-reel__iteration {
     gap: 1rem;
 }
 
-.card-editor__iteration-title {
+.card-editor__title {
     text-align: center;
+}
+.card-editor__title--current {
+    background: var(--color-green);
+}
+.card-editor__title--previous {
+    background: var(--color-red);
 }
 
 .card-editor {
@@ -83,7 +90,7 @@ a.iteration-reel__iteration {
 }
 
 .card-editor__changed {
-    background: var(--color-red);
+    background: var(--color-blue);
 }
 
 .card-editor__actions {

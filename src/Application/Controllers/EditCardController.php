@@ -57,7 +57,11 @@ final readonly class EditCardController
         $name = (string) ($data['name'] ?? '');
         $affinityId = (string) ($data['affinityId'] ?? '');
         $cost = (string) ($data['cost'] ?? '');
-        $enflowable = (string) ($data['enflowable'] ?? '');
+        $enflowable = match ($data['enflowable']) {
+            true, '1' => '1',
+            false, '0' => '0',
+            default => '',
+        };
         $speedModifier = (string) ($data['speedModifier'] ?? '');
         $zoneModifier = (string) ($data['zoneModifier'] ?? '');
         $startingLife = (string) ($data['startingLife'] ?? '');
