@@ -16,19 +16,10 @@ use const PASSWORD_DEFAULT;
 
 final readonly class LoginPasswordAuthenticator
 {
-    /**
-     * A randomly generated password hash to validate against when the user
-     * gives an invalid email address, to protect against timing attacks.
-     */
-    private string $dummyHash;
-
     public function __construct(
         private PasswordHashRepositoryInterface $passwordHashRepository,
         private UserRepositoryInterface $userRepository,
-    ) {
-        $dummyPassword = bin2hex(random_bytes(8)); // length 16
-        $this->dummyHash = password_hash($dummyPassword, PASSWORD_DEFAULT);
-    }
+    ) {}
 
     /**
      * Authenticate a user via email address and password.
@@ -38,16 +29,19 @@ final readonly class LoginPasswordAuthenticator
      */
     public function authenticate(string $emailAddress, string $password): UserId
     {
+        // Generate a random password hash to validate against when the user
+        // gives an invalid email address, to protect against timing attacks.
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $dummyPassword = bin2hex(random_bytes(8)); // length 16
+        $dummyHash = password_hash($dummyPassword, PASSWORD_DEFAULT);
+
         // Get the password hash for the user with this email address.
         try {
             $hash = $this->passwordHashRepository->getByEmailAddress(
                 $emailAddress,
             );
         } catch (UserNotFoundException) {
-            // No user exists with this email address. But to prevent that
-            // information from leaking to a timing attack, do a password
-            // validation anyway.
-            password_verify($password, $this->dummyHash);
+            password_verify($password, $dummyHash);
 
             throw new InvalidEmailAddressException(
                 "Invalid email address: $emailAddress."

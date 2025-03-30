@@ -16,7 +16,7 @@ return [
         'controllerMethod' => 'index',
         'viewClass' => IndexView::class,
         'viewMethod' => 'login',
-        'middlewareClasses' => MiddlewareGroups::ERROR,
+        'middlewareClasses' => MiddlewareGroups::HTML,
     ]],
 
     ['POST', '/login', [
@@ -24,7 +24,15 @@ return [
         'controllerMethod' => 'submit',
         'viewClass' => \Jp\ArcsDesigner\Presentation\LoginView::class,
         'viewMethod' => 'submit',
-        'middlewareClasses' => MiddlewareGroups::ERROR,
+        'middlewareClasses' => MiddlewareGroups::JSON,
+    ]],
+
+    ['GET', '/logout', [
+        'controllerClass' => \Jp\ArcsDesigner\Application\Controllers\LogoutController::class,
+        'controllerMethod' => 'setData',
+        'viewClass' => \Jp\ArcsDesigner\Presentation\LogoutView::class,
+        'viewMethod' => 'getData',
+        'middlewareClasses' => MiddlewareGroups::HTML,
     ]],
 
     ['GET', '/cards', [
