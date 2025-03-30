@@ -1,4 +1,4 @@
-{% extends "html/base.twig" %}
+{% extends "html/base-logged-in.twig" %}
 
 {% block styles %}
     <link href="/css/cards.css" rel="stylesheet">
@@ -7,12 +7,12 @@
 {% block main %}
 {% verbatim %}
 <div id="app" v-cloak>
-    <a class="card-link" href="/cards/add">&raquo; Add new card</a>
+    <a class="link" href="/cards/add">Add new card</a>
 
     <ul>
         <li v-for="c in cards" :key="c.id">
             <a class="card-link" :href="'/cards/' + c.id">
-                &raquo; {{ c.name }}
+                {{ c.name }}
             </a>
         </li>
     </ul>

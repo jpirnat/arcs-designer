@@ -18,10 +18,27 @@ body {
     font-family: Helvetica, sans-serif;
 }
 
+header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+}
+
 main {
     flex: 1;
 }
 
 [v-cloak] {
     display: none;
+}
+
+.link {
+	text-decoration: none;
+}
+.link,
+.link:visited {
+	color: blue;
+}
+.link:hover {
+	color: red;
 }

@@ -5,12 +5,21 @@ declare(strict_types=1);
 use Jp\ArcsDesigner\Application\Controllers\IndexController;
 use Jp\ArcsDesigner\Application\Middleware\MiddlewareGroups;
 use Jp\ArcsDesigner\Presentation\IndexView;
+use Jp\ArcsDesigner\Presentation\RedirectView;
 
 // Common route parameter definitions.
 $id = '{id:[-\w]+}';
 
 // Route definitions.
 return [
+    ['GET', '/', [
+        'controllerClass' => IndexController::class,
+        'controllerMethod' => 'index',
+        'viewClass' => RedirectView::class,
+        'viewMethod' => 'cards',
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_HTML,
+    ]],
+
     ['GET', '/login', [
         'controllerClass' => IndexController::class,
         'controllerMethod' => 'index',
