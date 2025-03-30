@@ -56,4 +56,19 @@ final readonly class IndexView
 
         return new HtmlResponse($content);
     }
+
+    /**
+     * Show the login page.
+     */
+    public function login(): ResponseInterface
+    {
+        $content = $this->renderer->render(
+            'html/login.twig',
+            [
+                'title' => 'Login',
+            ],
+        );
+
+        return new HtmlResponse($content);
+    }
 }

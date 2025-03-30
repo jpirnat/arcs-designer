@@ -57,7 +57,7 @@ final readonly class DatabaseAffinityRepository implements AffinityRepositoryInt
     }
 
     /**
-     * @return Affinity[] Indexed by id.
+     * @inheritDoc
      */
     public function getAll(): array
     {

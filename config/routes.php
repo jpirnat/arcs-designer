@@ -11,12 +11,28 @@ $id = '{id:[-\w]+}';
 
 // Route definitions.
 return [
+    ['GET', '/login', [
+        'controllerClass' => IndexController::class,
+        'controllerMethod' => 'index',
+        'viewClass' => IndexView::class,
+        'viewMethod' => 'login',
+        'middlewareClasses' => MiddlewareGroups::ERROR,
+    ]],
+
+    ['POST', '/login', [
+        'controllerClass' => \Jp\ArcsDesigner\Application\Controllers\LoginController::class,
+        'controllerMethod' => 'submit',
+        'viewClass' => \Jp\ArcsDesigner\Presentation\LoginView::class,
+        'viewMethod' => 'submit',
+        'middlewareClasses' => MiddlewareGroups::ERROR,
+    ]],
+
     ['GET', '/cards', [
         'controllerClass' => IndexController::class,
         'controllerMethod' => 'index',
         'viewClass' => IndexView::class,
         'viewMethod' => 'cards',
-        'middlewareClasses' => MiddlewareGroups::ERROR,
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_HTML,
     ]],
 
     ['GET', '/data/cards', [
@@ -24,7 +40,7 @@ return [
         'controllerMethod' => 'setData',
         'viewClass' => \Jp\ArcsDesigner\Presentation\CardsView::class,
         'viewMethod' => 'getData',
-        'middlewareClasses' => MiddlewareGroups::ERROR,
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_JSON,
     ]],
 
     ['GET', '/cards/add', [
@@ -32,7 +48,7 @@ return [
         'controllerMethod' => 'index',
         'viewClass' => IndexView::class,
         'viewMethod' => 'card',
-        'middlewareClasses' => MiddlewareGroups::ERROR,
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_HTML,
     ]],
 
     ['GET', '/data/cards/add', [
@@ -40,7 +56,7 @@ return [
         'controllerMethod' => 'setAddData',
         'viewClass' => \Jp\ArcsDesigner\Presentation\CardView::class,
         'viewMethod' => 'getData',
-        'middlewareClasses' => MiddlewareGroups::ERROR,
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_JSON,
     ]],
 
     ['POST', '/cards/add', [
@@ -48,7 +64,7 @@ return [
         'controllerMethod' => 'addCard',
         'viewClass' => \Jp\ArcsDesigner\Presentation\EditCardView::class,
         'viewMethod' => 'getData',
-        'middlewareClasses' => MiddlewareGroups::ERROR,
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_JSON,
     ]],
 
     ['GET', "/cards/$id", [
@@ -56,7 +72,7 @@ return [
         'controllerMethod' => 'index',
         'viewClass' => IndexView::class,
         'viewMethod' => 'card',
-        'middlewareClasses' => MiddlewareGroups::ERROR,
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_HTML,
     ]],
 
     ['GET', "/data/cards/$id", [
@@ -64,7 +80,7 @@ return [
         'controllerMethod' => 'setEditData',
         'viewClass' => \Jp\ArcsDesigner\Presentation\CardView::class,
         'viewMethod' => 'getData',
-        'middlewareClasses' => MiddlewareGroups::ERROR,
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_JSON,
     ]],
 
     ['POST', "/cards/$id", [
@@ -72,7 +88,7 @@ return [
         'controllerMethod' => 'editCard',
         'viewClass' => \Jp\ArcsDesigner\Presentation\EditCardView::class,
         'viewMethod' => 'getData',
-        'middlewareClasses' => MiddlewareGroups::ERROR,
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_JSON,
     ]],
 
     ['GET', '/error', [

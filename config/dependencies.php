@@ -9,7 +9,9 @@ return function(ContainerConfigurator $configurator) {
 $services = $configurator->services()
     ->defaults()
         ->autowire()
-        ->public();
+        ->public()
+        ->bind('string $environment', '%env(ENVIRONMENT)%')
+;
 
 
 // Main database connection.
@@ -38,6 +40,9 @@ $services->load('Jp\\ArcsDesigner\\Presentation\\', '../src/Presentation');
 
 
 // Domain services.
+$services->set(\Jp\ArcsDesigner\Domain\Logins\LoginPasswordAuthenticator::class);
+$services->set(\Jp\ArcsDesigner\Domain\Logins\LoginTokenAuthenticator::class);
+$services->set(\Jp\ArcsDesigner\Domain\LoginTokens\LoginTokenGenerator::class);
 
 
 // Templating
@@ -59,14 +64,33 @@ $services->alias(
     \Jp\ArcsDesigner\Infrastructure\TwigRenderer::class,
 );
 
+// Session
+$services->alias(
+    \Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface::class,
+    \Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage::class,
+);
+$services->set(\Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage::class)
+    ->arg('$options', [
+        'cookie_lifetime' => 60 * 20, // 20 minutes
+    ])
+;
+$services->set(\Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag::class);
+$services->alias(
+    \Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface::class,
+    \Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag::class,
+);
 
-// Middleware
-$services->set(\Jp\ArcsDesigner\Application\Middleware\HtmlErrorMiddleware::class)
-    ->arg('$environment', '%env(ENVIRONMENT)%')
-;
-$services->set(\Jp\ArcsDesigner\Application\Middleware\JsonErrorMiddleware::class)
-    ->arg('$environment', '%env(ENVIRONMENT)%')
-;
+$services->set(\Symfony\Component\HttpFoundation\Session\Flash\FlashBag::class);
+$services->alias(
+    \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface::class,
+    \Symfony\Component\HttpFoundation\Session\Flash\FlashBag::class,
+);
+
+$services->set(\Symfony\Component\HttpFoundation\Session\Session::class);
+$services->alias(
+    \Symfony\Component\HttpFoundation\Session\SessionInterface::class,
+    \Symfony\Component\HttpFoundation\Session\Session::class,
+);
 
 
 // Interfaces
@@ -85,6 +109,18 @@ $services->alias(
 $services->alias(
     \Jp\ArcsDesigner\Domain\Cards\CardRepositoryInterface::class,
     \Jp\ArcsDesigner\Infrastructure\DatabaseCardRepository::class
+);
+$services->alias(
+    \Jp\ArcsDesigner\Domain\LoginTokens\LoginTokenRepositoryInterface::class,
+    \Jp\ArcsDesigner\Infrastructure\DatabaseLoginTokenRepository::class
+);
+$services->alias(
+    \Jp\ArcsDesigner\Domain\Users\PasswordHashRepositoryInterface::class,
+    \Jp\ArcsDesigner\Infrastructure\DatabasePasswordHashRepository::class
+);
+$services->alias(
+    \Jp\ArcsDesigner\Domain\Users\UserRepositoryInterface::class,
+    \Jp\ArcsDesigner\Infrastructure\DatabaseUserRepository::class
 );
 
 

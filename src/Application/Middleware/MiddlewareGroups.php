@@ -6,21 +6,27 @@ namespace Jp\ArcsDesigner\Application\Middleware;
 final readonly class MiddlewareGroups
 {
     /**
-     * The default middleware group for json routes.
+     * The default middleware group to use for html routes
+     * that require the user to be logged in.
      *
-     * @var string[] $JSON
+     * @var string[] $REQUIRE_LOGIN_HTML
      */
-    public const array JSON = [
-        JsonErrorMiddleware::class,
+    public const array REQUIRE_LOGIN_HTML = [
+        HtmlErrorMiddleware::class,
+        LoginMiddleware::class,
+        RequireLoginHtmlMiddleware::class,
     ];
 
     /**
-     * The default middleware group for index routes.
+     * The default middleware group to use for html routes
+     * that require the user to be logged in.
      *
-     * @var string[] $HTML
+     * @var string[] $REQUIRE_LOGIN_JSON
      */
-    public const array HTML = [
-        HtmlErrorMiddleware::class,
+    public const array REQUIRE_LOGIN_JSON = [
+        JsonErrorMiddleware::class,
+        LoginMiddleware::class,
+        RequireLoginJsonMiddleware::class,
     ];
 
     /**

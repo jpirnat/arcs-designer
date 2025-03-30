@@ -1,0 +1,27 @@
+{% extends "html/base.twig" %}
+
+{% block styles %}
+    <link href="/css/login.css" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+{% verbatim %}
+<div id="app" v-cloak>
+    <form class="login__form">
+        <input type="email" name="emailAddress" placeholder="Email Address" v-model="emailAddress"
+            autocomplete="email"
+        >
+        <input type="password" name="password" placeholder="Password" v-model="password"
+            autocomplete="current-password"
+        >
+        <button type="button" class="login__button" @click="login" :disabled="loading">Login</button>
+    </form>
+</div>
+{% endverbatim %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.prod.min.js"></script>
+
+    <script type="module" src="/js/login.js"></script>
+{% endblock %}

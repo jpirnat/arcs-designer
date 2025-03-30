@@ -16,14 +16,16 @@ final readonly class DatabaseCardRepository implements CardRepositoryInterface
     ) {}
 
     /**
-     * @throws CardNotFoundException if no card exists with this id.
+     * @inheritDoc
      */
     public function getById(CardId $cardId): Card
     {
         $stmt = $this->db->prepare(
             'SELECT
-	            `name`
-            FROM cards WHERE id = :card_id'
+                `name`
+            FROM `cards`
+            WHERE id = :card_id
+            LIMIT 1'
         );
         $stmt->bindValue('card_id', $cardId->value, PDO::PARAM_INT);
         $stmt->execute();
@@ -33,6 +35,7 @@ final readonly class DatabaseCardRepository implements CardRepositoryInterface
             throw new CardNotFoundException("No card exists with id $cardId->value.");
         }
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         return new Card(
             $cardId,
             $result['name'],
@@ -40,7 +43,7 @@ final readonly class DatabaseCardRepository implements CardRepositoryInterface
     }
 
     /**
-     * @return Card[] Indexed by id.
+     * @inheritDoc
      */
     public function getAll(): array
     {
@@ -55,6 +58,7 @@ final readonly class DatabaseCardRepository implements CardRepositoryInterface
         $cards = [];
 
         while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            /** @noinspection PhpUnhandledExceptionInspection */
             $card = new Card(
                 new CardId($result['id']),
                 $result['name'],

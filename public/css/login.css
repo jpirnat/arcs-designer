@@ -1,0 +1,17 @@
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.login__button {
+    padding: 0.125rem 0.5rem;
+    cursor: pointer;
+}

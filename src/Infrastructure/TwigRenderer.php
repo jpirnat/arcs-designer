@@ -13,7 +13,7 @@ final readonly class TwigRenderer implements RendererInterface
     ) {}
 
     /**
-     * Render the template with this data.
+     * @inheritDoc
      */
     public function render(string $template, array $data = []): string
     {

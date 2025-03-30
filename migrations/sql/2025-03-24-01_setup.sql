@@ -19,6 +19,29 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE = InnoDB;
 
 
+CREATE TABLE IF NOT EXISTS `login_tokens` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    `user_id` INT UNSIGNED NOT NULL,
+    `selector` CHAR(16) NOT NULL,
+    `token_hash` CHAR(64) NOT NULL,
+    `expires` DATETIME NOT NULL,
+
+    `created_at` TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (`id`),
+    UNIQUE KEY (`selector`),
+    UNIQUE KEY (`token_hash`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+
 CREATE TABLE IF NOT EXISTS `cards` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 

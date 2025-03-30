@@ -22,27 +22,26 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
     ) {}
 
     /**
-     * @throws CardIterationNotFoundException if no card iteration exists with this id.
-     * @noinspection PhpDocMissingThrowsInspection
+     * @inheritDoc
      */
     public function getById(CardIterationId $iterationId): CardIteration
     {
         $stmt = $this->db->prepare(
             'SELECT
-	            `card_id`,
-	            `name`,
-	            `affinity_id`,
-	            `cost`,
-	            `enflowable`,
-	            `speed_modifier`,
-	            `zone_modifier`,
-	            `starting_life`,
-	            `burden`,
-	            `card_type`,
-	            `rules_text`,
-	            `attack`,
-	            `defense`,
-	            `created_at`
+                `card_id`,
+                `name`,
+                `affinity_id`,
+                `cost`,
+                `enflowable`,
+                `speed_modifier`,
+                `zone_modifier`,
+                `starting_life`,
+                `burden`,
+                `card_type`,
+                `rules_text`,
+                `attack`,
+                `defense`,
+                `created_at`
             FROM `card_iterations`
             WHERE `id` = :iteration_id
             LIMIT 1'
@@ -86,27 +85,26 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
     }
 
     /**
-     * @return CardIteration[] Indexed by id. Ordered by created at.
-     * @noinspection PhpDocMissingThrowsInspection
+     * @inheritDoc
      */
     public function getByCard(CardId $cardId): array
     {
         $stmt = $this->db->prepare(
             'SELECT
-	            `id`,
-	            `name`,
-	            `affinity_id`,
-	            `cost`,
-	            `enflowable`,
-	            `speed_modifier`,
-	            `zone_modifier`,
-	            `starting_life`,
-	            `burden`,
-	            `card_type`,
-	            `rules_text`,
-	            `attack`,
-	            `defense`,
-	            `created_at`
+                `id`,
+                `name`,
+                `affinity_id`,
+                `cost`,
+                `enflowable`,
+                `speed_modifier`,
+                `zone_modifier`,
+                `starting_life`,
+                `burden`,
+                `card_type`,
+                `rules_text`,
+                `attack`,
+                `defense`,
+                `created_at`
             FROM `card_iterations`
             WHERE `card_id` = :card_id
             ORDER BY `created_at` DESC'
@@ -231,9 +229,9 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
     {
         $stmt = $this->db->prepare(
             'SELECT
-	            1
-	        FROM `current_iterations`
-	        WHERE `card_id` = :card_id'
+                1
+            FROM `current_iterations`
+            WHERE `card_id` = :card_id'
         );
         $stmt->bindValue(':card_id', $cardId->value, PDO::PARAM_INT);
         $stmt->execute();
@@ -272,10 +270,10 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
     {
         $stmt = $this->db->prepare(
             'SELECT
-	            `iteration_id`
-	        FROM `current_iterations`
-	        WHERE `card_id` = :card_id
-	        LIMIT 1'
+                `iteration_id`
+            FROM `current_iterations`
+            WHERE `card_id` = :card_id
+            LIMIT 1'
         );
         $stmt->bindValue(':card_id', $cardId->value, PDO::PARAM_INT);
         $stmt->execute();

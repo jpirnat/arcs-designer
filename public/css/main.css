@@ -12,13 +12,16 @@ html {
 }
 
 body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
     font-family: Helvetica, sans-serif;
+}
+
+main {
+    flex: 1;
 }
 
 [v-cloak] {
     display: none;
-}
-
-main {
-    padding: 1rem 0;
 }
