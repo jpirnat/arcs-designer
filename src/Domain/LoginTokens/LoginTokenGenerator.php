@@ -20,7 +20,9 @@ final readonly class LoginTokenGenerator
      */
     public function generateFor(UserId $userId): LoginToken
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $selector = bin2hex(random_bytes(8)); // length 16
+        /** @noinspection PhpUnhandledExceptionInspection */
         $token = bin2hex(random_bytes(16)); // length 32
         $tokenHash = hash('sha256', $token); // length 64
 

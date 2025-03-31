@@ -19,6 +19,7 @@ final readonly class CardView
             'iterations' => $this->model->iterations,
             'current' => $this->model->current,
             'comparing' => $this->model->comparing,
+            'comments' => $this->model->comments,
             'affinities' => $this->model->affinities,
             'speedModifiers' => $this->model->speedModifiers,
             'zoneModifiers' => $this->model->zoneModifiers,

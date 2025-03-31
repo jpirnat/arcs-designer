@@ -302,7 +302,7 @@
 
             <div class="card-editor__actions">
                 <button type="button" class="card-editor__button" @click="copyComparingIntoCurrent"
-                    :disabled="loading"
+                    :disabled="loading || !changedComparing"
                 >Copy into Current</button>
 
                 <button type="button" class="card-editor__button" @click="setComparingAsCurrent"

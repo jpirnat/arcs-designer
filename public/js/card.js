@@ -9,6 +9,7 @@ const app = createApp({
             iterations: [],
             current: {},
             comparing: null,
+            comments: [],
             affinities: [],
             speedModifiers: [],
             zoneModifiers: [],
@@ -144,6 +145,7 @@ const app = createApp({
         this.current = data.current;
         this.comparing = data.comparing;
         this.affinities = data.affinities;
+        this.comments = data.comments;
         this.speedModifiers = data.speedModifiers;
         this.zoneModifiers = data.zoneModifiers;
         this.cardTypes = data.cardTypes;

@@ -22,6 +22,7 @@ final readonly class LoginTokenAuthenticator
     public function __construct(
         private LoginTokenRepositoryInterface $loginTokenRepository,
     ) {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $dummyToken = bin2hex(random_bytes(16)); // length 32
         $this->dummyHash = hash('sha256', $dummyToken); // length 64
     }

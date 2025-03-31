@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Jp\ArcsDesigner\Application\Models;
 
 use Jp\ArcsDesigner\Domain\Affinities\AffinityRepositoryInterface;
+use Jp\ArcsDesigner\Domain\CardComments\CardComment;
+use Jp\ArcsDesigner\Domain\CardComments\CardCommentRepositoryInterface;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIteration;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIterationRepositoryInterface;
 use Jp\ArcsDesigner\Domain\CardIterations\CardType;
@@ -17,6 +19,7 @@ final class CardModel
     private(set) array $iterations = [];
     private(set) array $current = [];
     private(set) ?array $comparing = null;
+    private(set) array $comments = [];
     private(set) array $affinities = [];
     private(set) array $speedModifiers = [];
     private(set) array $zoneModifiers = [];
@@ -25,6 +28,7 @@ final class CardModel
 
     public function __construct(
         private readonly CardIterationRepositoryInterface $iterationRepository,
+        private readonly CardCommentRepositoryInterface $commentRepository,
         private readonly UserRepositoryInterface $userRepository,
         private readonly AffinityRepositoryInterface $affinityRepository,
     ) {}
@@ -33,6 +37,7 @@ final class CardModel
     {
         $this->iterations = [];
         $this->comparing = null;
+        $this->comments = [];
         $this->affinities = [];
         $this->speedModifiers = [];
         $this->zoneModifiers = [];
@@ -63,6 +68,7 @@ final class CardModel
         $this->iterations = [];
         $this->current = [];
         $this->comparing = null;
+        $this->comments = [];
         $this->affinities = [];
         $this->speedModifiers = [];
         $this->zoneModifiers = [];
@@ -77,6 +83,11 @@ final class CardModel
         $iterations = $this->iterationRepository->getByCard($cardId);
         foreach ($iterations as $iteration) {
             $this->iterations[] = $this->getIterationData($iteration);
+        }
+
+        $comments = $this->commentRepository->getByCard($cardId);
+        foreach ($comments as $comment) {
+            $this->comments[] = $this->getCommentData($comment);
         }
 
         $this->setCommonData();
@@ -103,6 +114,19 @@ final class CardModel
             'defense' => $iteration->defense,
             'createdBy' => $user->displayName,
             'createdAt' => $iteration->createdAt->format('M j, Y g:ia'),
+        ];
+    }
+
+    private function getCommentData(CardComment $comment): array
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $user = $this->userRepository->getById($comment->createdBy);
+
+        return [
+            'iterationId' => $comment->iterationId->value,
+            'text' => $comment->text,
+            'createdBy' => $user->displayName,
+            'createdAt' => $comment->createdAt->format('M j, Y g:ia'),
         ];
     }
 

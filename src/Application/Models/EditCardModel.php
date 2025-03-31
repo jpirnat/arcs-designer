@@ -23,6 +23,7 @@ use Jp\ArcsDesigner\Domain\CardIterations\ZoneModifier;
 use Jp\ArcsDesigner\Domain\Cards\Card;
 use Jp\ArcsDesigner\Domain\Cards\CardId;
 use Jp\ArcsDesigner\Domain\Cards\CardRepositoryInterface;
+use Jp\ArcsDesigner\Domain\Cards\Status;
 use Jp\ArcsDesigner\Domain\Users\UserId;
 
 final class EditCardModel
@@ -98,16 +99,10 @@ final class EditCardModel
             ? (int) $defense
             : null;
 
-        try {
-            $card = new Card(
-                new CardId(),
-                $name,
-            );
-        } catch (InvalidNameException $e) {
-            $this->errorMessage = $e->getMessage();
-            return;
-        }
-
+        $card = new Card(
+            new CardId(),
+            new Status(Status::IN_PROGRESS),
+        );
         $this->cardRepository->save($card);
 
         try {
@@ -252,11 +247,5 @@ final class EditCardModel
         }
 
         $this->iterationRepository->save($new);
-
-        // Update the card's name.
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $card = $this->cardRepository->getById($new->cardId);
-        $card->name = $new->name;
-        $this->cardRepository->save($card);
     }
 }

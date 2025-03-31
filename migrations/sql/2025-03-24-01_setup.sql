@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `login_tokens` (
 CREATE TABLE IF NOT EXISTS `cards` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 
-    `name` VARCHAR(32) NOT NULL,
+    `status` VARCHAR(16) NOT NULL,
 
     `created_at` TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
@@ -197,9 +197,9 @@ CREATE TABLE IF NOT EXISTS `card_comments` (
 
     `card_id` INT UNSIGNED NOT NULL,
     `iteration_id` INT UNSIGNED NOT NULL,
-    `user_id` INT UNSIGNED NOT NULL,
     `text` TEXT NOT NULL,
 
+    `created_by` INT UNSIGNED NOT NULL,
     `created_at` TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL
@@ -213,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `card_comments` (
     FOREIGN KEY `iteration_id` (`iteration_id`) REFERENCES `card_iterations` (`id`)
         ON DELETE RESTRICT
         ON UPDATE CASCADE,
-    FOREIGN KEY `user_id` (`user_id`) REFERENCES `users` (`id`)
+    FOREIGN KEY (`created_by`) REFERENCES `users` (`id`)
         ON DELETE RESTRICT
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;

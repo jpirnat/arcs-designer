@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Jp\ArcsDesigner\Domain\CardComments;
 
+use DateTimeImmutable;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIterationId;
 use Jp\ArcsDesigner\Domain\Cards\CardId;
 use Jp\ArcsDesigner\Domain\Users\UserId;
@@ -14,7 +15,6 @@ final class CardComment
     private(set) readonly CardCommentId $id;
     private(set) readonly CardId $cardId;
     private(set) readonly CardIterationId $iterationId;
-    private(set) readonly UserId $userId;
 
     public string $text {
         set {
@@ -31,19 +31,24 @@ final class CardComment
         }
     }
 
+    private(set) readonly UserId $createdBy;
+    private(set) DateTimeImmutable $createdAt;
+
     private const int MAX_LENGTH_TEXT = 1024;
 
     public function __construct(
         CardCommentId $id,
         CardId $cardId,
         CardIterationId $iterationId,
-        UserId $userId,
         string $text,
+        UserId $createdBy,
+        DateTimeImmutable $createdAt,
     ) {
         $this->id = $id;
         $this->cardId = $cardId;
         $this->iterationId = $iterationId;
-        $this->userId = $userId;
         $this->text = $text;
+        $this->createdBy = $createdBy;
+        $this->createdAt = $createdAt;
     }
 }

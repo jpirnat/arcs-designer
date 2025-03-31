@@ -7,6 +7,7 @@ use Jp\ArcsDesigner\Domain\Cards\Card;
 use Jp\ArcsDesigner\Domain\Cards\CardId;
 use Jp\ArcsDesigner\Domain\Cards\CardNotFoundException;
 use Jp\ArcsDesigner\Domain\Cards\CardRepositoryInterface;
+use Jp\ArcsDesigner\Domain\Cards\Status;
 use PDO;
 
 final readonly class DatabaseCardRepository implements CardRepositoryInterface
@@ -22,7 +23,7 @@ final readonly class DatabaseCardRepository implements CardRepositoryInterface
     {
         $stmt = $this->db->prepare(
             'SELECT
-                `name`
+                `status`
             FROM `cards`
             WHERE id = :card_id
             LIMIT 1'
@@ -38,7 +39,7 @@ final readonly class DatabaseCardRepository implements CardRepositoryInterface
         /** @noinspection PhpUnhandledExceptionInspection */
         return new Card(
             $cardId,
-            $result['name'],
+            new Status($result['status']),
         );
     }
 
@@ -50,7 +51,7 @@ final readonly class DatabaseCardRepository implements CardRepositoryInterface
         $stmt = $this->db->prepare(
             'SELECT
                 `id`,
-                `name`
+                `status`
             FROM `cards`'
         );
         $stmt->execute();
@@ -61,7 +62,7 @@ final readonly class DatabaseCardRepository implements CardRepositoryInterface
             /** @noinspection PhpUnhandledExceptionInspection */
             $card = new Card(
                 new CardId($result['id']),
-                $result['name'],
+                new Status($result['status']),
             );
 
             $cards[$result['id']] = $card;
@@ -83,12 +84,12 @@ final readonly class DatabaseCardRepository implements CardRepositoryInterface
     {
         $stmt = $this->db->prepare(
             'INSERT INTO `cards` (
-                `name`
+                `status`
             ) VALUES (
-                :name
+                :status
             )'
         );
-        $stmt->bindValue(':name', $card->name);
+        $stmt->bindValue(':status', $card->status->value);
         $stmt->execute();
 
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -101,10 +102,10 @@ final readonly class DatabaseCardRepository implements CardRepositoryInterface
     {
         $stmt = $this->db->prepare(
             'UPDATE `cards` SET
-                `name` = :name
+                `status` = :status
             WHERE `id` = :card_id'
         );
-        $stmt->bindValue(':name', $card->name);
+        $stmt->bindValue(':status', $card->status->value);
         $stmt->bindValue(':card_id', $card->id, PDO::PARAM_INT);
         $stmt->execute();
     }
