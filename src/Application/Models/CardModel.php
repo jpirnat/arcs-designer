@@ -72,15 +72,11 @@ final class CardModel
         $cardId = new CardId((int) $cardId);
         $iteration = $this->iterationRepository->getCurrent($cardId);
         $this->current = $this->getIterationData($iteration);
+        $this->comparing = $this->current;
 
         $iterations = $this->iterationRepository->getByCard($cardId);
         foreach ($iterations as $iteration) {
             $this->iterations[] = $this->getIterationData($iteration);
-
-            // Compare to the most recent iteration that isn't the current iteration.
-            if (!$this->comparing && $iteration->id->value !== $this->current['iterationId']) {
-                $this->comparing = $this->getIterationData($iteration);
-            }
         }
 
         $this->setCommonData();

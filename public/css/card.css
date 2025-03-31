@@ -31,6 +31,9 @@ a.iteration-reel__iteration {
     background: var(--color-red);
     cursor: default;
 }
+.iteration-reel__iteration--current.iteration-reel__iteration--comparing {
+    background-image: linear-gradient(135deg, var(--color-green) 50%, var(--color-red) 50%);
+}
 .iteration-reel__iteration:not(.iteration-reel__iteration--current):not(.iteration-reel__iteration--comparing):hover {
     background: #ddd;
 }
@@ -47,7 +50,7 @@ a.iteration-reel__iteration {
 .card-editor__title--current {
     background: var(--color-green);
 }
-.card-editor__title--previous {
+.card-editor__title--comparing {
     background: var(--color-red);
 }
 

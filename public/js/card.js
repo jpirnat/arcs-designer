@@ -18,6 +18,111 @@ const app = createApp({
             original: {},
         };
     },
+    computed: {
+        changedOriginalCost() {
+            return this.current.cost !== this.original.cost;
+        },
+        changedOriginalName() {
+            return this.current.name !== this.original.name;
+        },
+        changedOriginalStartingLife() {
+            return this.current.startingLife !== this.original.startingLife;
+        },
+        changedOriginalEnflowable() {
+            return this.current.enflowable !== this.original.enflowable;
+        },
+        changedOriginalBurden() {
+            return this.current.burden !== this.original.burden;
+        },
+        changedOriginalAffinity() {
+            return this.current.affinityId !== this.original.affinityId;
+        },
+        changedOriginalSpeedModifier() {
+            return this.current.speedModifier !== this.original.speedModifier;
+        },
+        changedOriginalZoneModifier() {
+            return this.current.zoneModifier !== this.original.zoneModifier;
+        },
+        changedOriginalCardType() {
+            return this.current.cardType !== this.original.cardType;
+        },
+        changedOriginalRulesText() {
+            return this.current.rulesText !== this.original.rulesText;
+        },
+        changedOriginalAttack() {
+            return this.current.attack !== this.original.attack;
+        },
+        changedOriginalDefense() {
+            return this.current.defense !== this.original.defense;
+        },
+        changedOriginal() {
+            return this.changedOriginalCost
+                || this.changedOriginalName
+                || this.changedOriginalStartingLife
+                || this.changedOriginalEnflowable
+                || this.changedOriginalBurden
+                || this.changedOriginalAffinity
+                || this.changedOriginalSpeedModifier
+                || this.changedOriginalZoneModifier
+                || this.changedOriginalCardType
+                || this.changedOriginalRulesText
+                || this.changedOriginalAttack
+                || this.changedOriginalDefense
+            ;
+        },
+
+        changedComparingCost() {
+            return this.current.cost !== this.comparing.cost;
+        },
+        changedComparingName() {
+            return this.current.name !== this.comparing.name;
+        },
+        changedComparingStartingLife() {
+            return this.current.startingLife !== this.comparing.startingLife;
+        },
+        changedComparingEnflowable() {
+            return this.current.enflowable !== this.comparing.enflowable;
+        },
+        changedComparingBurden() {
+            return this.current.burden !== this.comparing.burden;
+        },
+        changedComparingAffinity() {
+            return this.current.affinityId !== this.comparing.affinityId;
+        },
+        changedComparingSpeedModifier() {
+            return this.current.speedModifier !== this.comparing.speedModifier;
+        },
+        changedComparingZoneModifier() {
+            return this.current.zoneModifier !== this.comparing.zoneModifier;
+        },
+        changedComparingCardType() {
+            return this.current.cardType !== this.comparing.cardType;
+        },
+        changedComparingRulesText() {
+            return this.current.rulesText !== this.comparing.rulesText;
+        },
+        changedComparingAttack() {
+            return this.current.attack !== this.comparing.attack;
+        },
+        changedComparingDefense() {
+            return this.current.defense !== this.comparing.defense;
+        },
+        changedComparing() {
+            return this.changedComparingCost
+                || this.changedComparingName
+                || this.changedComparingStartingLife
+                || this.changedComparingEnflowable
+                || this.changedComparingBurden
+                || this.changedComparingAffinity
+                || this.changedComparingSpeedModifier
+                || this.changedComparingZoneModifier
+                || this.changedComparingCardType
+                || this.changedComparingRulesText
+                || this.changedComparingAttack
+                || this.changedComparingDefense
+            ;
+        },
+    },
     async created() {
         const url = new URL(window.location);
 
@@ -62,11 +167,6 @@ const app = createApp({
     },
     methods: {
         compare(iteration) {
-            if (iteration.iterationId === this.current.iterationId) {
-                this.comparing = null;
-                return;
-            }
-
             this.comparing = iteration;
         },
 
@@ -149,8 +249,6 @@ const app = createApp({
             this.current.rulesText = this.comparing.rulesText;
             this.current.attack = this.comparing.attack;
             this.current.defense = this.comparing.defense;
-
-            this.comparing = null;
         },
 
         setComparingAsCurrent() {

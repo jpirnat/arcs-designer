@@ -28,23 +28,36 @@
 
             <div class="card-editor">
                 <div class="card-editor__line">
-                    <input type="number" min="0" step="1" class="card-editor__cost"
-                        v-model="current.cost" placeholder="Cost"
+                    <input type="number" min="0" step="1" placeholder="Cost"
+                        v-model="current.cost"
+                        :class="{
+                            'card-editor__cost': true,
+                            'card-editor__changed': changedOriginalCost,
+                        }"
                     >
 
-                    <input type="text" class="card-editor__name" v-model="current.name"
-                        :maxlength="maxLengths.name" placeholder="Card Name"
+                    <input type="text" :maxlength="maxLengths.name" placeholder="Card Name"
+                        v-model="current.name"
+                        :class="{
+                            'card-editor__name': true,
+                            'card-editor__changed': changedOriginalName,
+                        }"
                     >
 
-                    <input type="number" min="1" step="1" class="card-editor__starting-life" v-if="showLifeBurden(current)"
-                        v-model="current.startingLife" placeholder="Life"
+                    <input type="number" min="1" step="1" placeholder="Life"
+                        v-if="showLifeBurden(current)"
+                        v-model="current.startingLife"
+                        :class="{
+                            'card-editor__starting-life': true,
+                            'card-editor__changed': changedOriginalStartingLife,
+                        }"
                     >
                 </div>
 
                 <div class="card-editor__line card-editor__line--enflowable-burden">
                     <select v-model="current.enflowable"
                         :class="{
-                            'card-editor__changed': current.enflowable !== original.enflowable,
+                            'card-editor__changed': changedOriginalEnflowable,
                         }"
                     >
                         <option :value="null">???</option>
@@ -52,12 +65,12 @@
                         <option :value="false">Not Enflowable</option>
                     </select>
 
-                    <input type="number" min="0" step="1" placeholder="Burden" class="card-editor__burden"
+                    <input type="number" min="0" step="1" placeholder="Burden"
                         v-if="showLifeBurden(current)"
                         v-model="current.burden"
                         :class="{
                             'card-editor__burden': true,
-                            'card-editor__changed': current.burden !== original.burden,
+                            'card-editor__changed': changedOriginalBurden,
                         }"
                     >
                 </div>
@@ -65,7 +78,7 @@
                 <div class="card-editor__line">
                     <select v-model="current.affinityId"
                         :class="{
-                            'card-editor__changed': current.affinityId !== original.affinityId,
+                            'card-editor__changed': changedOriginalAffinity,
                         }"
                     >
                         <option :value="null">[Affinity TBD]</option>
@@ -78,7 +91,7 @@
                 <div class="card-editor__line">
                     <select v-model="current.speedModifier"
                         :class="{
-                            'card-editor__changed': current.speedModifier !== original.speedModifier,
+                            'card-editor__changed': changedOriginalSpeedModifier,
                         }"
                     >
                         <option :value="null">???</option>
@@ -89,7 +102,7 @@
 
                     <select v-model="current.zoneModifier"
                         :class="{
-                            'card-editor__changed': current.zoneModifier !== original.zoneModifier,
+                            'card-editor__changed': changedOriginalZoneModifier,
                         }"
                     >
                         <option :value="null">???</option>
@@ -100,7 +113,7 @@
 
                     <select v-model="current.cardType"
                         :class="{
-                            'card-editor__changed': current.cardType !== original.cardType,
+                            'card-editor__changed': changedOriginalCardType,
                         }"
                     >
                         <option :value="null">???</option>
@@ -114,7 +127,7 @@
                     <textarea :maxlength="maxLengths.rulesText"
                         :class="{
                             'card-editor__rules-text': true,
-                            'card-editor__changed': current.rulesText !== original.rulesText,
+                            'card-editor__changed': changedOriginalRulesText,
                         }"
                         v-model="current.rulesText"
                     ></textarea>
@@ -124,14 +137,14 @@
                     <input type="number" step="1" placeholder="Atk"
                         :class="{
                             'card-editor__attack': true,
-                            'card-editor__changed': current.attack !== original.attack,
+                            'card-editor__changed': changedOriginalAttack,
                         }"
                         v-model="current.attack"
                     >
                     <input type="number" step="1" placeholder="Def"
                         :class="{
                             'card-editor__defense': true,
-                            'card-editor__changed': current.defense !== original.defense,
+                            'card-editor__changed': changedOriginalDefense,
                         }"
                         v-model="current.defense"
                     >
@@ -140,17 +153,17 @@
 
             <div class="card-editor__actions">
                 <button type="button" class="card-editor__button" @click="save"
-                    :disabled="loading"
+                    :disabled="loading || !changedOriginal"
                 >Save</button>
 
                 <button type="button" class="card-editor__button" @click="resetChanges"
-                    :disabled="loading"
+                    :disabled="loading || !changedOriginal"
                 >Reset Changes</button>
             </div>
         </div>
 
         <div class="card-editor__iteration" v-if="comparing !== null">
-            <div class="card-editor__title card-editor__title--previous">Previous Version</div>
+            <div class="card-editor__title card-editor__title--comparing">Comparing Version</div>
 
             <div class="card-editor">
                 <div class="card-editor__line">
@@ -158,7 +171,7 @@
                         v-model="comparing.cost"
                         :class="{
                             'card-editor__cost': true,
-                            'card-editor__changed': current.cost !== comparing.cost,
+                            'card-editor__changed': changedComparingCost,
                         }"
                     >
 
@@ -166,7 +179,7 @@
                         v-model="comparing.name"
                         :class="{
                             'card-editor__name': true,
-                            'card-editor__changed': current.name !== comparing.name,
+                            'card-editor__changed': changedComparingName,
                         }"
                     >
 
@@ -175,7 +188,7 @@
                         v-model="comparing.startingLife"
                         :class="{
                             'card-editor__starting-life': true,
-                            'card-editor__changed': current.startingLife !== comparing.startingLife,
+                            'card-editor__changed': changedComparingStartingLife,
                         }"
                     >
                 </div>
@@ -183,7 +196,7 @@
                 <div class="card-editor__line card-editor__line--enflowable-burden">
                     <select v-model="comparing.enflowable" disabled
                         :class="{
-                            'card-editor__changed': current.enflowable !== comparing.enflowable,
+                            'card-editor__changed': changedComparingEnflowable,
                         }"
                     >
                         <option :value="null">???</option>
@@ -196,7 +209,7 @@
                         v-model="comparing.burden"
                         :class="{
                             'card-editor__burden': true,
-                            'card-editor__changed': current.burden !== comparing.burden,
+                            'card-editor__changed': changedComparingBurden,
                         }"
                     >
                 </div>
@@ -204,7 +217,7 @@
                 <div class="card-editor__line">
                     <select v-model="comparing.affinityId" disabled
                         :class="{
-                            'card-editor__changed': current.affinityId !== comparing.affinityId,
+                            'card-editor__changed': changedComparingAffinity,
                         }"
                     >
                         <option :value="null">[Affinity TBD]</option>
@@ -217,7 +230,7 @@
                 <div class="card-editor__line">
                     <select v-model="comparing.speedModifier" disabled
                         :class="{
-                            'card-editor__changed': current.speedModifier !== comparing.speedModifier,
+                            'card-editor__changed': changedComparingSpeedModifier,
                         }"
                     >
                         <option :value="null">???</option>
@@ -228,7 +241,7 @@
 
                     <select v-model="comparing.zoneModifier" disabled
                         :class="{
-                            'card-editor__changed': current.zoneModifier !== comparing.zoneModifier,
+                            'card-editor__changed': changedComparingZoneModifier,
                         }"
                     >
                         <option :value="null">???</option>
@@ -239,7 +252,7 @@
 
                     <select v-model="comparing.cardType" disabled
                         :class="{
-                            'card-editor__changed': current.cardType !== comparing.cardType,
+                            'card-editor__changed': changedComparingCardType,
                         }"
                     >
                         <option :value="null">???</option>
@@ -253,7 +266,7 @@
                     <textarea :maxlength="maxLengths.rulesText" disabled
                         :class="{
                             'card-editor__rules-text': true,
-                            'card-editor__changed': current.rulesText !== comparing.rulesText,
+                            'card-editor__changed': changedComparingRulesText,
                         }"
                         v-model="comparing.rulesText"
                     ></textarea>
@@ -263,14 +276,14 @@
                     <input type="number" step="1" placeholder="Atk" disabled
                         :class="{
                             'card-editor__attack': true,
-                            'card-editor__changed': current.attack !== comparing.attack,
+                            'card-editor__changed': changedComparingAttack,
                         }"
                         v-model="comparing.attack"
                     >
                     <input type="number" step="1" placeholder="Def" disabled
                         :class="{
                             'card-editor__defense': true,
-                            'card-editor__changed': current.defense !== comparing.defense,
+                            'card-editor__changed': changedComparingDefense,
                         }"
                         v-model="comparing.defense"
                     >
