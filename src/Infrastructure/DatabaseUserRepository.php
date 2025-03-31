@@ -18,6 +18,34 @@ final readonly class DatabaseUserRepository implements UserRepositoryInterface
     /**
      * @inheritDoc
      */
+    public function getById(UserId $userId): User
+    {
+        $stmt = $this->db->prepare(
+            'SELECT
+                `email_address`,
+                `display_name`
+            FROM `users`
+            WHERE `id` = :user_id
+            LIMIT 1'
+        );
+        $stmt->bindValue('user_id', $userId->value, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$result) {
+            throw new UserNotFoundException("No user exists with id $userId->value.");
+        }
+
+        return new User(
+            $userId,
+            $result['email_address'],
+            $result['display_name'],
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getByEmailAddress(string $emailAddress): User
     {
         $stmt = $this->db->prepare(

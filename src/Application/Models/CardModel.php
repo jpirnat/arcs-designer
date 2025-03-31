@@ -10,6 +10,7 @@ use Jp\ArcsDesigner\Domain\CardIterations\CardType;
 use Jp\ArcsDesigner\Domain\CardIterations\SpeedModifier;
 use Jp\ArcsDesigner\Domain\CardIterations\ZoneModifier;
 use Jp\ArcsDesigner\Domain\Cards\CardId;
+use Jp\ArcsDesigner\Domain\Users\UserRepositoryInterface;
 
 final class CardModel
 {
@@ -24,6 +25,7 @@ final class CardModel
 
     public function __construct(
         private readonly CardIterationRepositoryInterface $iterationRepository,
+        private readonly UserRepositoryInterface $userRepository,
         private readonly AffinityRepositoryInterface $affinityRepository,
     ) {}
 
@@ -86,6 +88,9 @@ final class CardModel
 
     private function getIterationData(CardIteration $iteration): array
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $user = $this->userRepository->getById($iteration->createdBy);
+
         return [
             'iterationId' => $iteration->id->value,
             'name' => $iteration->name,
@@ -100,6 +105,7 @@ final class CardModel
             'rulesText' => $iteration->rulesText,
             'attack' => $iteration->attack,
             'defense' => $iteration->defense,
+            'createdBy' => $user->displayName,
             'createdAt' => $iteration->createdAt->format('M j, Y g:ia'),
         ];
     }

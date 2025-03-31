@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace Jp\ArcsDesigner\Application\Controllers;
 
+use Jp\ArcsDesigner\Application\Models\BaseModel;
 use Jp\ArcsDesigner\Application\Models\EditCardModel;
 use Psr\Http\Message\ServerRequestInterface;
 
 final readonly class EditCardController
 {
     public function __construct(
+        private BaseModel $baseModel,
         private EditCardModel $model,
     ) {}
 
@@ -18,6 +20,7 @@ final readonly class EditCardController
         $body = $request->getBody()->getContents();
         $data = json_decode($body, true);
 
+        $userId = $this->baseModel->userId;
         $name = (string) ($data['name'] ?? '');
         $affinityId = (string) ($data['affinityId'] ?? '');
         $cost = (string) ($data['cost'] ?? '');
@@ -32,6 +35,7 @@ final readonly class EditCardController
         $defense = (string) ($data['defense'] ?? '');
 
         $this->model->addCard(
+            $userId,
             $name,
             $affinityId,
             $cost,
@@ -53,6 +57,7 @@ final readonly class EditCardController
         $body = $request->getBody()->getContents();
         $data = json_decode($body, true);
 
+        $userId = $this->baseModel->userId;
         $iterationId = (string) ($data['iterationId'] ?? '');
         $name = (string) ($data['name'] ?? '');
         $affinityId = (string) ($data['affinityId'] ?? '');
@@ -72,6 +77,7 @@ final readonly class EditCardController
         $defense = (string) ($data['defense'] ?? '');
 
         $this->model->editCard(
+            $userId,
             $iterationId,
             $name,
             $affinityId,

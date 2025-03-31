@@ -6,6 +6,7 @@ namespace Jp\ArcsDesigner\Domain\CardIterations;
 use DateTimeImmutable;
 use Jp\ArcsDesigner\Domain\Affinities\AffinityId;
 use Jp\ArcsDesigner\Domain\Cards\CardId;
+use Jp\ArcsDesigner\Domain\Users\UserId;
 use function mb_strlen;
 use function mb_trim;
 
@@ -81,6 +82,7 @@ final class CardIteration
 
     public ?int $attack;
     public ?int $defense;
+    private(set) UserId $createdBy;
     private(set) readonly DateTimeImmutable $createdAt;
 
     public const int MAX_LENGTH_NAME = 32;
@@ -109,6 +111,7 @@ final class CardIteration
         string $rulesText,
         ?int $attack,
         ?int $defense,
+        UserId $createdBy,
         DateTimeImmutable $createdAt,
     ) {
         $this->id = $id;
@@ -125,6 +128,7 @@ final class CardIteration
         $this->rulesText = $rulesText;
         $this->attack = $attack;
         $this->defense = $defense;
+        $this->createdBy = $createdBy;
         $this->createdAt = $createdAt;
     }
 

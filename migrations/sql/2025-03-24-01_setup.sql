@@ -152,6 +152,7 @@ CREATE TABLE IF NOT EXISTS `card_iterations` (
     `attack` INT SIGNED NULL,
     `defense` INT SIGNED NULL,
 
+    `created_by` INT UNSIGNED NOT NULL,
     `created_at` TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL
@@ -163,6 +164,9 @@ CREATE TABLE IF NOT EXISTS `card_iterations` (
         ON DELETE RESTRICT
         ON UPDATE CASCADE,
     FOREIGN KEY `affinity_id` (`affinity_id`) REFERENCES `affinities` (`id`)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+    FOREIGN KEY (`created_by`) REFERENCES `users` (`id`)
         ON DELETE RESTRICT
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;

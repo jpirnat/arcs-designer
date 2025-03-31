@@ -23,6 +23,7 @@ use Jp\ArcsDesigner\Domain\CardIterations\ZoneModifier;
 use Jp\ArcsDesigner\Domain\Cards\Card;
 use Jp\ArcsDesigner\Domain\Cards\CardId;
 use Jp\ArcsDesigner\Domain\Cards\CardRepositoryInterface;
+use Jp\ArcsDesigner\Domain\Users\UserId;
 
 final class EditCardModel
 {
@@ -35,6 +36,7 @@ final class EditCardModel
 
     /** @noinspection DuplicatedCode */
     public function addCard(
+        UserId $userId,
         string $name,
         string $affinityId,
         string $cost,
@@ -124,6 +126,7 @@ final class EditCardModel
                 $rulesText,
                 $attack,
                 $defense,
+                $userId,
                 new DateTimeImmutable(),
             );
         } catch (
@@ -142,6 +145,7 @@ final class EditCardModel
 
     /** @noinspection DuplicatedCode */
     public function editCard(
+        UserId $userId,
         string $iterationId,
         string $name,
         string $affinityId,
@@ -227,6 +231,7 @@ final class EditCardModel
                 $rulesText,
                 $attack,
                 $defense,
+                $userId,
                 new DateTimeImmutable(),
             );
         } catch (

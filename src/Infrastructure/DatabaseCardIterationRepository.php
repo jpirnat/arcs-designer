@@ -13,6 +13,7 @@ use Jp\ArcsDesigner\Domain\CardIterations\CardType;
 use Jp\ArcsDesigner\Domain\CardIterations\SpeedModifier;
 use Jp\ArcsDesigner\Domain\CardIterations\ZoneModifier;
 use Jp\ArcsDesigner\Domain\Cards\CardId;
+use Jp\ArcsDesigner\Domain\Users\UserId;
 use PDO;
 
 final readonly class DatabaseCardIterationRepository implements CardIterationRepositoryInterface
@@ -41,6 +42,7 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 `rules_text`,
                 `attack`,
                 `defense`,
+                `created_by`,
                 `created_at`
             FROM `card_iterations`
             WHERE `id` = :iteration_id
@@ -80,6 +82,7 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
             $result['rules_text'],
             $result['attack'],
             $result['defense'],
+            new UserId($result['created_by']),
             new DateTimeImmutable($result['created_at']),
         );
     }
@@ -104,6 +107,7 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 `rules_text`,
                 `attack`,
                 `defense`,
+                `created_by`,
                 `created_at`
             FROM `card_iterations`
             WHERE `card_id` = :card_id
@@ -141,6 +145,7 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 $result['rules_text'],
                 $result['attack'],
                 $result['defense'],
+                new UserId($result['created_by']),
                 new DateTimeImmutable($result['created_at']),
             );
 
@@ -173,7 +178,8 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 `card_type`,
                 `rules_text`,
                 `attack`,
-                `defense`
+                `defense`,
+                `created_by`
             ) VALUES (
                 :card_id,
                 :name,
@@ -187,7 +193,8 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 :card_type,
                 :rules_text,
                 :attack,
-                :defense
+                :defense,
+                :created_by
             )'
         );
         $stmt->bindValue(':card_id', $iteration->cardId->value);
@@ -203,6 +210,7 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
         $stmt->bindValue(':rules_text', $iteration->rulesText);
         $stmt->bindValue(':attack', $iteration->attack, PDO::PARAM_INT);
         $stmt->bindValue(':defense', $iteration->defense, PDO::PARAM_INT);
+        $stmt->bindValue(':created_by', $iteration->createdBy->value, PDO::PARAM_INT);
         $stmt->execute();
 
         /** @noinspection PhpUnhandledExceptionInspection */
