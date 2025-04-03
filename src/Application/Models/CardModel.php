@@ -46,6 +46,7 @@ final class CardModel
 
         $this->current = [
             'iterationId' => null,
+            'cardId' => null,
             'name' => '',
             'affinityId' => null,
             'cost' => null,
@@ -100,6 +101,7 @@ final class CardModel
 
         return [
             'iterationId' => $iteration->id->value,
+            'cardId' => $iteration->cardId->value,
             'name' => $iteration->name,
             'affinityId' => $iteration->affinityId?->value,
             'cost' => $iteration->cost,
@@ -123,6 +125,7 @@ final class CardModel
         $user = $this->userRepository->getById($comment->createdBy);
 
         return [
+            'id' => $comment->id->value,
             'iterationId' => $comment->iterationId->value,
             'text' => $comment->text,
             'createdBy' => $user->displayName,

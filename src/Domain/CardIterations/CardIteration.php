@@ -132,20 +132,20 @@ final class CardIteration
         $this->createdAt = $createdAt;
     }
 
-    public function equals(self $other): bool
+    public function changedFrom(self $other): bool
     {
-        return $this->name === $other->name
-            && $this->affinityId?->value === $other->affinityId?->value
-            && $this->cost === $other->cost
-            && $this->enflowable === $other->enflowable
-            && $this->speedModifier?->value === $other->speedModifier?->value
-            && $this->zoneModifier?->value === $other->zoneModifier?->value
-            && $this->startingLife === $other->startingLife
-            && $this->burden === $other->burden
-            && $this->cardType?->value === $other->cardType?->value
-            && $this->rulesText === $other->rulesText
-            && $this->attack === $other->attack
-            && $this->defense === $other->defense
+        return $this->name !== $other->name
+            || $this->affinityId?->value !== $other->affinityId?->value
+            || $this->cost !== $other->cost
+            || $this->enflowable !== $other->enflowable
+            || $this->speedModifier?->value !== $other->speedModifier?->value
+            || $this->zoneModifier?->value !== $other->zoneModifier?->value
+            || $this->startingLife !== $other->startingLife
+            || $this->burden !== $other->burden
+            || $this->cardType?->value !== $other->cardType?->value
+            || $this->rulesText !== $other->rulesText
+            || $this->attack !== $other->attack
+            || $this->defense !== $other->defense
         ;
     }
 }

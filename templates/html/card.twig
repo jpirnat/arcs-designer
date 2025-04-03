@@ -158,7 +158,7 @@
 
             <div class="card-editor__actions">
                 <button type="button" class="card-editor__button" @click="save"
-                    :disabled="loading || !changedOriginal"
+                    :disabled="loading || (!changedOriginal && !newCommentText)"
                 >Save</button>
 
                 <button type="button" class="card-editor__button" @click="resetChanges"
@@ -308,6 +308,32 @@
                 <button type="button" class="card-editor__button" @click="setComparingAsCurrent"
                     :disabled="loading"
                 >Set as Current</button>
+            </div>
+        </div>
+
+        <div class="card-editor__comments">
+            <div class="card-editor__new-comment">
+                <div>Design Comments</div>
+                <textarea class="card-editor__new-comment-text"
+                    v-model="newCommentText"
+                ></textarea>
+                <button type="button" class="card-editor__button" @click="saveComment"
+                    v-if="current.cardId !== null"
+                    :disabled="!newCommentText"
+                >Save</button>
+            </div>
+
+            <div class="card-editor__old-comments">
+                <div v-for="c in comments" :key="c.id"
+                    :class="{
+                        'old-comment': true,
+                        'old-comment--current': c.iterationId === current.iterationId,
+                        'old-comment--comparing': comparing !== null && c.iterationId === comparing.iterationId,
+                    }"
+                >
+                    <div class="card-editor__old-comment-header">{{ c.createdBy }} @ {{ c.createdAt }}</div>
+                    <div>{{ c.text }}</div>
+                </div>
             </div>
         </div>
     </div>

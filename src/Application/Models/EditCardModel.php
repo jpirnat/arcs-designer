@@ -5,6 +5,9 @@ namespace Jp\ArcsDesigner\Application\Models;
 
 use DateTimeImmutable;
 use Jp\ArcsDesigner\Domain\Affinities\AffinityId;
+use Jp\ArcsDesigner\Domain\CardComments\CardComment;
+use Jp\ArcsDesigner\Domain\CardComments\CardCommentId;
+use Jp\ArcsDesigner\Domain\CardComments\CardCommentRepositoryInterface;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIteration;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIterationId;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIterationNotFoundException;
@@ -31,8 +34,9 @@ final class EditCardModel
     private(set) string $errorMessage = '';
 
     public function __construct(
-        private readonly CardIterationRepositoryInterface $iterationRepository,
         private readonly CardRepositoryInterface $cardRepository,
+        private readonly CardIterationRepositoryInterface $iterationRepository,
+        private readonly CardCommentRepositoryInterface $commentRepository,
     ) {}
 
     /** @noinspection DuplicatedCode */
@@ -50,6 +54,7 @@ final class EditCardModel
         string $rulesText,
         string $attack,
         string $defense,
+        string $commentText,
     ): void {
         $this->errorMessage = '';
 
@@ -136,6 +141,8 @@ final class EditCardModel
         }
 
         $this->iterationRepository->save($iteration);
+
+        $this->saveComment($iteration, $commentText, $userId);
     }
 
     /** @noinspection DuplicatedCode */
@@ -154,6 +161,7 @@ final class EditCardModel
         string $rulesText,
         string $attack,
         string $defense,
+        string $commentText,
     ): void {
         $this->errorMessage = '';
 
@@ -241,11 +249,30 @@ final class EditCardModel
         }
 
 
-        if ($new->equals($old)) {
-            // Nothing changed.
+        if ($new->changedFrom($old)) {
+            $this->iterationRepository->save($new);
+            $this->saveComment($new, $commentText, $userId);
+        } else {
+            $this->saveComment($old, $commentText, $userId);
+        }
+    }
+
+    private function saveComment(
+        CardIteration $iteration,
+        string $commentText,
+        UserId $userId
+    ): void {
+        if (!$commentText) {
             return;
         }
 
-        $this->iterationRepository->save($new);
+        $this->commentRepository->save(new CardComment(
+            new CardCommentId(),
+            $iteration->cardId,
+            $iteration->id,
+            $commentText,
+            $userId,
+            new DateTimeImmutable(),
+        ));
     }
 }

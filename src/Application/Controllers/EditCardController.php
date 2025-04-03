@@ -33,6 +33,7 @@ final readonly class EditCardController
         $rulesText = (string) ($data['rulesText'] ?? '');
         $attack = (string) ($data['attack'] ?? '');
         $defense = (string) ($data['defense'] ?? '');
+        $commentText = (string) ($data['commentText'] ?? '');
 
         $this->model->addCard(
             $userId,
@@ -48,6 +49,7 @@ final readonly class EditCardController
             $rulesText,
             $attack,
             $defense,
+            $commentText,
         );
     }
 
@@ -75,6 +77,7 @@ final readonly class EditCardController
         $rulesText = (string) ($data['rulesText'] ?? '');
         $attack = (string) ($data['attack'] ?? '');
         $defense = (string) ($data['defense'] ?? '');
+        $commentText = (string) ($data['commentText'] ?? '');
 
         $this->model->editCard(
             $userId,
@@ -91,6 +94,7 @@ final readonly class EditCardController
             $rulesText,
             $attack,
             $defense,
+            $commentText,
         );
     }
 }

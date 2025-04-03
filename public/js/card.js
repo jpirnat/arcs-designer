@@ -17,6 +17,7 @@ const app = createApp({
             maxLengths: {},
 
             original: {},
+            newCommentText: '',
         };
     },
     computed: {
@@ -203,6 +204,7 @@ const app = createApp({
                     rulesText: this.current.rulesText,
                     attack: this.showAttackDefense ? this.current.attack : '',
                     defense: this.showAttackDefense ? this.current.defense : '',
+                    commentText: this.newCommentText,
                 }),
             })
             .then(response => response.json());
@@ -254,6 +256,10 @@ const app = createApp({
         },
 
         setComparingAsCurrent() {
+        },
+
+        async addComment() {
+            
         },
     },
 });
