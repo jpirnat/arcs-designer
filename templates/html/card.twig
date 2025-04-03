@@ -320,9 +320,10 @@
                 <textarea class="card-editor__new-comment-text" name="newCommentText"
                     v-model="newCommentText"
                 ></textarea>
-                <button type="button" class="card-editor__button" @click="saveComment"
+                <button type="button" class="card-editor__button"
                     v-if="current.cardId !== null"
                     :disabled="!newCommentText"
+                    @click="saveComment"
                 >Save</button>
             </div>
 

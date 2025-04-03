@@ -36,6 +36,9 @@ final class CardComment
 
     private const int MAX_LENGTH_TEXT = 1024;
 
+    /**
+     * @throws InvalidTextException if $text is invalid.
+     */
     public function __construct(
         CardCommentId $id,
         CardId $cardId,

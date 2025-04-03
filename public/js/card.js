@@ -322,8 +322,36 @@ const app = createApp({
             this.original.defense = this.comparing.defense;
         },
 
-        async addComment() {
-            
+        async saveComment() {
+            this.loading = true;
+            const response = await fetch('/cards/add-comment', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    iterationId: this.current.iterationId,
+                    commentText: this.newCommentText,
+                }),
+            })
+            .then(response => response.json());
+            this.loading = false;
+            this.newCommentText = '';
+
+            if (response.error) {
+                const error = response.error;
+
+                Swal.fire({
+                    icon: 'error',
+                    text: error.message,
+                });
+                return;
+            }
+
+            const data = response.data;
+
+            this.comments.unshift(data.comment);
         },
     },
 });
