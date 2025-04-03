@@ -308,8 +308,8 @@
                     :disabled="loading || !changedComparing"
                 >Copy into Current</button>
 
-                <button type="button" class="card-editor__button" @click="setComparingAsCurrent"
-                    :disabled="loading"
+                <button type="button" class="card-editor__button" @click="setAsCurrent"
+                    :disabled="loading || comparing === null || current.iterationId === comparing.iterationId"
                 >Set as Current</button>
             </div>
         </div>

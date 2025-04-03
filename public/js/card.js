@@ -263,7 +263,63 @@ const app = createApp({
             this.current.defense = this.comparing.defense;
         },
 
-        setComparingAsCurrent() {
+        async setAsCurrent() {
+            if (this.comparing === null) {
+                return;
+            }
+
+            this.loading = true;
+            const response = await fetch('/cards/set-as-current', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cardId: this.current.cardId,
+                    iterationId: this.comparing.iterationId,
+                }),
+            })
+            .then(response => response.json());
+            this.loading = false;
+
+            if (response.error) {
+                const error = response.error;
+
+                Swal.fire({
+                    icon: 'error',
+                    text: error.message,
+                });
+                return;
+            }
+
+            this.current.iterationId = this.comparing.iterationId;
+            this.current.name = this.comparing.name;
+            this.current.affinityId = this.comparing.affinityId;
+            this.current.cost = this.comparing.cost;
+            this.current.enflowable = this.comparing.enflowable;
+            this.current.speedModifier = this.comparing.speedModifier;
+            this.current.zoneModifier = this.comparing.zoneModifier;
+            this.current.startingLife = this.comparing.startingLife;
+            this.current.burden = this.comparing.burden;
+            this.current.cardType = this.comparing.cardType;
+            this.current.rulesText = this.comparing.rulesText;
+            this.current.attack = this.comparing.attack;
+            this.current.defense = this.comparing.defense;
+
+            this.original.iterationId = this.comparing.iterationId;
+            this.original.name = this.comparing.name;
+            this.original.affinityId = this.comparing.affinityId;
+            this.original.cost = this.comparing.cost;
+            this.original.enflowable = this.comparing.enflowable;
+            this.original.speedModifier = this.comparing.speedModifier;
+            this.original.zoneModifier = this.comparing.zoneModifier;
+            this.original.startingLife = this.comparing.startingLife;
+            this.original.burden = this.comparing.burden;
+            this.original.cardType = this.comparing.cardType;
+            this.original.rulesText = this.comparing.rulesText;
+            this.original.attack = this.comparing.attack;
+            this.original.defense = this.comparing.defense;
         },
 
         async addComment() {

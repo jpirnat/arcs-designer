@@ -8,7 +8,7 @@ use Jp\ArcsDesigner\Presentation\IndexView;
 use Jp\ArcsDesigner\Presentation\RedirectView;
 
 // Common route parameter definitions.
-$id = '{id:[-\w]+}';
+$id = '{id:\d+}';
 
 // Route definitions.
 return [
@@ -104,6 +104,22 @@ return [
         'controllerClass' => \Jp\ArcsDesigner\Application\Controllers\EditCardController::class,
         'controllerMethod' => 'editCard',
         'viewClass' => \Jp\ArcsDesigner\Presentation\EditCardView::class,
+        'viewMethod' => 'getData',
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_JSON,
+    ]],
+
+    ['POST', "/cards/set-as-current", [
+        'controllerClass' => \Jp\ArcsDesigner\Application\Controllers\SetAsCurrentController::class,
+        'controllerMethod' => 'setData',
+        'viewClass' => \Jp\ArcsDesigner\Presentation\SetAsCurrentView::class,
+        'viewMethod' => 'getData',
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_JSON,
+    ]],
+
+    ['POST', "/cards/add-comment", [
+        'controllerClass' => \Jp\ArcsDesigner\Application\Controllers\AddCommentController::class,
+        'controllerMethod' => 'setData',
+        'viewClass' => \Jp\ArcsDesigner\Presentation\AddCommentView::class,
         'viewMethod' => 'getData',
         'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_JSON,
     ]],
