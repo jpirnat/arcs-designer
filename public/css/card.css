@@ -38,7 +38,8 @@ a.iteration-reel__iteration {
 .old-comment--current.old-comment--comparing {
     background-image: linear-gradient(135deg, var(--color-green) 50%, var(--color-red) 50%);
 }
-.iteration-reel__iteration:not(.iteration-reel__iteration--current):not(.iteration-reel__iteration--comparing):hover {
+.iteration-reel__iteration--hovering:not(.iteration-reel__iteration--current):not(.iteration-reel__iteration--comparing),
+.old-comment--hovering:not(.old-comment--current):not(.old-comment--comparing) {
     background: #ddd;
 }
 

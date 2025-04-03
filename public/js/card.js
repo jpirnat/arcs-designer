@@ -18,6 +18,7 @@ const app = createApp({
 
             original: {},
             newCommentText: '',
+            hoveringIterationId: null,
         };
     },
     computed: {
@@ -169,6 +170,13 @@ const app = createApp({
         };
     },
     methods: {
+        onHoverIteration(iterationId) {
+            this.hoveringIterationId = iterationId;
+        },
+        onUnhoverIteration() {
+            this.hoveringIterationId = null;
+        },
+
         compare(iteration) {
             this.comparing = iteration;
         },

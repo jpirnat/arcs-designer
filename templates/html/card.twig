@@ -15,7 +15,10 @@
                     'iteration-reel__iteration': true,
                     'iteration-reel__iteration--current': i.iterationId === current.iterationId,
                     'iteration-reel__iteration--comparing': comparing !== null && i.iterationId === comparing.iterationId,
+                    'iteration-reel__iteration--hovering': i.iterationId === hoveringIterationId,
                 }"
+				@mouseover="onHoverIteration(i.iterationId)"
+				@mouseleave="onUnhoverIteration"
                 @click="compare(i)"
             >
                 <div>{{ i.createdAt }}</div>
@@ -314,7 +317,7 @@
         <div class="card-editor__comments">
             <div class="card-editor__new-comment">
                 <div>Design Comments</div>
-                <textarea class="card-editor__new-comment-text"
+                <textarea class="card-editor__new-comment-text" name="newCommentText"
                     v-model="newCommentText"
                 ></textarea>
                 <button type="button" class="card-editor__button" @click="saveComment"
@@ -329,7 +332,10 @@
                         'old-comment': true,
                         'old-comment--current': c.iterationId === current.iterationId,
                         'old-comment--comparing': comparing !== null && c.iterationId === comparing.iterationId,
+                        'old-comment--hovering': c.iterationId === hoveringIterationId,
                     }"
+    				@mouseover="onHoverIteration(c.iterationId)"
+    				@mouseleave="onUnhoverIteration"
                 >
                     <div class="card-editor__old-comment-header">{{ c.createdBy }} @ {{ c.createdAt }}</div>
                     <div>{{ c.text }}</div>
