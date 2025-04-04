@@ -80,8 +80,8 @@ final class CardIteration
         }
     }
 
-    public ?int $attack;
-    public ?int $defense;
+    public ?int $power;
+    public ?int $health;
     private(set) UserId $createdBy;
     private(set) readonly DateTimeImmutable $createdAt;
 
@@ -109,8 +109,8 @@ final class CardIteration
         ?int $burden,
         ?CardType $cardType,
         string $rulesText,
-        ?int $attack,
-        ?int $defense,
+        ?int $power,
+        ?int $health,
         UserId $createdBy,
         DateTimeImmutable $createdAt,
     ) {
@@ -126,8 +126,8 @@ final class CardIteration
         $this->burden = $burden;
         $this->cardType = $cardType;
         $this->rulesText = $rulesText;
-        $this->attack = $attack;
-        $this->defense = $defense;
+        $this->power = $power;
+        $this->health = $health;
         $this->createdBy = $createdBy;
         $this->createdAt = $createdAt;
     }
@@ -144,8 +144,8 @@ final class CardIteration
             || $this->burden !== $other->burden
             || $this->cardType?->value !== $other->cardType?->value
             || $this->rulesText !== $other->rulesText
-            || $this->attack !== $other->attack
-            || $this->defense !== $other->defense
+            || $this->power !== $other->power
+            || $this->health !== $other->health
         ;
     }
 }

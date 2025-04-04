@@ -57,8 +57,8 @@ final class CardModel
             'burden' => null,
             'cardType' => null,
             'rulesText' => '',
-            'attack' => null,
-            'defense' => null,
+            'power' => null,
+            'health' => null,
         ];
 
         $this->setCommonData();
@@ -112,8 +112,8 @@ final class CardModel
             'burden' => $iteration->burden,
             'cardType' => $iteration->cardType?->value,
             'rulesText' => $iteration->rulesText,
-            'attack' => $iteration->attack,
-            'defense' => $iteration->defense,
+            'power' => $iteration->power,
+            'health' => $iteration->health,
             'createdBy' => $user->displayName,
             'createdAt' => $iteration->createdAt->format('M j, Y g:ia'),
         ];

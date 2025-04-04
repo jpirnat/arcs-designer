@@ -76,7 +76,7 @@ a.iteration-reel__iteration {
 }
 
 .card-editor__line--enflowable-burden,
-.card-editor__line--attack-defense {
+.card-editor__line--power-health {
     justify-content: space-between;
 }
 
@@ -87,9 +87,9 @@ a.iteration-reel__iteration {
 .card-editor__starting-life,
 .card-editor__burden,
 .card-editor__cost,
-.card-editor__attack,
-.card-editor__defense {
-    width: 3.5rem;
+.card-editor__power,
+.card-editor__health {
+    width: 4.5rem;
 }
 
 .card-editor__rules-text {

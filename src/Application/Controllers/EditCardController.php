@@ -31,8 +31,8 @@ final readonly class EditCardController
         $burden = (string) ($data['burden'] ?? '');
         $cardType = (string) ($data['cardType'] ?? '');
         $rulesText = (string) ($data['rulesText'] ?? '');
-        $attack = (string) ($data['attack'] ?? '');
-        $defense = (string) ($data['defense'] ?? '');
+        $power = (string) ($data['power'] ?? '');
+        $health = (string) ($data['health'] ?? '');
         $commentText = (string) ($data['commentText'] ?? '');
 
         $this->model->addCard(
@@ -47,8 +47,8 @@ final readonly class EditCardController
             $burden,
             $cardType,
             $rulesText,
-            $attack,
-            $defense,
+            $power,
+            $health,
             $commentText,
         );
     }
@@ -75,8 +75,8 @@ final readonly class EditCardController
         $burden = (string) ($data['burden'] ?? '');
         $cardType = (string) ($data['cardType'] ?? '');
         $rulesText = (string) ($data['rulesText'] ?? '');
-        $attack = (string) ($data['attack'] ?? '');
-        $defense = (string) ($data['defense'] ?? '');
+        $power = (string) ($data['power'] ?? '');
+        $health = (string) ($data['health'] ?? '');
         $commentText = (string) ($data['commentText'] ?? '');
 
         $this->model->editCard(
@@ -92,8 +92,8 @@ final readonly class EditCardController
             $burden,
             $cardType,
             $rulesText,
-            $attack,
-            $defense,
+            $power,
+            $health,
             $commentText,
         );
     }

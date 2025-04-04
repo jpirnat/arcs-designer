@@ -52,8 +52,8 @@ final class EditCardModel
         string $burden,
         string $cardType,
         string $rulesText,
-        string $attack,
-        string $defense,
+        string $power,
+        string $health,
         string $commentText,
     ): void {
         $this->errorMessage = '';
@@ -97,11 +97,11 @@ final class EditCardModel
             $this->errorMessage = $e->getMessage();
             return;
         }
-        $attack = $attack !== ''
-            ? (int) $attack
+        $power = $power !== ''
+            ? (int) $power
             : null;
-        $defense = $defense !== ''
-            ? (int) $defense
+        $health = $health !== ''
+            ? (int) $health
             : null;
 
         $card = new Card(
@@ -124,8 +124,8 @@ final class EditCardModel
                 $burden,
                 $cardType,
                 $rulesText,
-                $attack,
-                $defense,
+                $power,
+                $health,
                 $userId,
                 new DateTimeImmutable(),
             );
@@ -159,8 +159,8 @@ final class EditCardModel
         string $burden,
         string $cardType,
         string $rulesText,
-        string $attack,
-        string $defense,
+        string $power,
+        string $health,
         string $commentText,
     ): void {
         $this->errorMessage = '';
@@ -205,11 +205,11 @@ final class EditCardModel
             $this->errorMessage = $e->getMessage();
             return;
         }
-        $attack = $attack !== ''
-            ? (int) $attack
+        $power = $power !== ''
+            ? (int) $power
             : null;
-        $defense = $defense !== ''
-            ? (int) $defense
+        $health = $health !== ''
+            ? (int) $health
             : null;
 
         try {
@@ -232,8 +232,8 @@ final class EditCardModel
                 $burden,
                 $cardType,
                 $rulesText,
-                $attack,
-                $defense,
+                $power,
+                $health,
                 $userId,
                 new DateTimeImmutable(),
             );

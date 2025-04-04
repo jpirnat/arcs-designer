@@ -52,11 +52,11 @@ const app = createApp({
         changedOriginalRulesText() {
             return this.current.rulesText !== this.original.rulesText;
         },
-        changedOriginalAttack() {
-            return this.current.attack !== this.original.attack;
+        changedOriginalPower() {
+            return this.current.power !== this.original.power;
         },
-        changedOriginalDefense() {
-            return this.current.defense !== this.original.defense;
+        changedOriginalHealth() {
+            return this.current.health !== this.original.health;
         },
         changedOriginal() {
             return this.changedOriginalCost
@@ -69,8 +69,8 @@ const app = createApp({
                 || this.changedOriginalZoneModifier
                 || this.changedOriginalCardType
                 || this.changedOriginalRulesText
-                || this.changedOriginalAttack
-                || this.changedOriginalDefense
+                || this.changedOriginalPower
+                || this.changedOriginalHealth
             ;
         },
 
@@ -104,11 +104,11 @@ const app = createApp({
         changedComparingRulesText() {
             return this.current.rulesText !== this.comparing.rulesText;
         },
-        changedComparingAttack() {
-            return this.current.attack !== this.comparing.attack;
+        changedComparingPower() {
+            return this.current.power !== this.comparing.power;
         },
-        changedComparingDefense() {
-            return this.current.defense !== this.comparing.defense;
+        changedComparingHealth() {
+            return this.current.health !== this.comparing.health;
         },
         changedComparing() {
             return this.changedComparingCost
@@ -121,8 +121,8 @@ const app = createApp({
                 || this.changedComparingZoneModifier
                 || this.changedComparingCardType
                 || this.changedComparingRulesText
-                || this.changedComparingAttack
-                || this.changedComparingDefense
+                || this.changedComparingPower
+                || this.changedComparingHealth
             ;
         },
     },
@@ -165,8 +165,8 @@ const app = createApp({
             burden: data.current.burden,
             cardType: data.current.cardType,
             rulesText: data.current.rulesText,
-            attack: data.current.attack,
-            defense: data.current.defense,
+            power: data.current.power,
+            health: data.current.health,
         };
     },
     methods: {
@@ -184,7 +184,7 @@ const app = createApp({
         showLifeBurden(iteration) {
             return iteration.zoneModifier === 'leader';
         },
-        showAttackDefense(iteration) {
+        showPowerHealth(iteration) {
             return iteration.cardType === 'creature';
         },
 
@@ -210,8 +210,8 @@ const app = createApp({
                     burden: this.showLifeBurden ? this.current.burden : '',
                     cardType: this.current.cardType,
                     rulesText: this.current.rulesText,
-                    attack: this.showAttackDefense ? this.current.attack : '',
-                    defense: this.showAttackDefense ? this.current.defense : '',
+                    power: this.showPowerHealth ? this.current.power : '',
+                    health: this.showPowerHealth ? this.current.health : '',
                     commentText: this.newCommentText,
                 }),
             })
@@ -244,8 +244,8 @@ const app = createApp({
             this.current.burden = this.original.burden;
             this.current.cardType = this.original.cardType;
             this.current.rulesText = this.original.rulesText;
-            this.current.attack = this.original.attack;
-            this.current.defense = this.original.defense;
+            this.current.power = this.original.power;
+            this.current.health = this.original.health;
         },
 
         copyComparingIntoCurrent() {
@@ -259,8 +259,8 @@ const app = createApp({
             this.current.burden = this.comparing.burden;
             this.current.cardType = this.comparing.cardType;
             this.current.rulesText = this.comparing.rulesText;
-            this.current.attack = this.comparing.attack;
-            this.current.defense = this.comparing.defense;
+            this.current.power = this.comparing.power;
+            this.current.health = this.comparing.health;
         },
 
         async setAsCurrent() {
@@ -304,8 +304,8 @@ const app = createApp({
             this.current.burden = this.comparing.burden;
             this.current.cardType = this.comparing.cardType;
             this.current.rulesText = this.comparing.rulesText;
-            this.current.attack = this.comparing.attack;
-            this.current.defense = this.comparing.defense;
+            this.current.power = this.comparing.power;
+            this.current.health = this.comparing.health;
 
             this.original.iterationId = this.comparing.iterationId;
             this.original.name = this.comparing.name;
@@ -318,8 +318,8 @@ const app = createApp({
             this.original.burden = this.comparing.burden;
             this.original.cardType = this.comparing.cardType;
             this.original.rulesText = this.comparing.rulesText;
-            this.original.attack = this.comparing.attack;
-            this.original.defense = this.comparing.defense;
+            this.original.power = this.comparing.power;
+            this.original.health = this.comparing.health;
         },
 
         async saveComment() {

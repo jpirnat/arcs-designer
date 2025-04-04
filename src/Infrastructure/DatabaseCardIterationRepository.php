@@ -40,8 +40,8 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 `burden`,
                 `card_type`,
                 `rules_text`,
-                `attack`,
-                `defense`,
+                `power`,
+                `health`,
                 `created_by`,
                 `created_at`
             FROM `card_iterations`
@@ -80,8 +80,8 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 ? new CardType($result['card_type'])
                 : null,
             $result['rules_text'],
-            $result['attack'],
-            $result['defense'],
+            $result['power'],
+            $result['health'],
             new UserId($result['created_by']),
             new DateTimeImmutable($result['created_at']),
         );
@@ -105,8 +105,8 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 `burden`,
                 `card_type`,
                 `rules_text`,
-                `attack`,
-                `defense`,
+                `power`,
+                `health`,
                 `created_by`,
                 `created_at`
             FROM `card_iterations`
@@ -143,8 +143,8 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                     ? new CardType($result['card_type'])
                     : null,
                 $result['rules_text'],
-                $result['attack'],
-                $result['defense'],
+                $result['power'],
+                $result['health'],
                 new UserId($result['created_by']),
                 new DateTimeImmutable($result['created_at']),
             );
@@ -177,8 +177,8 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 `burden`,
                 `card_type`,
                 `rules_text`,
-                `attack`,
-                `defense`,
+                `power`,
+                `health`,
                 `created_by`
             ) VALUES (
                 :card_id,
@@ -192,8 +192,8 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 :burden,
                 :card_type,
                 :rules_text,
-                :attack,
-                :defense,
+                :power,
+                :health,
                 :created_by
             )'
         );
@@ -208,8 +208,8 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
         $stmt->bindValue(':burden', $iteration->burden, PDO::PARAM_INT);
         $stmt->bindValue(':card_type', $iteration->cardType?->value);
         $stmt->bindValue(':rules_text', $iteration->rulesText);
-        $stmt->bindValue(':attack', $iteration->attack, PDO::PARAM_INT);
-        $stmt->bindValue(':defense', $iteration->defense, PDO::PARAM_INT);
+        $stmt->bindValue(':power', $iteration->power, PDO::PARAM_INT);
+        $stmt->bindValue(':health', $iteration->health, PDO::PARAM_INT);
         $stmt->bindValue(':created_by', $iteration->createdBy->value, PDO::PARAM_INT);
         $stmt->execute();
 

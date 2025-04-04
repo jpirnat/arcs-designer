@@ -149,8 +149,8 @@ CREATE TABLE IF NOT EXISTS `card_iterations` (
     `burden` INT UNSIGNED NULL,
     `card_type` VARCHAR(8) NULL,
     `rules_text` TEXT NOT NULL,
-    `attack` INT SIGNED NULL,
-    `defense` INT SIGNED NULL,
+    `power` INT SIGNED NULL,
+    `health` INT SIGNED NULL,
 
     `created_by` INT UNSIGNED NOT NULL,
     `created_at` TIMESTAMP NOT NULL

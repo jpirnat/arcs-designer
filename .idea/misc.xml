@@ -11,5 +11,6 @@
   <component name="PhpEntryPointsManager">
     <pattern value="\Jp\ArcsDesigner\Application\Controllers\*Controller" member="*" />
     <pattern value="\Jp\ArcsDesigner\Presentation\*View" member="*" />
+    <pattern value="\Jp\ArcsDesigner\Application\Middleware\*Middleware" member="*" />
   </component>
 </project>

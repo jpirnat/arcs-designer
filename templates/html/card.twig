@@ -141,20 +141,20 @@
                     ></textarea>
                 </div>
 
-                <div class="card-editor__line card-editor__line--attack-defense" v-if="showAttackDefense(current)">
-                    <input type="number" step="1" name="currentAttack" placeholder="Atk"
+                <div class="card-editor__line card-editor__line--power-health" v-if="showPowerHealth(current)">
+                    <input type="number" step="1" name="currentPower" placeholder="Power"
                         :class="{
-                            'card-editor__attack': true,
-                            'card-editor__changed': changedOriginalAttack,
+                            'card-editor__power': true,
+                            'card-editor__changed': changedOriginalPower,
                         }"
-                        v-model="current.attack"
+                        v-model="current.power"
                     >
-                    <input type="number" step="1" name="currentDefense" placeholder="Def"
+                    <input type="number" step="1" name="currentHealth" placeholder="Health"
                         :class="{
-                            'card-editor__defense': true,
-                            'card-editor__changed': changedOriginalDefense,
+                            'card-editor__health': true,
+                            'card-editor__changed': changedOriginalHealth,
                         }"
-                        v-model="current.defense"
+                        v-model="current.health"
                     >
                 </div>
             </div>
@@ -285,20 +285,20 @@
                     ></textarea>
                 </div>
 
-                <div class="card-editor__line card-editor__line--attack-defense" v-if="showAttackDefense(comparing)">
-                    <input type="number" step="1" name="comparingAttack" placeholder="Atk" disabled
+                <div class="card-editor__line card-editor__line--power-health" v-if="showPowerHealth(comparing)">
+                    <input type="number" step="1" name="comparingPower" placeholder="Power" disabled
                         :class="{
-                            'card-editor__attack': true,
-                            'card-editor__changed': changedComparingAttack,
+                            'card-editor__power': true,
+                            'card-editor__changed': changedComparingPower,
                         }"
-                        v-model="comparing.attack"
+                        v-model="comparing.power"
                     >
-                    <input type="number" step="1" name="comparingDefense" placeholder="Def" disabled
+                    <input type="number" step="1" name="comparingHealth" placeholder="Health" disabled
                         :class="{
-                            'card-editor__defense': true,
-                            'card-editor__changed': changedComparingDefense,
+                            'card-editor__health': true,
+                            'card-editor__changed': changedComparingHealth,
                         }"
-                        v-model="comparing.defense"
+                        v-model="comparing.health"
                     >
                 </div>
             </div>
