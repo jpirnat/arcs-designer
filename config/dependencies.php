@@ -119,6 +119,10 @@ $services->alias(
     \Jp\ArcsDesigner\Infrastructure\DatabasePasswordHashRepository::class
 );
 $services->alias(
+    \Jp\ArcsDesigner\Domain\Sets\SetRepositoryInterface::class,
+    \Jp\ArcsDesigner\Infrastructure\DatabaseSetRepository::class
+);
+$services->alias(
     \Jp\ArcsDesigner\Domain\Users\UserRepositoryInterface::class,
     \Jp\ArcsDesigner\Infrastructure\DatabaseUserRepository::class
 );
