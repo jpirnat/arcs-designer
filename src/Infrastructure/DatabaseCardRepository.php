@@ -8,6 +8,7 @@ use Jp\ArcsDesigner\Domain\Cards\CardId;
 use Jp\ArcsDesigner\Domain\Cards\CardNotFoundException;
 use Jp\ArcsDesigner\Domain\Cards\CardRepositoryInterface;
 use Jp\ArcsDesigner\Domain\Cards\Status;
+use Jp\ArcsDesigner\Domain\Sets\SetId;
 use PDO;
 
 final readonly class DatabaseCardRepository implements CardRepositoryInterface
@@ -41,6 +42,74 @@ final readonly class DatabaseCardRepository implements CardRepositoryInterface
             $cardId,
             new Status($result['status']),
         );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getBySet(SetId $setId): array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT
+                `id`,
+                `status`
+            FROM `cards`
+            WHERE `id` IN (
+                SELECT
+                    `card_id`
+                FROM `set_cards`
+                WHERE `set_id` = :set_id
+            )'
+        );
+        $stmt->bindValue('set_id', $setId->value, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $cards = [];
+
+        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            /** @noinspection PhpUnhandledExceptionInspection */
+            $card = new Card(
+                new CardId($result['id']),
+                new Status($result['status']),
+            );
+
+            $cards[$result['id']] = $card;
+        }
+
+        return $cards;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getByNoSet(): array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT
+                `id`,
+                `status`
+            FROM `cards`
+            WHERE `id` NOT IN (
+                SELECT
+                    `card_id`
+                FROM `set_cards`
+            )'
+        );
+        $stmt->execute();
+
+        $cards = [];
+
+        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            /** @noinspection PhpUnhandledExceptionInspection */
+            $card = new Card(
+                new CardId($result['id']),
+                new Status($result['status']),
+            );
+
+            $cards[$result['id']] = $card;
+        }
+
+        return $cards;
     }
 
     /**

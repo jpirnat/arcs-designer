@@ -44,6 +44,70 @@ return [
         'middlewareClasses' => MiddlewareGroups::HTML,
     ]],
 
+    ['GET', '/sets', [
+        'controllerClass' => IndexController::class,
+        'controllerMethod' => 'index',
+        'viewClass' => IndexView::class,
+        'viewMethod' => 'sets',
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_HTML,
+    ]],
+
+    ['GET', '/data/sets', [
+        'controllerClass' => \Jp\ArcsDesigner\Application\Controllers\SetsController::class,
+        'controllerMethod' => 'setData',
+        'viewClass' => \Jp\ArcsDesigner\Presentation\SetsView::class,
+        'viewMethod' => 'getData',
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_JSON,
+    ]],
+
+    ['GET', '/sets/add', [
+        'controllerClass' => IndexController::class,
+        'controllerMethod' => 'index',
+        'viewClass' => IndexView::class,
+        'viewMethod' => 'set',
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_HTML,
+    ]],
+
+    ['GET', '/data/sets/add', [
+        'controllerClass' => \Jp\ArcsDesigner\Application\Controllers\SetController::class,
+        'controllerMethod' => 'setAddData',
+        'viewClass' => \Jp\ArcsDesigner\Presentation\SetView::class,
+        'viewMethod' => 'getData',
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_JSON,
+    ]],
+
+    ['POST', '/sets/add', [
+        'controllerClass' => \Jp\ArcsDesigner\Application\Controllers\EditSetController::class,
+        'controllerMethod' => 'addSet',
+        'viewClass' => \Jp\ArcsDesigner\Presentation\EditSetView::class,
+        'viewMethod' => 'getData',
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_JSON,
+    ]],
+
+    ['GET', "/sets/$id", [
+        'controllerClass' => IndexController::class,
+        'controllerMethod' => 'index',
+        'viewClass' => IndexView::class,
+        'viewMethod' => 'set',
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_HTML,
+    ]],
+
+    ['GET', "/data/sets/$id", [
+        'controllerClass' => \Jp\ArcsDesigner\Application\Controllers\SetController::class,
+        'controllerMethod' => 'setEditData',
+        'viewClass' => \Jp\ArcsDesigner\Presentation\SetView::class,
+        'viewMethod' => 'getData',
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_JSON,
+    ]],
+
+    ['POST', "/sets/$id", [
+        'controllerClass' => \Jp\ArcsDesigner\Application\Controllers\EditSetController::class,
+        'controllerMethod' => 'editSet',
+        'viewClass' => \Jp\ArcsDesigner\Presentation\EditSetView::class,
+        'viewMethod' => 'getData',
+        'middlewareClasses' => MiddlewareGroups::REQUIRE_LOGIN_JSON,
+    ]],
+
     ['GET', '/cards', [
         'controllerClass' => IndexController::class,
         'controllerMethod' => 'index',

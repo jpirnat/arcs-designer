@@ -1,0 +1,25 @@
+{% extends "html/base-logged-in.twig" %}
+
+{% block styles %}
+    <link href="/css/cards.css" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+{% verbatim %}
+<div id="app" v-cloak>
+    <a class="link" href="/sets/add">Add new set</a>
+
+    <ul>
+        <li v-for="s in sets" :key="s.id">
+            <a class="link" :href="'/sets/' + s.id">
+                {{ s.name }}
+            </a>
+        </li>
+    </ul>
+</div>
+{% endverbatim %}
+{% endblock %}
+
+{% block scripts %}
+    <script type="module" src="/js/sets.js"></script>
+{% endblock %}

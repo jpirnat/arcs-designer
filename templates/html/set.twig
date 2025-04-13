@@ -1,0 +1,30 @@
+{% extends "html/base-logged-in.twig" %}
+
+{% block main %}
+{% verbatim %}
+<div id="app" v-cloak>
+
+    <input type="text" :maxlength="maxLengths.name" name="name" placeholder="Set Name"
+        v-model="set.name"
+    >
+
+    <button type="button" class="button" @click="save"
+        :disabled="loading || changedOriginal"
+    >Save</button>
+
+    <a v-if="set.id !== null" class="link" :href="'/cards/add?set=' + set.id">Add new card</a>
+
+    <ul v-if="cards.length">
+        <li v-for="c in cards" :key="c.id">
+            <a class="link" :href="'/cards/' + c.id">
+                {{ c.name }}
+            </a>
+        </li>
+    </ul>
+</div>
+{% endverbatim %}
+{% endblock %}
+
+{% block scripts %}
+    <script type="module" src="/js/set.js"></script>
+{% endblock %}

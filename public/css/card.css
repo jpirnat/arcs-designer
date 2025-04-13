@@ -107,12 +107,6 @@ a.iteration-reel__iteration {
     justify-content: space-evenly;
 }
 
-.card-editor__button {
-    padding: 0.125rem 0.5rem;
-    cursor: pointer;
-}
-
-
 .card-editor__comments {
     max-width: 25rem;
     display: flex;

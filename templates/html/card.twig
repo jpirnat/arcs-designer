@@ -160,11 +160,11 @@
             </div>
 
             <div class="card-editor__actions">
-                <button type="button" class="card-editor__button" @click="save"
+                <button type="button" class="button" @click="save"
                     :disabled="loading || (!changedOriginal && !newCommentText)"
                 >Save</button>
 
-                <button type="button" class="card-editor__button" @click="resetChanges"
+                <button type="button" class="button" @click="resetChanges"
                     :disabled="loading || !changedOriginal"
                 >Reset Changes</button>
             </div>
@@ -304,11 +304,11 @@
             </div>
 
             <div class="card-editor__actions">
-                <button type="button" class="card-editor__button" @click="copyComparingIntoCurrent"
+                <button type="button" class="button" @click="copyComparingIntoCurrent"
                     :disabled="loading || !changedComparing"
                 >Copy into Current</button>
 
-                <button type="button" class="card-editor__button" @click="setAsCurrent"
+                <button type="button" class="button" @click="setAsCurrent"
                     :disabled="loading || comparing === null || current.iterationId === comparing.iterationId"
                 >Set as Current</button>
             </div>
@@ -320,7 +320,7 @@
                 <textarea class="card-editor__new-comment-text" name="newCommentText"
                     v-model="newCommentText"
                 ></textarea>
-                <button type="button" class="card-editor__button"
+                <button type="button" class="button"
                     v-if="current.cardId !== null"
                     :disabled="!newCommentText"
                     @click="saveComment"

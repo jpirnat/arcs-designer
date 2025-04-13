@@ -71,4 +71,34 @@ final readonly class IndexView
 
         return new HtmlResponse($content);
     }
+
+    /**
+     * Show a set page.
+     */
+    public function set(): ResponseInterface
+    {
+        $content = $this->renderer->render(
+            'html/set.twig',
+            [
+                'title' => 'Sets',
+            ],
+        );
+
+        return new HtmlResponse($content);
+    }
+
+    /**
+     * Show the /sets page.
+     */
+    public function sets(): ResponseInterface
+    {
+        $content = $this->renderer->render(
+            'html/sets.twig',
+            [
+                'title' => 'Sets',
+            ],
+        );
+
+        return new HtmlResponse($content);
+    }
 }
