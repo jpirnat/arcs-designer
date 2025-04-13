@@ -3,8 +3,8 @@ const { createApp } = Vue;
 const app = createApp({
     data() {
         return {
+            isFirstLoadComplete: false,
             loading: true,
-            loaded: false,
 
             iterations: [],
             current: {},
@@ -135,7 +135,7 @@ const app = createApp({
         .then(response => response.json());
 
         this.loading = false;
-        this.loaded = true;
+        this.isFirstLoadComplete = true;
 
         if (!response.data) {
             return;

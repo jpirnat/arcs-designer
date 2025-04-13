@@ -3,26 +3,31 @@
 {% block main %}
 {% verbatim %}
 <main id="app" class="main-padded" v-cloak>
+	<div class="arcs-loader-container" v-if="!isFirstLoadComplete">
+		<div class="arcs-loader"></div>
+	</div>
 
-    <input type="text" :maxlength="maxLengths.name" name="name" placeholder="Set Name"
-        v-model="set.name"
-    >
+    <template v-if="isFirstLoadComplete">
+        <input type="text" :maxlength="maxLengths.name" name="name" placeholder="Set Name"
+            v-model="set.name"
+        >
 
-    <button type="button" class="button" @click="save"
-        :disabled="loading || !changedOriginal"
-    >Save</button>
+        <button type="button" class="button" @click="save"
+            :disabled="loading || !changedOriginal"
+        >Save</button>
 
-    <div class="cards-list" v-if="set.id !== null">
-        <a class="link" :href="'/cards/add?set=' + set.id">Add new card</a>
+        <div class="cards-list" v-if="set.id !== null">
+            <a class="link" :href="'/cards/add?set=' + set.id">Add new card</a>
 
-        <ul v-if="cards.length">
-            <li v-for="c in cards" :key="c.id">
-                <a class="link" :href="'/cards/' + c.id">
-                    {{ c.name }}
-                </a>
-            </li>
-        </ul>
-    </div>
+            <ul v-if="cards.length">
+                <li v-for="c in cards" :key="c.id">
+                    <a class="link" :href="'/cards/' + c.id">
+                        {{ c.name }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </template>
 </main>
 {% endverbatim %}
 {% endblock %}

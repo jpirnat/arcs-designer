@@ -3,17 +3,23 @@
 {% block main %}
 {% verbatim %}
 <main id="app" class="main-padded" v-cloak>
-    <div class="sets-list">
-        <a class="link" href="/sets/add">Add new set</a>
+	<div class="arcs-loader-container" v-if="!isFirstLoadComplete">
+		<div class="arcs-loader"></div>
+	</div>
 
-        <ul v-if="sets.length">
-            <li v-for="s in sets" :key="s.id">
-                <a class="link" :href="'/sets/' + s.id">
-                    {{ s.name }}
-                </a>
-            </li>
-        </ul>
-    </div>
+    <template v-if="isFirstLoadComplete">
+        <div class="sets-list">
+            <a class="link" href="/sets/add">Add new set</a>
+
+            <ul v-if="sets.length">
+                <li v-for="s in sets" :key="s.id">
+                    <a class="link" :href="'/sets/' + s.id">
+                        {{ s.name }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </template>
 </main>
 {% endverbatim %}
 {% endblock %}

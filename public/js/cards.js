@@ -3,6 +3,8 @@ const { createApp } = Vue;
 const app = createApp({
     data() {
         return {
+            isFirstLoadComplete: false,
+
             cards: [],
         };
     },
@@ -13,6 +15,8 @@ const app = createApp({
             credentials: 'same-origin',
         })
         .then(response => response.json());
+
+        this.isFirstLoadComplete = true;
 
         if (!response.data) {
             return;

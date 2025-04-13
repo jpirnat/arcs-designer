@@ -3,8 +3,8 @@ const { createApp } = Vue;
 const app = createApp({
     data() {
         return {
+            isFirstLoadComplete: false,
             loading: true,
-            loaded: false,
 
             set: [],
             cards: [],
@@ -29,8 +29,8 @@ const app = createApp({
         })
         .then(response => response.json());
 
+        this.isFirstLoadComplete = true;
         this.loading = false;
-        this.loaded = true;
 
         if (!response.data) {
             return;
