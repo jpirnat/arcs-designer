@@ -1,22 +1,20 @@
 {% extends "html/base-logged-in.twig" %}
 
-{% block styles %}
-    <link href="/css/cards.css" rel="stylesheet">
-{% endblock %}
-
 {% block main %}
 {% verbatim %}
-<div id="app" v-cloak>
-    <a class="link" href="/sets/add">Add new set</a>
+<main id="app" class="main-padded" v-cloak>
+    <div class="sets-list">
+        <a class="link" href="/sets/add">Add new set</a>
 
-    <ul>
-        <li v-for="s in sets" :key="s.id">
-            <a class="link" :href="'/sets/' + s.id">
-                {{ s.name }}
-            </a>
-        </li>
-    </ul>
-</div>
+        <ul v-if="sets.length">
+            <li v-for="s in sets" :key="s.id">
+                <a class="link" :href="'/sets/' + s.id">
+                    {{ s.name }}
+                </a>
+            </li>
+        </ul>
+    </div>
+</main>
 {% endverbatim %}
 {% endblock %}
 

@@ -2,7 +2,7 @@
 
 {% block main %}
 {% verbatim %}
-<div id="app" v-cloak>
+<main id="app" class="main-padded" v-cloak>
 
     <input type="text" :maxlength="maxLengths.name" name="name" placeholder="Set Name"
         v-model="set.name"
@@ -23,7 +23,7 @@
             </li>
         </ul>
     </div>
-</div>
+</main>
 {% endverbatim %}
 {% endblock %}
 

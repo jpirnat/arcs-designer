@@ -6,7 +6,7 @@
 
 {% block main %}
 {% verbatim %}
-<div id="app" v-cloak>
+<main id="app" class="main-padded" v-cloak>
     <form class="login__form">
         <input type="email" name="emailAddress" placeholder="Email Address" v-model="emailAddress"
             autocomplete="email"
@@ -16,7 +16,7 @@
         >
         <button type="button" class="login__button" @click="login" :disabled="loading">Login</button>
     </form>
-</div>
+</main>
 {% endverbatim %}
 {% endblock %}
 

@@ -15,11 +15,12 @@
             {% block header %}
             {% endblock %}
         </header>
-        <main>
-            {% block main %}
-            {% endblock %}
-        </main>
+        {% block main %}
+        {% endblock %}
         <footer>
+            {% block footer %}
+                <div>Arcs TCG Card Designer</div>
+            {% endblock %}
         </footer>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.prod.min.js"></script>
