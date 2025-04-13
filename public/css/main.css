@@ -19,9 +19,24 @@ body {
 }
 
 header {
+    background-color: #030617;
     display: flex;
-    justify-content: flex-end;
+}
+
+.header-link {
     padding: 1rem;
+    text-decoration: none;
+}
+.header-link,
+.header-link:visited {
+    color: white;
+}
+.header-link:hover {
+    color: red;
+}
+
+.header-space {
+    flex: 1;
 }
 
 main {
@@ -30,6 +45,15 @@ main {
 
 [v-cloak] {
     display: none;
+}
+
+.cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.cards-list li {
+    list-style-type: none;
 }
 
 .link {
