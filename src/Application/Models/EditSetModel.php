@@ -56,5 +56,7 @@ final class EditSetModel
             $this->errorMessage = $e->getMessage();
             return;
         }
+
+        $this->setRepository->save($set);
     }
 }

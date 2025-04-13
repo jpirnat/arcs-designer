@@ -1,0 +1,10 @@
+.set-editor {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.set-editor__name {
+    width: 20rem;
+}

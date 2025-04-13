@@ -1,5 +1,9 @@
 {% extends "html/base-logged-in.twig" %}
 
+{% block styles %}
+    <link href="/css/set.css" rel="stylesheet">
+{% endblock %}
+
 {% block main %}
 {% verbatim %}
 <main id="app" class="main-padded" v-cloak>
@@ -8,13 +12,16 @@
 	</div>
 
     <template v-if="isFirstLoadComplete">
-        <input type="text" :maxlength="maxLengths.name" name="name" placeholder="Set Name"
-            v-model="set.name"
-        >
+        <div class="set-editor">
+            <input type="text" :maxlength="maxLengths.name" name="name" placeholder="Set Name"
+                class="set-editor__name"
+                v-model="set.name"
+            >
 
-        <button type="button" class="button" @click="save"
-            :disabled="loading || !changedOriginal"
-        >Save</button>
+            <button type="button" class="button" @click="save"
+                :disabled="isLoading || !changedOriginal"
+            >Save</button>
+        </div>
 
         <div class="cards-list" v-if="set.id !== null">
             <a class="link" :href="'/cards/add?set=' + set.id">Add new card</a>

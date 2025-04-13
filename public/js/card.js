@@ -4,7 +4,7 @@ const app = createApp({
     data() {
         return {
             isFirstLoadComplete: false,
-            loading: true,
+            isLoading: true,
 
             iterations: [],
             current: {},
@@ -134,8 +134,8 @@ const app = createApp({
         })
         .then(response => response.json());
 
-        this.loading = false;
         this.isFirstLoadComplete = true;
+        this.isLoading = false;
 
         if (!response.data) {
             return;
@@ -191,7 +191,7 @@ const app = createApp({
         async save() {
             const url = new URL(window.location);
 
-            this.loading = true;
+            this.isLoading = true;
             const response = await fetch(url.pathname, {
                 method: 'POST',
                 credentials: 'same-origin',
@@ -216,7 +216,7 @@ const app = createApp({
                 }),
             })
             .then(response => response.json());
-            this.loading = false;
+            this.isLoading = false;
 
             if (response.error) {
                 const error = response.error;
@@ -268,7 +268,7 @@ const app = createApp({
                 return;
             }
 
-            this.loading = true;
+            this.isLoading = true;
             const response = await fetch('/cards/set-as-current', {
                 method: 'POST',
                 credentials: 'same-origin',
@@ -281,7 +281,7 @@ const app = createApp({
                 }),
             })
             .then(response => response.json());
-            this.loading = false;
+            this.isLoading = false;
 
             if (response.error) {
                 const error = response.error;
@@ -323,7 +323,7 @@ const app = createApp({
         },
 
         async saveComment() {
-            this.loading = true;
+            this.isLoading = true;
             const response = await fetch('/cards/add-comment', {
                 method: 'POST',
                 credentials: 'same-origin',
@@ -336,7 +336,7 @@ const app = createApp({
                 }),
             })
             .then(response => response.json());
-            this.loading = false;
+            this.isLoading = false;
             this.newCommentText = '';
 
             if (response.error) {

@@ -4,7 +4,7 @@ const app = createApp({
     data() {
         return {
             isFirstLoadComplete: false,
-            loading: true,
+            isLoading: true,
 
             set: [],
             cards: [],
@@ -30,7 +30,7 @@ const app = createApp({
         .then(response => response.json());
 
         this.isFirstLoadComplete = true;
-        this.loading = false;
+        this.isLoading = false;
 
         if (!response.data) {
             return;
@@ -48,6 +48,36 @@ const app = createApp({
     },
     methods: {
         async save() {
+            const url = new URL(window.location);
+
+            this.isLoading = true;
+            const response = await fetch(url.pathname, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    setId: this.set.id,
+                    name: this.set.name,
+                }),
+            })
+            .then(response => response.json());
+            this.isLoading = false;
+
+            if (response.error) {
+                const error = response.error;
+
+                Swal.fire({
+                    icon: 'error',
+                    text: error.message,
+                });
+                return;
+            }
+
+            if (response.data) {
+                window.location.assign('/sets');
+            }
         },
     },
 });

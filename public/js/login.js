@@ -3,7 +3,7 @@ const { createApp } = Vue;
 const app = createApp({
     data() {
         return {
-            loading: false,
+            isLoading: false,
 
             emailAddress: '',
             password: '',
@@ -13,7 +13,7 @@ const app = createApp({
         async login() {
             const url = new URL(window.location);
 
-            this.loading = true;
+            this.isLoading = true;
             const response = await fetch(url.pathname, {
                 method: 'POST',
                 credentials: 'same-origin',
@@ -26,7 +26,7 @@ const app = createApp({
                 }),
             })
             .then(response => response.json());
-            this.loading = false;
+            this.isLoading = false;
 
             if (response.error) {
                 const error = response.error;
