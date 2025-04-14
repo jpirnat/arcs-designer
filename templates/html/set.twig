@@ -6,10 +6,8 @@
 
 {% block main %}
 {% verbatim %}
-<main id="app" class="main-padded" v-cloak>
-	<div class="arcs-loader-container" v-if="!isFirstLoadComplete">
-		<div class="arcs-loader"></div>
-	</div>
+<main id="app" class="main--padded" v-cloak>
+    <div class="arcs-loader" v-if="!isFirstLoadComplete"></div>
 
     <section class="set-section" v-if="isFirstLoadComplete">
         <div class="set-editor">

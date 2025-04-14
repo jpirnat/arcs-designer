@@ -44,15 +44,15 @@ header {
 main {
     flex: 1;
 }
-.main-not-loaded {
+main:has(.arcs-loader) {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.main-padded {
+.main--padded {
     padding: 1rem;
 }
-.main-padded-top {
+.main--padded-top {
     padding: 1rem 0;
 }
 
@@ -61,11 +61,6 @@ main {
 }
 
 /* Loading spinner from https://cssloaders.github.io/ */
-.arcs-loader-container {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
 .arcs-loader {
     transform: rotateZ(45deg);
     perspective: 1000px;
@@ -151,14 +146,14 @@ main {
 }
 
 .link {
-	text-decoration: none;
+    text-decoration: none;
 }
 .link,
 .link:visited {
-	color: blue;
+    color: blue;
 }
 .link:hover {
-	color: red;
+    color: red;
 }
 
 .button {
