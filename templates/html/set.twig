@@ -11,7 +11,7 @@
 		<div class="arcs-loader"></div>
 	</div>
 
-    <template v-if="isFirstLoadComplete">
+    <section class="set-section" v-if="isFirstLoadComplete">
         <div class="set-editor">
             <input type="text" :maxlength="maxLengths.name" name="name" placeholder="Set Name"
                 class="set-editor__name"
@@ -34,7 +34,7 @@
                 </li>
             </ul>
         </div>
-    </template>
+    </section>
 </main>
 {% endverbatim %}
 {% endblock %}
