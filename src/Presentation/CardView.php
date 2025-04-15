@@ -16,6 +16,8 @@ final readonly class CardView
     public function getData(): ResponseInterface
     {
         return new JsonResponse(['data' => [
+            'sets' => $this->model->sets,
+            'setIds' => $this->model->setIds,
             'iterations' => $this->model->iterations,
             'current' => $this->model->current,
             'comparing' => $this->model->comparing,

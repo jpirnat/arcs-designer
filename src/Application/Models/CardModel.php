@@ -12,10 +12,14 @@ use Jp\ArcsDesigner\Domain\CardIterations\CardType;
 use Jp\ArcsDesigner\Domain\CardIterations\SpeedModifier;
 use Jp\ArcsDesigner\Domain\CardIterations\ZoneModifier;
 use Jp\ArcsDesigner\Domain\Cards\CardId;
+use Jp\ArcsDesigner\Domain\SetCards\SetCardRepositoryInterface;
+use Jp\ArcsDesigner\Domain\Sets\SetRepositoryInterface;
 use Jp\ArcsDesigner\Domain\Users\UserRepositoryInterface;
 
 final class CardModel
 {
+    private(set) array $sets = [];
+    private(set) array $setIds = [];
     private(set) array $iterations = [];
     private(set) array $current = [];
     private(set) ?array $comparing = null;
@@ -27,6 +31,8 @@ final class CardModel
     private(set) array $maxLengths = [];
 
     public function __construct(
+        private readonly SetRepositoryInterface $setRepository,
+        private readonly SetCardRepositoryInterface $setCardRepository,
         private readonly CardIterationRepositoryInterface $iterationRepository,
         private readonly CardCommentRepositoryInterface $commentRepository,
         private readonly UserRepositoryInterface $userRepository,
@@ -35,6 +41,8 @@ final class CardModel
 
     public function setAddData(): void
     {
+        $this->sets = [];
+        $this->setIds = [];
         $this->iterations = [];
         $this->comparing = null;
         $this->comments = [];
@@ -66,6 +74,8 @@ final class CardModel
 
     public function setEditData(string $cardId): void
     {
+        $this->sets = [];
+        $this->setIds = [];
         $this->iterations = [];
         $this->current = [];
         $this->comparing = null;
@@ -77,6 +87,12 @@ final class CardModel
         $this->maxLengths = [];
 
         $cardId = new CardId((int) $cardId);
+
+        $setCards = $this->setCardRepository->getByCard($cardId);
+        foreach ($setCards as $setCard) {
+            $this->setIds[] = $setCard->setId->value;
+        }
+
         $iteration = $this->iterationRepository->getCurrent($cardId);
         $this->current = $this->getIterationData($iteration);
         $this->comparing = $this->current;
@@ -135,6 +151,7 @@ final class CardModel
 
     private function setCommonData(): void
     {
+        $this->sets = [];
         $this->affinities = [];
         $this->speedModifiers = [];
         $this->zoneModifiers = [];
@@ -143,6 +160,14 @@ final class CardModel
             'name' => CardIteration::MAX_LENGTH_NAME,
             'rulesText' => CardIteration::MAX_LENGTH_RULES_TEXT,
         ];
+
+        $sets = $this->setRepository->getAll();
+        foreach ($sets as $set) {
+            $this->sets[] = [
+                'id' => $set->id->value,
+                'name' => $set->name,
+            ];
+        }
 
         $affinities = $this->affinityRepository->getAll();
         foreach ($affinities as $affinity) {

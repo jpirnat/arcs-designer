@@ -11,6 +11,14 @@
     gap: 1rem;
 }
 
+.card-editor__toggle {
+    cursor: pointer;
+}
+.card-editor__set {
+    display: block;
+    cursor: pointer;
+}
+
 .iteration-reel__iteration:first-child {
     border-top: 1px solid black;
 }

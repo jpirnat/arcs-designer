@@ -21,6 +21,7 @@ final readonly class EditCardController
         $data = json_decode($body, true);
 
         $userId = $this->baseModel->userId;
+        $setIds = (array) ($data['setIds'] ?? []);
         $name = (string) ($data['name'] ?? '');
         $affinityId = (string) ($data['affinityId'] ?? '');
         $cost = (string) ($data['cost'] ?? '');
@@ -37,6 +38,7 @@ final readonly class EditCardController
 
         $this->model->addCard(
             $userId,
+            $setIds,
             $name,
             $affinityId,
             $cost,
@@ -60,6 +62,7 @@ final readonly class EditCardController
         $data = json_decode($body, true);
 
         $userId = $this->baseModel->userId;
+        $setIds = (array) ($data['setIds'] ?? []);
         $iterationId = (string) ($data['iterationId'] ?? '');
         $name = (string) ($data['name'] ?? '');
         $affinityId = (string) ($data['affinityId'] ?? '');
@@ -81,6 +84,7 @@ final readonly class EditCardController
 
         $this->model->editCard(
             $userId,
+            $setIds,
             $iterationId,
             $name,
             $affinityId,

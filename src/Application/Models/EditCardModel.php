@@ -27,6 +27,9 @@ use Jp\ArcsDesigner\Domain\Cards\Card;
 use Jp\ArcsDesigner\Domain\Cards\CardId;
 use Jp\ArcsDesigner\Domain\Cards\CardRepositoryInterface;
 use Jp\ArcsDesigner\Domain\Cards\Status;
+use Jp\ArcsDesigner\Domain\SetCards\SetCard;
+use Jp\ArcsDesigner\Domain\SetCards\SetCardRepositoryInterface;
+use Jp\ArcsDesigner\Domain\Sets\SetId;
 use Jp\ArcsDesigner\Domain\Users\UserId;
 
 final class EditCardModel
@@ -35,6 +38,7 @@ final class EditCardModel
 
     public function __construct(
         private readonly CardRepositoryInterface $cardRepository,
+        private readonly SetCardRepositoryInterface $setCardRepository,
         private readonly CardIterationRepositoryInterface $iterationRepository,
         private readonly CardCommentRepositoryInterface $commentRepository,
     ) {}
@@ -42,6 +46,7 @@ final class EditCardModel
     /** @noinspection DuplicatedCode */
     public function addCard(
         UserId $userId,
+        array $setIds,
         string $name,
         string $affinityId,
         string $cost,
@@ -110,6 +115,8 @@ final class EditCardModel
         );
         $this->cardRepository->save($card);
 
+        $this->saveSets($card->id, $setIds);
+
         try {
             $iteration = new CardIteration(
                 new CardIterationId(),
@@ -148,6 +155,7 @@ final class EditCardModel
     /** @noinspection DuplicatedCode */
     public function editCard(
         UserId $userId,
+        array $setIds,
         string $iterationId,
         string $name,
         string $affinityId,
@@ -218,6 +226,8 @@ final class EditCardModel
             return;
         }
 
+        $this->saveSets($old->cardId, $setIds);
+
         try {
             $new = new CardIteration(
                 new CardIterationId(),
@@ -254,6 +264,16 @@ final class EditCardModel
             $this->saveComment($new, $commentText, $userId);
         } else {
             $this->saveComment($old, $commentText, $userId);
+        }
+    }
+
+    private function saveSets(CardId $cardId, array $setIds): void
+    {
+        $this->setCardRepository->deleteByCard($cardId);
+
+        foreach ($setIds as $setId) {
+            $setId = new SetId((int) $setId);
+            $this->setCardRepository->save(new SetCard($setId, $cardId));
         }
     }
 

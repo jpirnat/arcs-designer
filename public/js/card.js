@@ -6,6 +6,8 @@ const app = createApp({
             isFirstLoadComplete: false,
             isLoading: true,
 
+            sets: [],
+            setIds: [],
             iterations: [],
             current: {},
             comparing: null,
@@ -16,12 +18,18 @@ const app = createApp({
             cardTypes: [],
             maxLengths: {},
 
+            showSets: false,
+            originalSetIds: [],
             original: {},
             newCommentText: '',
             hoveringIterationId: null,
         };
     },
     computed: {
+        changedSetIds() {
+            return this.setIds !== this.originalSetIds;
+        },
+
         changedOriginalCost() {
             return this.current.cost !== this.original.cost;
         },
@@ -143,6 +151,8 @@ const app = createApp({
 
         const data = response.data;
 
+        this.sets = data.sets;
+        this.setIds = data.setIds;
         this.iterations = data.iterations;
         this.current = data.current;
         this.comparing = data.comparing;
@@ -152,6 +162,12 @@ const app = createApp({
         this.zoneModifiers = data.zoneModifiers;
         this.cardTypes = data.cardTypes;
         this.maxLengths = data.maxLengths;
+
+        if (!this.setIds.length) {
+            this.showSets = true;
+        }
+
+        this.originalSetIds = data.setIds;
 
         this.original = {
             iterationId: data.current.iterationId,
@@ -170,6 +186,13 @@ const app = createApp({
         };
     },
     methods: {
+        toggleSets() {
+            this.showSets = !this.showSets;
+        },
+        resetSetIds() {
+            this.setIds = this.originalSetIds;
+        },
+
         onHoverIteration(iterationId) {
             this.hoveringIterationId = iterationId;
         },
@@ -199,6 +222,7 @@ const app = createApp({
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    setIds: this.setIds,
                     iterationId: this.current.iterationId,
                     name: this.current.name,
                     affinityId: this.current.affinityId,
