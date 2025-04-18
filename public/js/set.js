@@ -20,6 +20,10 @@ const app = createApp({
         changedOriginal() {
             return this.changedOriginalName;
         },
+
+        isSaveEnabled() {
+            return !this.isLoading && this.changedOriginal;
+        },
     },
     async created() {
         const url = new URL(window.location);
@@ -48,6 +52,9 @@ const app = createApp({
     },
     methods: {
         async save() {
+            if (!this.isSaveEnabled) {
+                return;
+            }
             const url = new URL(window.location);
 
             this.isLoading = true;

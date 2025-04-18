@@ -14,10 +14,11 @@
             <input type="text" :maxlength="maxLengths.name" name="name" placeholder="Set Name"
                 class="set-editor__name"
                 v-model="set.name"
+                @keydown.enter="save"
             >
 
             <button type="button" class="button" @click="save"
-                :disabled="isLoading || !changedOriginal"
+                :disabled="!isSaveEnabled"
             >Save</button>
         </div>
 

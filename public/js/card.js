@@ -82,6 +82,10 @@ const app = createApp({
             ;
         },
 
+        isSaveEnabled() {
+            return !this.isLoading && (this.changedSetIds || this.changedOriginal || this.newCommentText);
+        },
+
         changedComparingCost() {
             return this.current.cost !== this.comparing.cost;
         },
@@ -212,6 +216,10 @@ const app = createApp({
         },
 
         async save() {
+            if (!this.isSaveEnabled) {
+                return;
+            }
+
             const url = new URL(window.location);
 
             this.isLoading = true;

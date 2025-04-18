@@ -23,7 +23,7 @@
             </div>
             <div style="margin-top: 0.5rem; text-align: center;">
                 <button type="button" class="button" v-if="showSets" @click="resetSetIds"
-                    :disabled="loading || !changedSetIds"
+                    :disabled="isLoading || !changedSetIds"
                 >Reset</button>
             </div>
         </section>
@@ -58,6 +58,7 @@
                                 'card-editor__changed': changedOriginalCost,
                             }"
                             v-model="current.cost"
+                            @keydown.enter="save"
                         >
 
                         <input type="text" :maxlength="maxLengths.name" name="currentName" placeholder="Card Name"
@@ -66,6 +67,7 @@
                                 'card-editor__changed': changedOriginalName,
                             }"
                             v-model="current.name"
+                            @keydown.enter="save"
                         >
 
                         <input type="number" min="1" step="1" name="currentLife" placeholder="Life"
@@ -75,6 +77,7 @@
                                 'card-editor__changed': changedOriginalStartingLife,
                             }"
                             v-model="current.startingLife"
+                            @keydown.enter="save"
                         >
                     </div>
 
@@ -84,6 +87,7 @@
                                 'card-editor__changed': changedOriginalEnflowable,
                             }"
                             v-model="current.enflowable"
+                            @keydown.enter="save"
                         >
                             <option :value="null">???</option>
                             <option :value="true">Enflowable</option>
@@ -97,6 +101,7 @@
                                 'card-editor__changed': changedOriginalBurden,
                             }"
                             v-model="current.burden"
+                            @keydown.enter="save"
                         >
                     </div>
 
@@ -106,6 +111,7 @@
                                 'card-editor__changed': changedOriginalAffinity,
                             }"
                             v-model="current.affinityId"
+                            @keydown.enter="save"
                         >
                             <option :value="null">[Affinity TBD]</option>
                             <option v-for="a in affinities" :key="a.id" :value="a.id">
@@ -120,6 +126,7 @@
                                 'card-editor__changed': changedOriginalSpeedModifier,
                             }"
                             v-model="current.speedModifier"
+                            @keydown.enter="save"
                         >
                             <option :value="null">???</option>
                             <option v-for="m in speedModifiers" :key="m.value" :value="m.value">
@@ -132,6 +139,7 @@
                                 'card-editor__changed': changedOriginalZoneModifier,
                             }"
                             v-model="current.zoneModifier"
+                            @keydown.enter="save"
                         >
                             <option :value="null">???</option>
                             <option v-for="m in zoneModifiers" :key="m.value" :value="m.value">
@@ -144,6 +152,7 @@
                                 'card-editor__changed': changedOriginalCardType,
                             }"
                             v-model="current.cardType"
+                            @keydown.enter="save"
                         >
                             <option :value="null">???</option>
                             <option v-for="t in cardTypes" :key="t.value" :value="t.value">
@@ -169,6 +178,7 @@
                                 'card-editor__changed': changedOriginalPower,
                             }"
                             v-model="current.power"
+                            @keydown.enter="save"
                         >
                         <input type="number" step="1" name="currentHealth" placeholder="Health"
                             :class="{
@@ -176,17 +186,18 @@
                                 'card-editor__changed': changedOriginalHealth,
                             }"
                             v-model="current.health"
+                            @keydown.enter="save"
                         >
                     </div>
                 </div>
 
                 <div class="card-editor__actions">
                     <button type="button" class="button" @click="save"
-                        :disabled="loading || (!changedSetIds && !changedOriginal && !newCommentText)"
+                        :disabled="!isSaveEnabled"
                     >Save</button>
 
                     <button type="button" class="button" @click="resetChanges"
-                        :disabled="loading || !changedOriginal"
+                        :disabled="isLoading || !changedOriginal"
                     >Reset Changes</button>
                 </div>
             </div>
@@ -326,11 +337,11 @@
 
                 <div class="card-editor__actions">
                     <button type="button" class="button" @click="copyComparingIntoCurrent"
-                        :disabled="loading || !changedComparing"
+                        :disabled="isLoading || !changedComparing"
                     >Copy into Current</button>
 
                     <button type="button" class="button" @click="setAsCurrent"
-                        :disabled="loading || comparing === null || current.iterationId === comparing.iterationId"
+                        :disabled="isLoading || comparing === null || current.iterationId === comparing.iterationId"
                     >Set as Current</button>
                 </div>
             </div>
