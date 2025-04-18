@@ -141,7 +141,7 @@ const app = createApp({
     async created() {
         const url = new URL(window.location);
 
-        const response = await fetch('/data' + url.pathname, {
+        const response = await fetch('/data' + url.pathname + url.search, {
             credentials: 'same-origin',
         })
         .then(response => response.json());

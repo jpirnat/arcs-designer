@@ -12,9 +12,11 @@ final readonly class CardController
         private CardModel $model,
     ) {}
 
-    public function setAddData(): void
+    public function setAddData(ServerRequestInterface $request): void
     {
-        $this->model->setAddData();
+        $setId = $request->getQueryParams()['set'] ?? '';
+
+        $this->model->setAddData($setId);
     }
 
     public function setEditData(ServerRequestInterface $request): void

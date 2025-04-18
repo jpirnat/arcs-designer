@@ -40,10 +40,12 @@ final class CardModel
         private readonly AffinityRepositoryInterface $affinityRepository,
     ) {}
 
-    public function setAddData(): void
+    public function setAddData(string $setId): void
     {
         $this->sets = [];
-        $this->setIds = [];
+        $this->setIds = $setId !== ''
+            ? [(int) $setId]
+            : [];
         $this->iterations = [];
         $this->comparing = null;
         $this->comments = [];
