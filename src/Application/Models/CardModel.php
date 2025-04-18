@@ -15,6 +15,7 @@ use Jp\ArcsDesigner\Domain\Cards\CardId;
 use Jp\ArcsDesigner\Domain\SetCards\SetCardRepositoryInterface;
 use Jp\ArcsDesigner\Domain\Sets\SetRepositoryInterface;
 use Jp\ArcsDesigner\Domain\Users\UserRepositoryInterface;
+use function nl2br;
 
 final class CardModel
 {
@@ -143,7 +144,7 @@ final class CardModel
         return [
             'id' => $comment->id->value,
             'iterationId' => $comment->iterationId->value,
-            'text' => $comment->text,
+            'text' => nl2br($comment->text),
             'createdBy' => $user->displayName,
             'createdAt' => $comment->createdAt->format('M j, Y g:ia'),
         ];

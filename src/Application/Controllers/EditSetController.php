@@ -12,7 +12,6 @@ final readonly class EditSetController
         private EditSetModel $model,
     ) {}
 
-    /** @noinspection DuplicatedCode */
     public function addSet(ServerRequestInterface $request): void
     {
         $body = $request->getBody()->getContents();
@@ -25,7 +24,6 @@ final readonly class EditSetController
         );
     }
 
-    /** @noinspection DuplicatedCode */
     public function editSet(ServerRequestInterface $request): void
     {
         $body = $request->getBody()->getContents();

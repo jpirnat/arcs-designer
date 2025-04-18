@@ -360,7 +360,7 @@
                         @mouseleave="onUnhoverIteration"
                     >
                         <div class="card-editor__old-comment-header">{{ c.createdBy }} @ {{ c.createdAt }}</div>
-                        <div>{{ c.text }}</div>
+                        <div v-html="c.text"></div>
                     </div>
                 </div>
             </div>
