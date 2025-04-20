@@ -40,8 +40,8 @@ final readonly class JsonErrorMiddleware implements MiddlewareInterface
         // Instead, redirect them to our error page.
         try {
             return $handler->handle($request);
-        } catch (Throwable) {
-            return new JsonResponse(['error' => true]);
+        } catch (Throwable $e) {
+            return new JsonResponse(['error' => ['message' => $e->getMessage()]]);
         }
     }
 }
