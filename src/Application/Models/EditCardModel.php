@@ -8,6 +8,7 @@ use Jp\ArcsDesigner\Domain\Affinities\AffinityId;
 use Jp\ArcsDesigner\Domain\CardComments\CardComment;
 use Jp\ArcsDesigner\Domain\CardComments\CardCommentId;
 use Jp\ArcsDesigner\Domain\CardComments\CardCommentRepositoryInterface;
+use Jp\ArcsDesigner\Domain\CardComments\InvalidTextException;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIteration;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIterationId;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIterationNotFoundException;
@@ -109,13 +110,12 @@ final class EditCardModel
             ? (int) $health
             : null;
 
+        $cardId = new CardId();
+
         $card = new Card(
-            new CardId(),
+            $cardId,
             new Status(Status::IN_PROGRESS),
         );
-        $this->cardRepository->save($card);
-
-        $this->saveSets($card->id, $setIds);
 
         try {
             $iteration = new CardIteration(
@@ -147,8 +147,9 @@ final class EditCardModel
             return;
         }
 
+        $this->cardRepository->save($card);
+        $this->saveSets($card->id, $setIds);
         $this->iterationRepository->save($iteration);
-
         $this->saveComment($iteration, $commentText, $userId);
     }
 
@@ -226,8 +227,6 @@ final class EditCardModel
             return;
         }
 
-        $this->saveSets($old->cardId, $setIds);
-
         try {
             $new = new CardIteration(
                 new CardIterationId(),
@@ -258,6 +257,7 @@ final class EditCardModel
             return;
         }
 
+        $this->saveSets($old->cardId, $setIds);
 
         if ($new->changedFrom($old)) {
             $this->iterationRepository->save($new);
@@ -280,19 +280,25 @@ final class EditCardModel
     private function saveComment(
         CardIteration $iteration,
         string $commentText,
-        UserId $userId
+        UserId $userId,
     ): void {
         if (!$commentText) {
             return;
         }
 
-        $this->commentRepository->save(new CardComment(
-            new CardCommentId(),
-            $iteration->cardId,
-            $iteration->id,
-            $commentText,
-            $userId,
-            new DateTimeImmutable(),
-        ));
+        try {
+            $comment = new CardComment(
+                new CardCommentId(),
+                $iteration->cardId,
+                $iteration->id,
+                $commentText,
+                $userId,
+                new DateTimeImmutable(),
+            );
+        } catch (InvalidTextException) {
+            return;
+        }
+
+        $this->commentRepository->save($comment);
     }
 }
