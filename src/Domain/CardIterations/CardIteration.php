@@ -56,16 +56,6 @@ final class CardIteration
         }
     }
 
-    public ?int $burden {
-        set {
-            if ($value !== null && $value < 0) {
-                throw new InvalidBurdenException('Burden cannot be negative.');
-            }
-
-            $this->burden = $value;
-        }
-    }
-
     public ?CardType $cardType;
 
     public string $rulesText {
@@ -92,7 +82,6 @@ final class CardIteration
      * @throws InvalidNameException if $name is invalid.
      * @throws InvalidCostException if $cost is invalid.
      * @throws InvalidStartingLifeException if $startingLife is invalid.
-     * @throws InvalidBurdenException if $burden is invalid.
      * @throws InvalidRulesTextException if $rulesText is invalid.
      * @noinspection PhpDocRedundantThrowsInspection
      */
@@ -106,7 +95,6 @@ final class CardIteration
         ?SpeedModifier $speedModifier,
         ?ZoneModifier $zoneModifier,
         ?int $startingLife,
-        ?int $burden,
         ?CardType $cardType,
         string $rulesText,
         ?int $power,
@@ -123,7 +111,6 @@ final class CardIteration
         $this->speedModifier = $speedModifier;
         $this->zoneModifier = $zoneModifier;
         $this->startingLife = $startingLife;
-        $this->burden = $burden;
         $this->cardType = $cardType;
         $this->rulesText = $rulesText;
         $this->power = $power;
@@ -141,7 +128,6 @@ final class CardIteration
             || $this->speedModifier?->value !== $other->speedModifier?->value
             || $this->zoneModifier?->value !== $other->zoneModifier?->value
             || $this->startingLife !== $other->startingLife
-            || $this->burden !== $other->burden
             || $this->cardType?->value !== $other->cardType?->value
             || $this->rulesText !== $other->rulesText
             || $this->power !== $other->power

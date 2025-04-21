@@ -83,7 +83,6 @@ a.iteration-reel__iteration {
     min-height: 1.5rem;
 }
 
-.card-editor__line--enflowable-burden,
 .card-editor__line--power-health {
     justify-content: space-between;
 }
@@ -93,7 +92,6 @@ a.iteration-reel__iteration {
 }
 
 .card-editor__starting-life,
-.card-editor__burden,
 .card-editor__cost,
 .card-editor__power,
 .card-editor__health {

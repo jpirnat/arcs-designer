@@ -71,7 +71,7 @@
                         >
 
                         <input type="number" min="1" step="1" name="currentLife" placeholder="Life"
-                            v-if="showLifeBurden(current)"
+                            v-if="showStartingLife(current)"
                             :class="{
                                 'card-editor__starting-life': true,
                                 'card-editor__changed': changedOriginalStartingLife,
@@ -81,7 +81,7 @@
                         >
                     </div>
 
-                    <div class="card-editor__line card-editor__line--enflowable-burden">
+                    <div class="card-editor__line">
                         <select name="currentEnflowable"
                             :class="{
                                 'card-editor__changed': changedOriginalEnflowable,
@@ -93,16 +93,6 @@
                             <option :value="true">Enflowable</option>
                             <option :value="false">Not Enflowable</option>
                         </select>
-
-                        <input type="number" min="0" step="1" name="currentBurden" placeholder="Burden"
-                            v-if="showLifeBurden(current)"
-                            :class="{
-                                'card-editor__burden': true,
-                                'card-editor__changed': changedOriginalBurden,
-                            }"
-                            v-model="current.burden"
-                            @keydown.enter="save"
-                        >
                     </div>
 
                     <div class="card-editor__line">
@@ -224,7 +214,7 @@
                         >
 
                         <input type="number" min="1" step="1" name="comparingLife" placeholder="Life" disabled
-                            v-if="showLifeBurden(comparing)"
+                            v-if="showStartingLife(comparing)"
                             :class="{
                                 'card-editor__starting-life': true,
                                 'card-editor__changed': changedComparingStartingLife,
@@ -233,7 +223,7 @@
                         >
                     </div>
 
-                    <div class="card-editor__line card-editor__line--enflowable-burden">
+                    <div class="card-editor__line">
                         <select name="comparingEnflowable" disabled
                             :class="{
                                 'card-editor__changed': changedComparingEnflowable,
@@ -244,15 +234,6 @@
                             <option :value="true">Enflowable</option>
                             <option :value="false">Not Enflowable</option>
                         </select>
-
-                        <input type="number" min="0" step="1" name="comparingBurden" placeholder="Burden" disabled
-                            v-if="showLifeBurden(comparing)"
-                            :class="{
-                                'card-editor__burden': true,
-                                'card-editor__changed': changedComparingBurden,
-                            }"
-                            v-model="comparing.burden"
-                        >
                     </div>
 
                     <div class="card-editor__line">

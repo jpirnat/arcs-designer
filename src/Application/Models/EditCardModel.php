@@ -14,7 +14,6 @@ use Jp\ArcsDesigner\Domain\CardIterations\CardIterationId;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIterationNotFoundException;
 use Jp\ArcsDesigner\Domain\CardIterations\CardIterationRepositoryInterface;
 use Jp\ArcsDesigner\Domain\CardIterations\CardType;
-use Jp\ArcsDesigner\Domain\CardIterations\InvalidBurdenException;
 use Jp\ArcsDesigner\Domain\CardIterations\InvalidCardTypeException;
 use Jp\ArcsDesigner\Domain\CardIterations\InvalidCostException;
 use Jp\ArcsDesigner\Domain\CardIterations\InvalidNameException;
@@ -55,7 +54,6 @@ final class EditCardModel
         string $speedModifier,
         string $zoneModifier,
         string $startingLife,
-        string $burden,
         string $cardType,
         string $rulesText,
         string $power,
@@ -92,9 +90,6 @@ final class EditCardModel
         $startingLife = $startingLife !== ''
             ? (int) $startingLife
             : null;
-        $burden = $burden !== ''
-            ? (int) $burden
-            : null;
         try {
             $cardType = $cardType !== ''
                 ? new CardType($cardType)
@@ -128,7 +123,6 @@ final class EditCardModel
                 $speedModifier,
                 $zoneModifier,
                 $startingLife,
-                $burden,
                 $cardType,
                 $rulesText,
                 $power,
@@ -140,7 +134,6 @@ final class EditCardModel
             InvalidNameException
             | InvalidCostException
             | InvalidStartingLifeException
-            | InvalidBurdenException
             | InvalidRulesTextException $e
         ) {
             $this->errorMessage = $e->getMessage();
@@ -165,7 +158,6 @@ final class EditCardModel
         string $speedModifier,
         string $zoneModifier,
         string $startingLife,
-        string $burden,
         string $cardType,
         string $rulesText,
         string $power,
@@ -203,9 +195,6 @@ final class EditCardModel
         $startingLife = $startingLife !== ''
             ? (int) $startingLife
             : null;
-        $burden = $burden !== ''
-            ? (int) $burden
-            : null;
         try {
             $cardType = $cardType !== ''
                 ? new CardType($cardType)
@@ -238,7 +227,6 @@ final class EditCardModel
                 $speedModifier,
                 $zoneModifier,
                 $startingLife,
-                $burden,
                 $cardType,
                 $rulesText,
                 $power,
@@ -250,7 +238,6 @@ final class EditCardModel
             InvalidNameException
             | InvalidCostException
             | InvalidStartingLifeException
-            | InvalidBurdenException
             | InvalidRulesTextException $e
         ) {
             $this->errorMessage = $e->getMessage();

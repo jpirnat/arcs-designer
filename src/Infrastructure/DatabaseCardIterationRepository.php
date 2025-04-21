@@ -37,7 +37,6 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 `speed_modifier`,
                 `zone_modifier`,
                 `starting_life`,
-                `burden`,
                 `card_type`,
                 `rules_text`,
                 `power`,
@@ -75,7 +74,6 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 ? new ZoneModifier($result['zone_modifier'])
                 : null,
             $result['starting_life'],
-            $result['burden'],
             $result['card_type'] !== null
                 ? new CardType($result['card_type'])
                 : null,
@@ -102,7 +100,6 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 `speed_modifier`,
                 `zone_modifier`,
                 `starting_life`,
-                `burden`,
                 `card_type`,
                 `rules_text`,
                 `power`,
@@ -138,7 +135,6 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                     ? new ZoneModifier($result['zone_modifier'])
                     : null,
                 $result['starting_life'],
-                $result['burden'],
                 $result['card_type'] !== null
                     ? new CardType($result['card_type'])
                     : null,
@@ -174,7 +170,6 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 `speed_modifier`,
                 `zone_modifier`,
                 `starting_life`,
-                `burden`,
                 `card_type`,
                 `rules_text`,
                 `power`,
@@ -189,7 +184,6 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
                 :speed_modifier,
                 :zone_modifier,
                 :starting_life,
-                :burden,
                 :card_type,
                 :rules_text,
                 :power,
@@ -205,7 +199,6 @@ final readonly class DatabaseCardIterationRepository implements CardIterationRep
         $stmt->bindValue(':speed_modifier', $iteration->speedModifier?->value);
         $stmt->bindValue(':zone_modifier', $iteration->zoneModifier?->value);
         $stmt->bindValue(':starting_life', $iteration->startingLife, PDO::PARAM_INT);
-        $stmt->bindValue(':burden', $iteration->burden, PDO::PARAM_INT);
         $stmt->bindValue(':card_type', $iteration->cardType?->value);
         $stmt->bindValue(':rules_text', $iteration->rulesText);
         $stmt->bindValue(':power', $iteration->power, PDO::PARAM_INT);

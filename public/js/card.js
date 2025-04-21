@@ -42,9 +42,6 @@ const app = createApp({
         changedOriginalEnflowable() {
             return this.current.enflowable !== this.original.enflowable;
         },
-        changedOriginalBurden() {
-            return this.current.burden !== this.original.burden;
-        },
         changedOriginalAffinity() {
             return this.current.affinityId !== this.original.affinityId;
         },
@@ -71,7 +68,6 @@ const app = createApp({
                 || this.changedOriginalName
                 || this.changedOriginalStartingLife
                 || this.changedOriginalEnflowable
-                || this.changedOriginalBurden
                 || this.changedOriginalAffinity
                 || this.changedOriginalSpeedModifier
                 || this.changedOriginalZoneModifier
@@ -97,9 +93,6 @@ const app = createApp({
         },
         changedComparingEnflowable() {
             return this.current.enflowable !== this.comparing.enflowable;
-        },
-        changedComparingBurden() {
-            return this.current.burden !== this.comparing.burden;
         },
         changedComparingAffinity() {
             return this.current.affinityId !== this.comparing.affinityId;
@@ -127,7 +120,6 @@ const app = createApp({
                 || this.changedComparingName
                 || this.changedComparingStartingLife
                 || this.changedComparingEnflowable
-                || this.changedComparingBurden
                 || this.changedComparingAffinity
                 || this.changedComparingSpeedModifier
                 || this.changedComparingZoneModifier
@@ -182,7 +174,6 @@ const app = createApp({
             speedModifier: data.current.speedModifier,
             zoneModifier: data.current.zoneModifier,
             startingLife: data.current.startingLife,
-            burden: data.current.burden,
             cardType: data.current.cardType,
             rulesText: data.current.rulesText,
             power: data.current.power,
@@ -208,7 +199,7 @@ const app = createApp({
             this.comparing = iteration;
         },
 
-        showLifeBurden(iteration) {
+        showStartingLife(iteration) {
             return iteration.zoneModifier === 'leader';
         },
         showPowerHealth(iteration) {
@@ -238,8 +229,7 @@ const app = createApp({
                     enflowable: this.current.enflowable,
                     speedModifier: this.current.speedModifier,
                     zoneModifier: this.current.zoneModifier,
-                    startingLife: this.showLifeBurden ? this.current.startingLife : '',
-                    burden: this.showLifeBurden ? this.current.burden : '',
+                    startingLife: this.showStartingLife ? this.current.startingLife : '',
                     cardType: this.current.cardType,
                     rulesText: this.current.rulesText,
                     power: this.showPowerHealth ? this.current.power : '',
@@ -273,7 +263,6 @@ const app = createApp({
             this.current.speedModifier = this.original.speedModifier;
             this.current.zoneModifier = this.original.zoneModifier;
             this.current.startingLife = this.original.startingLife;
-            this.current.burden = this.original.burden;
             this.current.cardType = this.original.cardType;
             this.current.rulesText = this.original.rulesText;
             this.current.power = this.original.power;
@@ -288,7 +277,6 @@ const app = createApp({
             this.current.speedModifier = this.comparing.speedModifier;
             this.current.zoneModifier = this.comparing.zoneModifier;
             this.current.startingLife = this.comparing.startingLife;
-            this.current.burden = this.comparing.burden;
             this.current.cardType = this.comparing.cardType;
             this.current.rulesText = this.comparing.rulesText;
             this.current.power = this.comparing.power;
@@ -333,7 +321,6 @@ const app = createApp({
             this.current.speedModifier = this.comparing.speedModifier;
             this.current.zoneModifier = this.comparing.zoneModifier;
             this.current.startingLife = this.comparing.startingLife;
-            this.current.burden = this.comparing.burden;
             this.current.cardType = this.comparing.cardType;
             this.current.rulesText = this.comparing.rulesText;
             this.current.power = this.comparing.power;
@@ -347,7 +334,6 @@ const app = createApp({
             this.original.speedModifier = this.comparing.speedModifier;
             this.original.zoneModifier = this.comparing.zoneModifier;
             this.original.startingLife = this.comparing.startingLife;
-            this.original.burden = this.comparing.burden;
             this.original.cardType = this.comparing.cardType;
             this.original.rulesText = this.comparing.rulesText;
             this.original.power = this.comparing.power;

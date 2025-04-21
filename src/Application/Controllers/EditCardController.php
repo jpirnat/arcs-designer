@@ -29,7 +29,6 @@ final readonly class EditCardController
         $speedModifier = (string) ($data['speedModifier'] ?? '');
         $zoneModifier = (string) ($data['zoneModifier'] ?? '');
         $startingLife = (string) ($data['startingLife'] ?? '');
-        $burden = (string) ($data['burden'] ?? '');
         $cardType = (string) ($data['cardType'] ?? '');
         $rulesText = (string) ($data['rulesText'] ?? '');
         $power = (string) ($data['power'] ?? '');
@@ -46,7 +45,6 @@ final readonly class EditCardController
             $speedModifier,
             $zoneModifier,
             $startingLife,
-            $burden,
             $cardType,
             $rulesText,
             $power,
@@ -75,7 +73,6 @@ final readonly class EditCardController
         $speedModifier = (string) ($data['speedModifier'] ?? '');
         $zoneModifier = (string) ($data['zoneModifier'] ?? '');
         $startingLife = (string) ($data['startingLife'] ?? '');
-        $burden = (string) ($data['burden'] ?? '');
         $cardType = (string) ($data['cardType'] ?? '');
         $rulesText = (string) ($data['rulesText'] ?? '');
         $power = (string) ($data['power'] ?? '');
@@ -93,7 +90,6 @@ final readonly class EditCardController
             $speedModifier,
             $zoneModifier,
             $startingLife,
-            $burden,
             $cardType,
             $rulesText,
             $power,

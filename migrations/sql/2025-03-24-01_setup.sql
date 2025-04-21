@@ -181,7 +181,6 @@ CREATE TABLE IF NOT EXISTS `card_iterations` (
     `speed_modifier` VARCHAR(4) NULL,
     `zone_modifier` VARCHAR(6) NULL,
     `starting_life` INT UNSIGNED NULL,
-    `burden` INT UNSIGNED NULL,
     `card_type` VARCHAR(8) NULL,
     `rules_text` TEXT NOT NULL,
     `power` INT SIGNED NULL,
